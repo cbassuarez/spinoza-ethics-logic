@@ -8,7 +8,9 @@
     "build": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json && vite build && cp docs/index.html docs/404.html",
     "preview": "vite preview",
     "test": "vitest run",
-    "lint": "echo 'Linting not configured'"
+    "lint": "echo 'Linting not configured'",
+    "fetch:raw": "node --loader ts-node/esm scripts/fetch-raw-ethics.ts",
+    "build:corpus": "node scripts/build-ethics-corpus.mjs"
   },
   "keywords": [],
   "author": "",

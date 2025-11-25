@@ -9,6 +9,6 @@ describe('corpus', () => {
   it('contains known sample item', () => {
     const item = getItemById('E1D1');
     expect(item).toBeDefined();
-    expect(item?.text.translation).toContain('cause of itself');
+    expect(item?.text.translation).toContain('self-caused');
   });
 });
