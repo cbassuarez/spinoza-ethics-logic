@@ -1,5 +1,5 @@
 import type { EthicsCorpus, EthicsItem } from './types';
-import corpusData from './ethics-sample.json';
+import corpusData from './ethics.json';
 
 export const corpus: EthicsCorpus = corpusData as EthicsCorpus;
 
