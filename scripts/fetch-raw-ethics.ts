@@ -3,7 +3,7 @@ import path from 'node:path';
 import http from 'node:http';
 import https from 'node:https';
 import { execFile } from 'node:child_process';
-import { CANONICAL_ENGLISH_SOURCE_URL, CANONICAL_LATIN_SOURCE_URL } from '../src/data/constants.ts';
+import { CANONICAL_ENGLISH_SOURCE_URL, CANONICAL_LATIN_SOURCE_URL } from '../src/data/constants';
 
 // Simple helper to ensure directories exist
 function ensureDir(dir: string) {
