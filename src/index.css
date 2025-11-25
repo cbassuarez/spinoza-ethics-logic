@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: theme('fontFamily.sans');
+  min-height: 100vh;
+  background-color: #f8fafc;
+  color: #0f172a;
+  line-height: 1.7;
+}
+
+a {
+  color: #0f172a;
+}
+
+a:hover {
+  color: #0ea5e9;
+}
+
+.code-block {
+  font-family: theme('fontFamily.mono');
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.card {
+  @apply bg-white border border-slate-200 shadow-sm rounded-xl p-4 md:p-6;
+}
+
+.badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700;
+}
+
+.button-primary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white font-semibold shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0;
+}
+
+.button-secondary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-slate-900 border border-slate-200 font-semibold shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0;
+}

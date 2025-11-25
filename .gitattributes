@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+# Treat common web assets as text to avoid accidental binary handling
+*.js text diff
+*.ts text diff
+*.tsx text diff
+*.css text diff
+*.html text diff
+*.json text diff
+*.md text diff
+*.svg text diff
