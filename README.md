@@ -19,6 +19,15 @@ npm run build
 
 This compiles the site into `docs/` with both `index.html` and `404.html` to support SPA routing on GitHub Pages.
 
+### GitHub Pages
+
+This site deploys from the Vite build output in the `docs/` directory.
+
+- `npm run build` → generates the production bundle into `docs/`.
+- GitHub Pages should be configured to deploy from the `main` branch and the `/docs` folder.
+- The `Deploy to GitHub Pages` workflow builds `docs/` and publishes it to Pages on pushes to `main`, ensuring the hosted site always uses the compiled bundle.
+- Always run the build before pushing changes that should go live.
+
 ## Data model
 
 Structured items are defined by the `EthicsItem` type in `src/data/types.ts`. Key fields:
