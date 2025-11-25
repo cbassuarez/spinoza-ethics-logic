@@ -33,7 +33,7 @@ const HomePage = () => {
           </div>
           <div className="rounded-lg bg-white px-4 py-3 shadow-sm">
             <p className="text-xs uppercase text-slate-500">Parts represented</p>
-            <p className="text-2xl font-semibold">1</p>
+            <p className="text-2xl font-semibold">{new Set(corpus.map((item) => item.part)).size}</p>
           </div>
         </div>
       </div>
@@ -46,10 +46,7 @@ const HomePage = () => {
         <div className="w-40">
           <SpinozaMark />
         </div>
-        <p className="text-center text-slate-700">
-          The mark above is a procedural halftone meant to suggest the textured surface of a folio. Subtle motion keeps the page
-          alive while keeping focus on the text.
-        </p>
+        <p className="text-center text-slate-700">A portrait of Spinoza anchors the workspace while you explore the text.</p>
       </motion.div>
     </div>
   );

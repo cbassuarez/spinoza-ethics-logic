@@ -37,19 +37,23 @@ Structured items are defined by the `EthicsItem` type in `src/data/types.ts`. Ke
 - `dependencies`: explicit references to related items
 - `proof`: status plus optional sketch or formal proof text
 
-Sample data lives in `src/data/ethics-sample.json` and is imported via `src/data/index.ts`.
+The live corpus is stored in `src/data/ethics.json` and read via `src/data/index.ts`.
 
 ## Updating the corpus
 
-1. Edit `src/data/ethics-sample.json` (or a future `ethics.json`) to add or refine items.
-2. To refresh the canonical sources locally, run:
+1. Fetch the canonical sources locally:
 
 ```bash
-node --loader ts-node/esm scripts/fetch-raw-ethics.ts
+npm run fetch:raw
 ```
 
-This downloads raw HTML into `data/raw/` for offline segmentation. The browser app never fetches external sources at runtime.
-These raw captures are intentionally excluded from version control via `.gitignore` to avoid committing large or binary-like artifacts.
+2. Build the structured corpus JSON from the downloaded HTML:
+
+```bash
+npm run build:corpus
+```
+
+This downloads raw HTML into `data/raw/`, parses and segments the texts with jsdom, and emits `src/data/ethics.json`. The browser app never fetches external sources at runtime. These raw captures are intentionally excluded from version control via `.gitignore` to avoid committing large or binary-like artifacts.
 
 ## Text sources
 
