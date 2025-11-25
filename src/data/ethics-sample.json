@@ -1,0 +1,144 @@
+[
+  {
+    "id": "E1D1",
+    "ref": "Part I, Definition 1",
+    "part": 1,
+    "kind": "definition",
+    "label": "Definition of Cause of Itself",
+    "order": 1,
+    "text": {
+      "original_language": "Latin",
+      "original": "Per causam sui intelligo id, cujus essentia involvit existentiam, sive id, cujus natura non potest concipi, nisi existens.",
+      "translation": "By cause of itself I understand that whose essence involves existence; or that whose nature cannot be conceived except as existing."
+    },
+    "concepts": ["Causa Sui", "Essence", "Existence"],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "\\forall x (C(x) \\leftrightarrow (E(x) \\rightarrow Ex(x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "fof(causa_sui, axiom, ![X]: (cause_of_itself(X) <-> (essence(X) -> exists(X)))).",
+        "notes": "Captures the necessity of existence from essence."
+      }
+    ],
+    "dependencies": { "uses": [] },
+    "proof": { "status": "none" },
+    "meta": {
+      "status": "draft",
+      "contributors": ["seb"],
+      "sources": [
+        "Latin text based on Gebhardt; online Latin via The Latin Library (https://www.thelatinlibrary.com/spinoza.ethica1.html)",
+        "English translation by R.H.M. Elwes as hosted at Marxists Internet Archive (https://www.marxists.org/reference/subject/philosophy/works/ne/ethics.htm)"
+      ]
+    }
+  },
+  {
+    "id": "E1D2",
+    "ref": "Part I, Definition 2",
+    "part": 1,
+    "kind": "definition",
+    "label": "Definition of Finite in its Kind",
+    "order": 2,
+    "text": {
+      "original_language": "Latin",
+      "original": "Dicitur res alicujus rei finita suo genere, quando aliâ ejusdem naturæ potest terminari.",
+      "translation": "A thing is called finite after its kind when it can be limited by another of the same nature."
+    },
+    "concepts": ["Finitude", "Nature"],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Finite_k(x) := \\exists y (SameNature(y, x) \\land Limits(y, x))",
+        "encoding_format": "custom-fol",
+        "encoding": "fof(finite_kind, axiom, ![X]: (finite_in_kind(X) <-> ?[Y]: (same_nature(Y,X) & limits(Y,X))))."
+      }
+    ],
+    "dependencies": { "uses": [] },
+    "proof": { "status": "none" },
+    "meta": {
+      "status": "draft",
+      "contributors": ["seb"],
+      "sources": [
+        "Latin text based on Gebhardt; online Latin via The Latin Library (https://www.thelatinlibrary.com/spinoza.ethica1.html)",
+        "English translation by R.H.M. Elwes as hosted at Marxists Internet Archive (https://www.marxists.org/reference/subject/philosophy/works/ne/ethics.htm)"
+      ]
+    }
+  },
+  {
+    "id": "E1Ax1",
+    "ref": "Part I, Axiom 1",
+    "part": 1,
+    "kind": "axiom",
+    "label": "Everything which exists, exists either in itself or in something else",
+    "order": 10,
+    "text": {
+      "original_language": "Latin",
+      "original": "Omnia, quæ sunt, vel in se, vel in alio sunt.",
+      "translation": "Everything which exists, exists either in itself or in something else."
+    },
+    "concepts": ["Substance", "Mode"],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "\\forall x (Ex(x) \\rightarrow (InSe(x) \\lor InAlio(x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "fof(axiom1, axiom, ![X]: (exists(X) -> (in_itself(X) | in_another(X))))."
+      }
+    ],
+    "dependencies": { "uses": [] },
+    "proof": { "status": "none" },
+    "meta": {
+      "status": "draft",
+      "contributors": ["seb"],
+      "sources": [
+        "Latin text based on Gebhardt; online Latin via The Latin Library (https://www.thelatinlibrary.com/spinoza.ethica1.html)",
+        "English translation by R.H.M. Elwes as hosted at Marxists Internet Archive (https://www.marxists.org/reference/subject/philosophy/works/ne/ethics.htm)"
+      ]
+    }
+  },
+  {
+    "id": "E1P1",
+    "ref": "Part I, Proposition 1",
+    "part": 1,
+    "kind": "proposition",
+    "label": "Substance is prior in nature to its affections",
+    "order": 20,
+    "text": {
+      "original_language": "Latin",
+      "original": "Substantia prior est naturâ suis affectionibus.",
+      "translation": "Substance is by nature prior to its affections."
+    },
+    "concepts": ["Substance", "Affection", "Priority"],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "\\forall x (Affection(x) \\rightarrow \\exists s (Substance(s) \\land Causes(s, x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "fof(prop1, conjecture, ![X]: (affection(X) -> ?[S]: (substance(S) & causes(S,X)))).",
+        "notes": "Simplified dependency of modes on substance."
+      }
+    ],
+    "dependencies": {
+      "uses": [
+        { "id": "E1D3", "role": "definition" },
+        { "id": "E1Ax1", "role": "axiom" }
+      ]
+    },
+    "proof": {
+      "status": "sketch",
+      "sketch": "Modes depend on substance to exist; therefore substance is ontologically prior."
+    },
+    "meta": {
+      "status": "draft",
+      "contributors": ["seb"],
+      "sources": [
+        "Latin text based on Gebhardt; online Latin via The Latin Library (https://www.thelatinlibrary.com/spinoza.ethica1.html)",
+        "English translation by R.H.M. Elwes as hosted at Marxists Internet Archive (https://www.marxists.org/reference/subject/philosophy/works/ne/ethics.htm)"
+      ]
+    }
+  }
+]
