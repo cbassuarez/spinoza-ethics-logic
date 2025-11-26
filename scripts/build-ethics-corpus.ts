@@ -259,13 +259,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (G(x) \\leftrightarrow (S(x) \\land InfAtt(x) \\land \\forall \\alpha\\, (A(x, \\alpha) \\rightarrow Ess(\\alpha))))',
+      display: 'S(G) ∧ E(G) ∧ ∀α (A(G,α) → Ess(α))',
       encoding_format: 'custom-fol',
-      encoding:
-        'forall x: G(x) <-> (S(x) & InfAtt(x) & forall alpha: (A(x, alpha) -> Ess(alpha)))',
+      encoding: 'S(G) & E(G) & forall a: A(G,a) -> Ess(a)',
       notes:
-        'G(x): x is God. S(x): x is a substance. InfAtt(x): x has absolutely infinite attributes. A(x, α): attribute α belongs to x. Ess(α): α expresses the essence of the substance.',
+        'E1D6 (God): S(x): x is a substance; G: constant for God; E(x): x exists; A(x,a): a is an attribute of x; Ess(a): a expresses eternal and infinite essence.',
     },
   ],
 
