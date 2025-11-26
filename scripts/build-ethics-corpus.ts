@@ -34,6 +34,16 @@ type ConceptRule = {
   patterns: RegExp[];
 };
 
+function getPropositionIndexFromId(id: string): { part: number; index: number } | null {
+  // Matches e.g. "E1p1", "E1p10", "E2p3", etc.
+  const match = id.match(/^E(\d+)p(\d+)(?:[cs]\d+)?$/);
+  if (!match) return null;
+  const part = parseInt(match[1], 10);
+  const index = parseInt(match[2], 10);
+  if (!Number.isFinite(part) || !Number.isFinite(index)) return null;
+  return { part, index };
+}
+
 const CONCEPT_RULES: ConceptRule[] = [
   {
     concept: 'Substance',
@@ -84,6 +94,73 @@ const CONCEPT_RULES: ConceptRule[] = [
     patterns: [/\bfreedom\b/i, /\bliber(ty|a|um)\b/i],
   },
 ];
+
+const PROOF_SKETCHES_PART1_P1_10: Record<string, string> = {
+  E1p1:
+    'Spinoza notes that modes presuppose the substance whose affections they are (Def. 5), while substance is conceived through itself (Def. 3); therefore substance is by nature prior to its modifications.',
+  E1p2:
+    'Because each substance must be conceived through itself (Def. 3) and an attribute expresses its essence (Def. 4), substances with different attributes share no common nature and thus have nothing in common.',
+  E1p3:
+    'If two things have nothing in common, the conception of one does not involve the other (Ax. 5); therefore neither can serve as the cause of the other.',
+  E1p4:
+    'Distinct things must differ either in their attributes or in the affections that follow from those attributes; otherwise they would lack any ground for distinction and collapse into one.',
+  E1p5:
+    'Suppose two substances shared the same attribute; by Prop. 2 they would have nothing in common, which contradicts the shared attribute, so no two substances can possess the same nature or attribute.',
+  E1p6:
+    'If a substance were produced by another, they would share an attribute and thus be indistinguishable (Prop. 5), but a substance is conceived through itself (Def. 3), so no substance can be produced by another.',
+  E1p7:
+    'Every substance must exist either in itself or be produced by another (Ax. 1); Prop. 6 rules out external production, leaving self-causation, whose essence (Def. 1) involves existence, so existence belongs to substance’s nature.',
+  E1p8:
+    'A finite substance would be limited by another of the same nature (Def. 2), but Prop. 5 denies multiple substances of one attribute; therefore any substance that exists (Prop. 7) must be infinite.',
+  E1p9:
+    'An attribute expresses the essence of a substance (Def. 4), so the more reality or being a thing has, the more ways its essence can be expressed; hence greater reality entails a greater number of attributes.',
+  E1p10:
+    'Each attribute expresses substance’s essence (Def. 4) and is conceived through itself, so no attribute can be explained through another; consequently every attribute must be conceived through itself.',
+};
+
+const DEPENDENCIES_PART1_P1_10: Record<string, Dependency[]> = {
+  E1p1: [
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D5', role: 'definition' },
+  ],
+  E1p2: [
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D4', role: 'definition' },
+  ],
+  E1p3: [
+    { id: 'E1Ax5', role: 'axiom' },
+  ],
+  E1p4: [
+    { id: 'E1D4', role: 'definition' },
+    { id: 'E1D5', role: 'definition' },
+  ],
+  E1p5: [
+    { id: 'E1p2', role: 'proposition' },
+    { id: 'E1D4', role: 'definition' },
+  ],
+  E1p6: [
+    { id: 'E1p5', role: 'proposition' },
+    { id: 'E1D1', role: 'definition' },
+    { id: 'E1D3', role: 'definition' },
+  ],
+  E1p7: [
+    { id: 'E1Ax1', role: 'axiom' },
+    { id: 'E1D1', role: 'definition' },
+    { id: 'E1p6', role: 'proposition' },
+  ],
+  E1p8: [
+    { id: 'E1D2', role: 'definition' },
+    { id: 'E1p5', role: 'proposition' },
+    { id: 'E1p7', role: 'proposition' },
+  ],
+  E1p9: [
+    { id: 'E1D4', role: 'definition' },
+  ],
+  E1p10: [
+    { id: 'E1D4', role: 'definition' },
+    { id: 'E1p5', role: 'proposition' },
+  ],
+};
 
 const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
   // E1D1: Self-caused (causa sui)
@@ -868,6 +945,24 @@ function tagConcepts(item: EthicsItem): string[] {
   return uniqueTags;
 }
 
+function mergeDependencies(baseDeps: Dependency[], inferred: Dependency[]): Dependency[] {
+  const merged: Dependency[] = [];
+  const seen = new Set<string>();
+
+  const add = (dep: Dependency) => {
+    if (!dep.id) return;
+    const key = `${dep.id}::${dep.role || ''}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    merged.push(dep);
+  };
+
+  for (const dep of baseDeps) add(dep);
+  for (const dep of inferred) add(dep);
+
+  return merged;
+}
+
 function inferDependencies(item: EthicsItem, corpusIds: Set<string>): Dependency[] {
   const deps: Dependency[] = [];
   const text = `${item.text.translation} ${item.text.original}`.toUpperCase();
@@ -986,6 +1081,41 @@ function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyProofsAndDependenciesForPart1P1toP10(corpus: EthicsCorpus): void {
+  const corpusIds = new Set<string>(corpus.map((it) => it.id));
+
+  for (const item of corpus) {
+    if (item.kind !== 'proposition') continue;
+    const parsed = getPropositionIndexFromId(item.id);
+    if (!parsed) continue;
+    const { part, index } = parsed;
+    if (part !== 1) continue;
+    if (index < 1 || index > 10) continue;
+
+    const tableDeps = DEPENDENCIES_PART1_P1_10[item.id] ?? [];
+    const heuristicDeps = inferDependencies(item, corpusIds);
+    const mergedDeps = mergeDependencies(tableDeps, heuristicDeps);
+
+    if (!item.dependencies) {
+      item.dependencies = { uses: [] };
+    }
+    item.dependencies.uses = mergedDeps;
+
+    const sketch = PROOF_SKETCHES_PART1_P1_10[item.id];
+    if (sketch && sketch.trim().length > 0) {
+      item.proof = {
+        status: 'sketch',
+        sketch,
+        ...(item.proof && item.proof.formal ? { formal: item.proof.formal } : {}),
+      };
+    } else {
+      if (!item.proof || !item.proof.status) {
+        item.proof = defaultProof(item);
+      }
+    }
+  }
+}
+
 function buildEthicsCorpus(): EthicsCorpus {
   ensureRawFilesExist();
   const englishHtml = loadFile(RAW_ENGLISH_PATH);
@@ -1049,6 +1179,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   enrichE1D1(corpus);
   applyCorpusEnrichments(corpus);
   applyFOLv1DefinitionsPart1(corpus);
+  applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
 
@@ -1096,6 +1227,16 @@ function validateCorpus(corpus: EthicsCorpus): void {
 
   if (corpus.length < 200) {
     console.warn(`Warning: corpus only has ${corpus.length} items; expected more (check parsing)`);
+  }
+
+  const p1_1 = corpus.find((it) => it.id === 'E1p1');
+  if (p1_1) {
+    if (!p1_1.proof || p1_1.proof.status !== 'sketch' || !p1_1.proof.sketch) {
+      console.warn('[Proof WARN] E1p1 does not have a sketch after Layer 4.');
+    }
+    if (!p1_1.dependencies || !Array.isArray(p1_1.dependencies.uses)) {
+      console.warn('[Deps WARN] E1p1 has no dependencies after Layer 4.');
+    }
   }
 }
 
