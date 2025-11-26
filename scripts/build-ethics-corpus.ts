@@ -303,6 +303,230 @@ const LOGIC_FOL_V1_AXIOMS_PART1: Record<string, LogicEncoding[]> = {
         'E1Ax1: every existent thing either exists in itself (InSelf) or in another (InOther). E(x): x exists; InSelf(x): x exists in itself; InOther(x,y): x exists in another y.',
     },
   ],
+
+  // Axiom 2: That which cannot be conceived through anything else must be conceived through itself.
+  E1Ax2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (¬∃y ConceivedThrough(x,y) → SelfConceived(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: (~exists y: ConceivedThrough(x, y)) -> SelfConceived(x)',
+      notes:
+        'E1Ax2: if a thing’s concept does not depend on another (ConceivedThrough), it must be conceived through itself (SelfConceived).',
+    },
+  ],
+
+  // Axiom 3: From a given definite cause an effect necessarily follows; without a definite cause no effect follows.
+  E1Ax3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀e[(∃c DefCause(c,e)) → □FollowsFrom(c,e)] ∧ ∀e[(¬∃c DefCause(c,e)) → ¬Possible(e)]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall e: (exists c: DefCause(c, e) -> Box FollowsFrom(c, e)) & ((not exists c: DefCause(c, e)) -> not Possible(e))',
+      notes:
+        'E1Ax3: a definite cause (DefCause) necessitates its effect (FollowsFrom); without such a cause the effect is impossible (Possible). Box marks necessity.',
+    },
+  ],
+
+  // Axiom 4: The knowledge of an effect depends on and involves the knowledge of a cause.
+  E1Ax4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀e∀c (CauseOf(c,e) → (KnowEffect(e) → KnowCause(c)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall e forall c: CauseOf(c, e) -> (KnowEffect(e) -> KnowCause(c))',
+      notes:
+        'E1Ax4: to know an effect (KnowEffect) you must also know its cause (KnowCause); CauseOf links cause to effect.',
+    },
+  ],
+
+  // Axiom 5: Things which have nothing in common cannot be understood through one another.
+  E1Ax5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀y (¬Common(x,y) → (¬InvolvesConcept(x,y) ∧ ¬InvolvesConcept(y,x)))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall x forall y: (not Common(x, y)) -> (~InvolvesConcept(x, y) & ~InvolvesConcept(y, x))',
+      notes:
+        'E1Ax5: if two things share nothing (Common), conceiving one does not involve the other (InvolvesConcept).',
+    },
+  ],
+
+  // Axiom 6: A true idea must correspond with its ideate or object.
+  E1Ax6: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀i∀x ((IdeaOf(i,x) ∧ True(i)) → Corresponds(i,x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall i forall x: (IdeaOf(i, x) & True(i)) -> Corresponds(i, x)',
+      notes:
+        'E1Ax6: any true idea (True) of x (IdeaOf) must agree or correspond with x (Corresponds).',
+    },
+  ],
+
+  // Axiom 7: If a thing can be conceived as non-existing, its essence does not involve existence.
+  E1Ax7: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (ConceivableAsAbsent(x) → ¬EssImpliesExistence(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: ConceivableAsAbsent(x) -> not EssImpliesExistence(x)',
+      notes:
+        'E1Ax7: if x can be conceived as not existing (ConceivableAsAbsent), its essence does not entail existence (EssImpliesExistence).',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_COROLLARIES_PART1: Record<string, LogicEncoding[]> = {
+  // Prop. 6 corollary: substance cannot be produced by anything external to itself.
+  E1p6c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s (S(s) → ¬∃y (ExternalTo(y,s) ∧ Produces(y,s)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s: S(s) -> not exists y: ExternalTo(y, s) & Produces(y, s)',
+      notes:
+        'E1p6c1: no substance (S) is produced by something outside itself; ExternalTo marks being beyond the substance, Produces denotes causal production.',
+    },
+  ],
+
+  // Prop. 13 corollary: no substance is divisible.
+  E1p13c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s (S(s) → ¬Divisible(s))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s: S(s) -> not Divisible(s)',
+      notes: 'E1p13c1: substances (S) cannot be divided (Divisible) in their nature.',
+    },
+  ],
+
+  // Prop. 14 corollary 1: God is the one absolutely infinite substance.
+  E1p14c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'S(G) ∧ Infinite(G) ∧ ∀s (S(s) → s = G)',
+      encoding_format: 'custom-fol',
+      encoding: 'S(G) & Infinite(G) & forall s: S(s) -> s = G',
+      notes:
+        'E1p14c1: there is exactly one substance and it is God (G), who is absolutely infinite (Infinite).',
+    },
+  ],
+
+  // Prop. 14 corollary 2: Extension and thought are attributes of God (or affections of those attributes).
+  E1p14c2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'A(G,ExtAttr) ∧ A(G,ThoughtAttr)',
+      encoding_format: 'custom-fol',
+      encoding: 'A(G, ExtAttr) & A(G, ThoughtAttr)',
+      notes:
+        'E1p14c2: the attributes Extension (ExtAttr) and Thought (ThoughtAttr) belong to God (A predicate).',
+    },
+  ],
+
+  // Prop. 16 corollary 1: God is efficient cause of all that an infinite intellect can comprehend.
+  E1p16c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (WithinInfiniteIntellect(x) → CauseOf(G,x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: WithinInfiniteIntellect(x) -> CauseOf(G, x)',
+      notes:
+        'E1p16c1: anything graspable by an infinite intellect (WithinInfiniteIntellect) has God as its efficient cause (CauseOf).',
+    },
+  ],
+
+  // Prop. 16 corollary 2: God is a cause through himself, not by accident.
+  E1p16c2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'CauseInItself(G) ∧ ¬∃a AccidentalCause(a,G)',
+      encoding_format: 'custom-fol',
+      encoding: 'CauseInItself(G) & not exists a: AccidentalCause(a, G)',
+      notes:
+        'E1p16c2: God’s causal power is intrinsic (CauseInItself) and not the result of accidental factors (AccidentalCause).',
+    },
+  ],
+
+  // Prop. 16 corollary 3: God is the absolutely first cause.
+  E1p16c3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'FirstCause(G) ∧ ¬∃c (CauseOf(c,G) ∧ c ≠ G)',
+      encoding_format: 'custom-fol',
+      encoding: 'FirstCause(G) & not exists c: CauseOf(c, G) & c != G',
+      notes:
+        'E1p16c3: God is the first cause (FirstCause) with no prior distinct cause (CauseOf).',
+    },
+  ],
+
+  // Prop. 17 corollary 1: nothing extrinsic or intrinsic besides God’s own perfection moves God to act.
+  E1p17c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '¬∃c (CauseOf(c,G) ∧ MovesToAct(c,G) ∧ ¬FromNature(c,G))',
+      encoding_format: 'custom-fol',
+      encoding: 'not exists c: CauseOf(c, G) & MovesToAct(c, G) & not FromNature(c, G)',
+      notes:
+        'E1p17c1: no cause other than God’s own nature (FromNature) motivates divine action (MovesToAct); CauseOf captures causal influence.',
+    },
+  ],
+
+  // Prop. 17 corollary 2: God is the sole free cause.
+  E1p17c2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Free(G) ∧ ∀x (Free(x) → x = G)',
+      encoding_format: 'custom-fol',
+      encoding: 'Free(G) & forall x: Free(x) -> x = G',
+      notes:
+        'E1p17c2: God alone is free (Free) and any free cause is identical with God.',
+    },
+  ],
+
+  // Prop. 24 corollary: God causes things to exist and to persist in existence.
+  E1p24c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (E(x) → (CauseOf(G,x) ∧ Sustains(G,x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: E(x) -> (CauseOf(G, x) & Sustains(G, x))',
+      notes:
+        'E1p24c1: for every existent x (E), God is both its originating cause (CauseOf) and sustaining cause (Sustains).',
+    },
+  ],
+
+  // Prop. 25 corollary: individuals are modes of God’s attributes.
+  E1p25c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (Individual(x) → ∃α (A(G,α) ∧ M(x,α)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Individual(x) -> exists alpha: A(G, alpha) & M(x, alpha)',
+      notes:
+        'E1p25c1: each individual thing (Individual) is a mode (M) of some attribute α belonging to God (A(G, α)).',
+    },
+  ],
 };
 
 const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
@@ -1145,6 +1369,30 @@ function applyFOLv1AxiomsPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    // Only Part I corollaries
+    if (item.part !== 1 || item.kind !== 'corollary') continue;
+
+    const encodings = LOGIC_FOL_V1_COROLLARIES_PART1[item.id];
+    if (!encodings || encodings.length === 0) {
+      console.warn(`[Logic WARN] No FOL v1 corollary encoding for ${item.id} (${item.ref}).`);
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Remove any existing FOL v1 encodings for this item so this map is canonical
+    item.logic = item.logic.filter((enc) => !(enc.system === 'FOL' && enc.version === 'v1'));
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
 function applyPredicateLogicClusterForPart1Definitions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.part !== 1 || item.kind !== 'definition') continue;
@@ -1269,8 +1517,9 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyCorpusEnrichments(corpus);
   applyFOLv1DefinitionsPart1(corpus);
   applyPredicateLogicClusterForPart1Definitions(corpus);
-  // NEW: attach FOL v1 encodings for Part I axioms (currently just E1Ax1)
+  // Attach FOL v1 encodings for Part I axioms and corollaries
   applyFOLv1AxiomsPart1(corpus);
+  applyFOLv1CorollariesPart1(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
