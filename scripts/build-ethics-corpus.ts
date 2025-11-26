@@ -734,14 +734,17 @@ function buildEthicsCorpus(): EthicsCorpus {
   }
 
   enrichE1D1(corpus);
-  const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
-  for (const id of latinMap.keys()) {
-    if (!englishIds.has(id)) {
-      console.warn(`[Latin WARN] Latin map has entry for ${id} but no matching English item.`);
-    }
-  }
+    const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
 
-  for (const item of corpus) {
+    latinMap.forEach((_text, id) => {
+        if (!englishIds.has(id)) {
+            console.warn(
+                `[Latin WARN] Latin map has entry for ${id} but no matching English item.`
+            );
+        }
+    });
+
+    for (const item of corpus) {
     if (item.part === 1) {
       if (!item.text.original || !item.text.original.trim()) {
         console.warn(`[Latin WARN] No Latin text for ${item.id} (${item.ref}).`);
