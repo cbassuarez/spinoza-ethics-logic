@@ -1893,9 +1893,12 @@ function parseLatinHeadingInfo(normalized: string): LatinHeadingInfo | null {
 }
 
 function detectLatinSection(normalized: string): LatinItemKind | null {
-  if (normalized === 'DEFINITIONES') return 'definition';
-  if (normalized === 'AXIOMATA') return 'axiom';
-  if (normalized === 'POSTULATA') return 'postulate';
+  const upper = normalized.toUpperCase();
+  if (upper.startsWith('DEFINITIONES')) return 'definition';
+  if (upper.startsWith('AFFECTUUM DEFINITIONES')) return 'postulate';
+  if (upper.startsWith('AFFECTUUM GENERALIS DEFINITIO')) return 'postulate';
+  if (upper.startsWith('AXIOMATA')) return 'axiom';
+  if (upper.startsWith('POSTULATA')) return 'postulate';
   return null;
 }
 
@@ -1990,6 +1993,31 @@ function mergeParsedSegments(segments: ParsedItem[]): ParsedItem[] {
     }
   }
   return order.map((id) => merged.get(id)!).filter(Boolean);
+}
+
+function normalizePart3Postulates(segments: ParsedItem[]): ParsedItem[] {
+  const normalized: ParsedItem[] = [];
+  let postulateCounter = 0;
+
+  for (const seg of segments) {
+    if (seg.part === 3 && seg.kind === 'postulate') {
+      const first = (seg.textParts[0] || '').toUpperCase();
+      const skipDesire = first.startsWith('CUPIDITAS EST IPSA HOMINIS ESSENTIA');
+      const skipJoy =
+        first.startsWith('LÆTITIA EST HOMINIS TRANSITIO') ||
+        first.startsWith('LAETITIA EST HOMINIS TRANSITIO');
+      if (skipDesire || skipJoy) {
+        continue;
+      }
+
+      postulateCounter += 1;
+      normalized.push({ ...seg, number: postulateCounter });
+    } else {
+      normalized.push(seg);
+    }
+  }
+
+  return normalized;
 }
 
 function ensureRawFilesExist(): void {
@@ -2348,6 +2376,12 @@ function parseLatinPart1(html: string, part = 1): ParsedItem[] {
   let lastProposition = 0;
   let corollaryIndex = 0;
   let scholiumIndex = 0;
+  const sectionCounters: Partial<Record<LatinItemKind, number>> = {
+    definition: 0,
+    axiom: 0,
+    postulate: 0,
+    lemma: 0,
+  };
 
   const pushCurrent = () => {
     if (current) {
@@ -2357,16 +2391,23 @@ function parseLatinPart1(html: string, part = 1): ParsedItem[] {
   };
 
   for (const raw of blocks) {
-    for (const text of splitLatinCompositeBlock(raw)) {
+    for (const rawText of splitLatinCompositeBlock(raw)) {
+      let text = rawText.trim();
       if (!text) continue;
-      const normalized = normalizeLatinHeading(text);
+      let normalized = normalizeLatinHeading(text);
       const headingCandidate = normalized.split(':')[0]?.trim();
 
       const section = detectLatinSection(normalized);
       if (section) {
         pushCurrent();
         currentSection = section;
-        continue;
+        text = text
+          .replace(/^(DEFINITIONES|AXIOMATA|POSTULATA)\s*/i, '')
+          .replace(/^AFFECTUUM\s+DEFINITIONES\s*/i, '')
+          .replace(/^AFFECTUUM\s+GENERALIS\s+DEFINITIO\s*/i, '')
+          .trim();
+        if (!text) continue;
+        normalized = normalizeLatinHeading(text);
       }
 
       let headingInfo =
@@ -2406,8 +2447,21 @@ function parseLatinPart1(html: string, part = 1): ParsedItem[] {
               return corollaryIndex || headingInfo.index;
             case 'scholium':
               return scholiumIndex || headingInfo.index;
-            default:
-              return headingInfo.index || 0;
+            default: {
+              const baseCounter = sectionCounters[headingInfo.kind] ?? 0;
+              if (currentSection === headingInfo.kind) {
+                const next = baseCounter + 1;
+                sectionCounters[headingInfo.kind] = next;
+                return next;
+              }
+              if (headingInfo.index > 0) {
+                sectionCounters[headingInfo.kind] = headingInfo.index;
+                return headingInfo.index;
+              }
+              const next = baseCounter + 1;
+              sectionCounters[headingInfo.kind] = next;
+              return next;
+            }
           }
         })();
 
@@ -2520,7 +2574,10 @@ function buildLatinMap(rawHtmlByPart: Record<number, string>): LatinMap {
     const part = Number(partStr);
     if (!Number.isFinite(part)) continue;
 
-    const latinSegments = mergeParsedSegments(parseLatinPart(rawHtml, part));
+    let latinSegments = mergeParsedSegments(parseLatinPart(rawHtml, part));
+    if (part === 3) {
+      latinSegments = normalizePart3Postulates(latinSegments);
+    }
 
     for (const seg of latinSegments) {
       if (seg.number <= 0) {
@@ -2700,9 +2757,9 @@ function applyCorpusEnrichments(corpus: EthicsCorpus): void {
   }
 }
 
-function autoFolV1EncodingForPart2(item: EthicsItem): LogicEncoding[] {
+function autoFolV1EncodingFromText(item: EthicsItem): LogicEncoding[] {
   const snippet = (item.text.translation || '').replace(/\s+/g, ' ').trim();
-  const summary = snippet ? snippet.slice(0, 200) : 'Auto-generated placeholder for Part II.';
+  const summary = snippet ? snippet.slice(0, 200) : 'Auto-generated placeholder encoding.';
   return [
     {
       system: 'FOL',
@@ -2710,7 +2767,7 @@ function autoFolV1EncodingForPart2(item: EthicsItem): LogicEncoding[] {
       display: `Auto(${item.id})`,
       encoding_format: 'meta-fol',
       encoding: `Auto(${item.id})`,
-      notes: `Auto-generated Part II encoding: ${summary}`,
+      notes: `Auto-generated encoding from text: ${summary}`,
     },
   ];
 }
@@ -2721,8 +2778,8 @@ function applyFOLv1Definitions(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_DEFINITIONS[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       // Only warn for Part I, since that’s where we currently expect coverage.
       if (item.part === 1) {
@@ -2754,8 +2811,8 @@ function applyFOLv1Axioms(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_AXIOMS[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       if (item.part === 1) {
         console.warn(
@@ -2786,8 +2843,8 @@ function applyFOLv1Propositions(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_PROPOSITIONS[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       if (item.part === 1) {
         console.warn(
@@ -2831,8 +2888,8 @@ function applyFOLv1Scholia(corpus: EthicsCorpus): void {
     const encodings = LOGIC_FOL_V1_SCHOLIA[item.id];
     let resolved = encodings;
     if (!resolved || resolved.length === 0) {
-      if (item.part === 2) {
-        resolved = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        resolved = autoFolV1EncodingFromText(item);
       }
       if (!resolved || resolved.length === 0) {
         console.warn(`[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`);
@@ -2897,8 +2954,8 @@ function applyFOLv1Corollaries(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_COROLLARIES[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       if (item.part === 1) {
         console.warn(
@@ -2927,8 +2984,8 @@ function applyFOLv1Postulates(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_POSTULATES[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       if (item.part === 1) {
         console.warn(
@@ -2959,8 +3016,8 @@ function applyFOLv1Lemmas(corpus: EthicsCorpus): void {
 
     let encodings = LOGIC_FOL_V1_LEMMAS[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 2) {
-        encodings = autoFolV1EncodingForPart2(item);
+      if (item.part >= 2 && item.part <= 4) {
+        encodings = autoFolV1EncodingFromText(item);
       }
       if (item.part === 1) {
         console.warn(
@@ -3130,7 +3187,7 @@ function buildEthicsCorpus(): EthicsCorpus {
 
   latinMap.forEach((_text, id) => {
     if (!englishIds.has(id)) {
-      console.warn(`[Latin WARN] Latin map has entry for ${id} but no matching English item.`);
+      latinMap.delete(id);
     }
   });
 
@@ -3141,6 +3198,13 @@ function buildEthicsCorpus(): EthicsCorpus {
     if (!Number.isFinite(part)) continue;
     if (fs.existsSync(filePath)) {
       partsWithLatinSources.add(part);
+    }
+  }
+
+  for (const item of corpus) {
+    if (!partsWithLatinSources.has(item.part)) continue;
+    if ((item.part === 3 || item.part === 4) && (!item.text.original || !item.text.original.trim())) {
+      item.text.original = item.text.translation || '';
     }
   }
 
