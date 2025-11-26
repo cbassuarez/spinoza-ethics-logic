@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import MathDisplay from '../components/MathDisplay';
 import { corpus, findDependents, getItemById } from '../data';
@@ -8,6 +8,24 @@ const EthicsItemPage = () => {
   const { id } = useParams();
   const item = getItemById(id || '');
   const [activeLogic, setActiveLogic] = useState<number>(0);
+
+  const folEncodings = useMemo(
+    () =>
+      (item?.logic ?? []).filter(
+        (encoding) => encoding.system === 'FOL' && encoding.version === 'v1'
+      ),
+    [item]
+  );
+
+  useEffect(() => {
+    setActiveLogic(0);
+  }, [id]);
+
+  useEffect(() => {
+    if (activeLogic >= folEncodings.length) {
+      setActiveLogic(0);
+    }
+  }, [activeLogic, folEncodings.length]);
 
   const dependents = useMemo(() => (id ? findDependents(id) : []), [id]);
 
@@ -22,7 +40,7 @@ const EthicsItemPage = () => {
     );
   }
 
-  const logicEntry: LogicEncoding | undefined = item.logic[activeLogic];
+  const logicEntry: LogicEncoding | undefined = folEncodings[activeLogic];
 
   return (
     <div className="space-y-6">
@@ -60,9 +78,9 @@ const EthicsItemPage = () => {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-lg font-semibold text-slate-900">Logic encodings</h3>
           <div className="flex flex-wrap gap-2">
-            {item.logic.map((logic, idx) => (
+            {folEncodings.map((logic, idx) => (
               <button
-                key={`${logic.system}-${logic.version}`}
+                key={`${logic.system}-${logic.version}-${idx}`}
                 type="button"
                 onClick={() => setActiveLogic(idx)}
                 className={`badge border ${activeLogic === idx ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50'}`}
@@ -82,7 +100,7 @@ const EthicsItemPage = () => {
             </div>
           </div>
         ) : (
-          <p className="text-slate-600">No logic encodings available.</p>
+          <p className="text-slate-600">No FOL v1 logic encodings available.</p>
         )}
       </section>
 
