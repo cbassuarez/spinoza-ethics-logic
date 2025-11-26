@@ -527,6 +527,72 @@ const LOGIC_FOL_V1_COROLLARIES_PART1: Record<string, LogicEncoding[]> = {
         'E1p25c1: each individual thing (Individual) is a mode (M) of some attribute α belonging to God (A(G, α)).',
     },
   ],
+
+  // ---------------------------------------------------------------------------
+  // Part I – Proposition 20, Corollary 1
+  // God’s existence and essence stand as an eternal / necessary truth.
+  // ---------------------------------------------------------------------------
+  E1p20c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'S(G) ∧ E(G) ∧ N(G)',
+      encoding_format: 'custom-fol',
+      encoding: 'S(G) & E(G) & N(G)',
+      notes:
+        'E1p20c1: N(x) means “x exists as an eternal/necessary truth”; this cluster encodes that God, as substance, exists eternally and necessarily.',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Part I – Proposition 20, Corollary 2
+  // No substance other than God can be granted or conceived.
+  // ---------------------------------------------------------------------------
+  E1p20c2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (S(x) → x = G)',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: S(x) -> x = G',
+      notes:
+        'E1p20c2: any substance is identical with G; there is no distinct substance besides God.',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Part I – Proposition 32, Corollary 1
+  // God does not act from freedom of the will.
+  // ---------------------------------------------------------------------------
+  E1p32c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'S(G) ∧ ¬W(G)',
+      encoding_format: 'custom-fol',
+      encoding: 'S(G) & ~W(G)',
+      notes:
+        'E1p32c1: W(x) means “x acts from freedom of the will”; the cluster asserts that God is a substance but does not act from a free will.',
+    },
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Part I – Proposition 32, Corollary 2
+  // Will and intellect stand to God as modes (like motion/rest to extension).
+  // ---------------------------------------------------------------------------
+  E1p32c2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '(W(G) ↔ I(G)) ∧ ∀x ((Ext(x) ∨ Cog(x)) → M(x, G))',
+      encoding_format: 'custom-fol',
+      encoding:
+        '(W(G) <-> I(G)) & forall x: (Ext(x) | Cog(x)) -> M(x, G)',
+      notes:
+        'E1p32c2: W(x) and I(x) are will and intellect as modes of God; Ext(x)/Cog(x) are extended/mental modes; this encodes that will and intellect relate to God as other modes (e.g. motion, rest) do.',
+    },
+  ],
 };
 
 // FOL v1 encodings for a structural spine of Part I propositions (Tier A).

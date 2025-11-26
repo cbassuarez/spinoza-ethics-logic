@@ -2748,7 +2748,16 @@
       "Essence",
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "S(G) ∧ E(G) ∧ N(G)",
+        "encoding_format": "custom-fol",
+        "encoding": "S(G) & E(G) & N(G)",
+        "notes": "E1p20c1: N(x) means “x exists as an eternal/necessary truth”; this cluster encodes that God, as substance, exists eternally and necessarily."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -2781,7 +2790,16 @@
       "Essence",
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x (S(x) → x = G)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: S(x) -> x = G",
+        "notes": "E1p20c2: any substance is identical with G; there is no distinct substance besides God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -3774,7 +3792,16 @@
       "God",
       "Freedom"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "S(G) ∧ ¬W(G)",
+        "encoding_format": "custom-fol",
+        "encoding": "S(G) & ~W(G)",
+        "notes": "E1p32c1: W(x) means “x acts from freedom of the will”; the cluster asserts that God is a substance but does not act from a free will."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -3807,7 +3834,16 @@
       "Infinity",
       "Freedom"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "(W(G) ↔ I(G)) ∧ ∀x ((Ext(x) ∨ Cog(x)) → M(x, G))",
+        "encoding_format": "custom-fol",
+        "encoding": "(W(G) <-> I(G)) & forall x: (Ext(x) | Cog(x)) -> M(x, G)",
+        "notes": "E1p32c2: W(x) and I(x) are will and intellect as modes of God; Ext(x)/Cog(x) are extended/mental modes; this encodes that will and intellect relate to God as other modes (e.g. motion, rest) do."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
