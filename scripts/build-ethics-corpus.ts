@@ -651,11 +651,13 @@ const LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A: Record<string, LogicEncoding[]> = 
     {
       system: 'FOL',
       version: 'v1',
-      display: '∀α∀β[(Attribute(α) ∧ Attribute(β) ∧ α ≠ β) → ¬ConceivedThrough(α,β)]',
+      display:
+        '∀α∀β[(A(G,α) ∧ A(G,β) ∧ α ≠ β) → ¬Depends(α,β)] ∧ ∀α[A(G,α) → Ess(α)]',
       encoding_format: 'custom-fol',
-      encoding: 'forall a forall b: (Attribute(a) & Attribute(b) & a != b) -> not ConceivedThrough(a, b)',
+      encoding:
+        'forall a forall b: ((A(G, a) & A(G, b) & a != b) -> not Depends(a, b)) & forall a: (A(G, a) -> Ess(a))',
       notes:
-        'Distinct attributes (Attribute) do not explain one another; each is self-conceived (¬ConceivedThrough).',
+        'Attributes of God (A(G,α)) each express an eternal essence (Ess). No distinct attributes depend on one another for their conception (¬Depends).',
     },
   ],
 };
@@ -789,12 +791,13 @@ const LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B: Record<string, LogicEncoding[]> = 
     {
       system: 'FOL',
       version: 'v1',
-      display: '∀m[(M(m) ∧ Necessary(m) ∧ Infinite(m)) → (FollowsFromAbsAttr(m) ∨ FollowsFromInfiniteMode(m))]',
+      display:
+        '∀m∀α[(M(m,α) ∧ Necessary(m) ∧ Infinite(m) ∧ A(G,α)) → (DirectFromAttr(m,α) ∨ ViaInfinite(m,α))]',
       encoding_format: 'custom-fol',
       encoding:
-        'forall m: (M(m) & Necessary(m) & Infinite(m)) -> (FollowsFromAbsAttr(m) | FollowsFromInfiniteMode(m))',
+        'forall m forall a: ((M(m, a) & Necessary(m) & Infinite(m) & A(G, a)) -> (DirectFromAttr(m, a) | ViaInfinite(m, a)))',
       notes:
-        'Any necessary infinite mode (M, Necessary, Infinite) either flows directly from an attribute or from another infinite mode (FollowsFromInfiniteMode).',
+        'Necessary infinite modes under a divine attribute (M, Necessary, Infinite, A(G,α)) either arise immediately from that attribute (DirectFromAttr) or via another infinite mode under the same attribute (ViaInfinite).',
     },
   ],
   E1p24: [
@@ -939,13 +942,11 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'Eternal(S) ∧ Infinite(S) ∧ ∀m (Mode(m) ∧ In(m, S) → FollowsFromNature(m, S))',
+      display: 'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → FromNature(G,m)]',
       encoding_format: 'custom-fol',
-      encoding:
-        'Eternal(S) & Infinite(S) & forall m: Mode(m) & In(m, S) -> FollowsFromNature(m, S)',
+      encoding: 'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> FromNature(G, m))',
       notes:
-        'Core object-level claim: the scholium elaborates that all modes follow from the nature of the substance (God) as necessary consequences of its eternal and infinite essence.',
+        'Object-level claim: God is the unique substance (S(G)), and every mode under any divine attribute (A, M) follows from God’s nature (FromNature).',
     },
     {
       system: 'FOL',
@@ -964,13 +965,11 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'FollowsInInfinitelyManyWays( ModesFrom(S), DivineNature(S) )',
+      display: 'S(G) ∧ ∀α[A(G,α) → InfModes(G,α)]',
       encoding_format: 'custom-fol',
-      encoding:
-        'FollowsInInfinitelyManyWays(ModesFrom(S), DivineNature(S))',
+      encoding: 'S(G) & forall a: (A(G, a) -> InfModes(G, a))',
       notes:
-        'Core object-level claim: scholium emphasizes that the modes follow from God’s nature in infinitely many ways.',
+        'Object-level claim: for every divine attribute (A(G,α)), infinitely many modes proceed from God under that attribute (InfModes).',
     },
     {
       system: 'FOL',
@@ -991,12 +990,12 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '∀α (Attribute(α) → ExpressesEssenceOf(S, α)) ∧ ¬∃αβ (Attribute(α) ∧ Attribute(β) ∧ α ≠ β ∧ Derivable(α, β))',
+        '∀α[A(G,α) → Ess(α)] ∧ ∀α∀β[(A(G,α) ∧ A(G,β) ∧ α ≠ β) → ¬DerivesFrom(α,β)]',
       encoding_format: 'custom-fol',
       encoding:
-        'forall a: Attribute(a) -> ExpressesEssenceOf(S, a) & not exists a,b: Attribute(a) & Attribute(b) & a != b & Derivable(a, b)',
+        'forall a: (A(G, a) -> Ess(a)) & forall a forall b: ((A(G, a) & A(G, b) & a != b) -> not DerivesFrom(a, b))',
       notes:
-        'Core object-level claim: scholium to E1p10 underscores that each attribute expresses the essence of substance and no attribute is derivable from another.',
+        'Object-level claim: every divine attribute expresses essence (A, Ess) and distinct attributes do not conceptually derive from one another (¬DerivesFrom).',
     },
     {
       system: 'FOL',
@@ -1016,13 +1015,11 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'God(G) ∧ ExistsNecessarily(G) ∧ ∀x (Substance(x) → (x = G))',
+      display: 'S(G) ∧ E(G) ∧ ∀s[S(s) → s = G]',
       encoding_format: 'custom-fol',
-      encoding:
-        'God(G) & ExistsNecessarily(G) & forall x: Substance(x) -> x = G',
+      encoding: 'S(G) & E(G) & forall s: S(s) -> s = G',
       notes:
-        'Core object-level claim: scholium to E1p11 elaborates that the absolutely infinite substance (God) exists necessarily and uniquely.',
+        'Object-level claim: God is the self-caused substance (S(G), E(G)), and any substance collapses to that same unique God (s = G).',
     },
     {
       system: 'FOL',
@@ -1042,13 +1039,12 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'God(G) ∧ ∀m (Mode(m) → In(m, G)) ∧ ¬∃x (Substance(x) ∧ x ≠ G)',
+      display: 'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → In(m,G)] ∧ ¬∃s[S(s) ∧ s ≠ G]',
       encoding_format: 'custom-fol',
       encoding:
-        'God(G) & forall m: Mode(m) -> In(m, G) & not exists x: Substance(x) & x != G',
+        'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> In(m, G)) & not exists s: (S(s) & s != G)',
       notes:
-        'Core object-level claim: scholium to E1p13 stresses that all finite things (modes) are in God and that there is no substance apart from God.',
+        'Object-level claim: God is the only substance (S(G)); every mode under any attribute is in God (In), and no other substance (S) exists apart from G.',
     },
     {
       system: 'FOL',
@@ -1068,13 +1064,12 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'God(G) ∧ ∀m (Mode(m) → FollowsFromNature(m, G)) ∧ InfinitelyMany(m)',
+      display: 'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → FromNature(G,m)] ∧ ∀α[A(G,α) → InfModes(G,α)]',
       encoding_format: 'custom-fol',
       encoding:
-        'God(G) & forall m: Mode(m) -> FollowsFromNature(m, G) & InfinitelyMany(m)',
+        'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> FromNature(G, m)) & forall a: (A(G, a) -> InfModes(G, a))',
       notes:
-        'Core object-level claim: scholium to E1p15 elaborates that modes follow from God’s nature in infinitely many ways, not merely in a finite set.',
+        'Object-level claim: every mode under a divine attribute (A, M) follows from God’s nature (FromNature), and each attribute yields infinitely many such modes (InfModes).',
     },
     {
       system: 'FOL',
@@ -1094,13 +1089,11 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'God(G) ∧ ∀x (Mode(x) → DependsOn(x, G)) ∧ ¬Transcendent(G)',
+      display: 'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → In(m,G)] ∧ Immanent(G)',
       encoding_format: 'custom-fol',
-      encoding:
-        'God(G) & forall x: Mode(x) -> DependsOn(x, G) & not Transcendent(G)',
+      encoding: 'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> In(m, G)) & Immanent(G)',
       notes:
-        'Core object-level claim: scholium to E1p17 clarifies that God is immanent, not transcendent, cause of all things.',
+        'Object-level claim: as the sole substance (S(G)), God contains every mode within divine attributes (A, M, In) and is expressly immanent (Immanent) rather than transcendent.',
     },
     {
       system: 'FOL',
@@ -1121,12 +1114,12 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        'God(G) ∧ ∀x (Mode(x) → DeterminedBy(x, G)) ∧ ¬FreeWillInSenseOfIndifference(G)',
+        'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → DeterminedBy(m,G)] ∧ ¬IndifferentWill(G)',
       encoding_format: 'custom-fol',
       encoding:
-        'God(G) & forall x: Mode(x) -> DeterminedBy(x, G) & not FreeWillInSenseOfIndifference(G)',
+        'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> DeterminedBy(m, G)) & not IndifferentWill(G)',
       notes:
-        'Core object-level claim: scholium to E1p19 denies a voluntarist conception of divine will, insisting instead on necessity in God’s actions.',
+        'Object-level claim: every mode (M) under any attribute (A) is determined by God (DeterminedBy), and the scholium rejects an indifferent divine will (¬IndifferentWill).',
     },
     {
       system: 'FOL',
@@ -1146,13 +1139,11 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        'God(G) ∧ ∀x (Mode(x) → ProducedBy(G, x)) ∧ NoFinalCausesInNature',
+      display: 'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α)) → FromNature(G,m)] ∧ NoFinalCauses',
       encoding_format: 'custom-fol',
-      encoding:
-        'God(G) & forall x: Mode(x) -> ProducedBy(G, x) & NoFinalCausesInNature',
+      encoding: 'S(G) & forall a forall m: ((A(G, a) & M(m, a)) -> FromNature(G, m)) & NoFinalCauses',
       notes:
-        'Core object-level claim: scholium to E1p25 attacks final causes and insists that all things follow from God’s nature without teleological purposes.',
+        'Object-level claim: everything that is a mode under a divine attribute (A, M) proceeds from God’s nature (FromNature) and the scholium rejects teleological final causes (NoFinalCauses).',
     },
     {
       system: 'FOL',
@@ -1173,12 +1164,12 @@ const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        'God(G) ∧ ∀x (FiniteThing(x) → DeterminedByFiniteCauses(x)) ∧ InfiniteRegressOfFiniteModesIn(G)',
+        'S(G) ∧ ∀α∀m[(A(G,α) ∧ M(m,α) ∧ Finite(m)) → ∃m2(M(m2,α) ∧ Finite(m2) ∧ CauseOf(m2,m))]',
       encoding_format: 'custom-fol',
       encoding:
-        'God(G) & forall x: FiniteThing(x) -> DeterminedByFiniteCauses(x) & InfiniteRegressOfFiniteModesIn(G)',
+        'S(G) & forall a forall m: ((A(G, a) & M(m, a) & Finite(m)) -> exists m2: (M(m2, a) & Finite(m2) & CauseOf(m2, m)))',
       notes:
-        'Core object-level claim: scholium to E1p28 describes finite things as determined by a chain of finite causes within God.',
+        'Object-level claim: finite modes within any divine attribute (A, M, Finite) depend on other finite modes as causes (CauseOf) within God (S(G)).',
     },
     {
       system: 'FOL',
@@ -1678,11 +1669,11 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
       continue;
     }
 
-    const corMatch = upper.match(/^COROLLARY\s*([IVXLCDM]+)?/);
+    const corMatch = upper.match(/^(?:COROLLARY|COROLL\.)\s*([IVXLCDM]+)?/);
     if (corMatch) {
       corollaryIndex += 1;
       const number = corMatch[1] ? romanToInt(corMatch[1]) : corollaryIndex;
-      const content = text.replace(/^COROLLARY\s*[IVXLCDM]*\.?\s*/i, '').trim();
+      const content = text.replace(/^(?:COROLLARY|COROLL\.)\s*[IVXLCDM]*\.?\s*/i, '').trim();
       startItem({
         part: currentPart,
         kind: 'corollary',
@@ -1692,6 +1683,48 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
         textParts: content ? [content] : [],
       });
       continue;
+    }
+
+    if (lastProposition > 0 && /(COROLLAR(Y|IES)|COROLL\.)/.test(upper)) {
+      const inlineCorRegex =
+        /(Corollaries?|Cor\.)\s*([IVXLCDM]+(?:\s+AND\s+[IVXLCDM]+)?)?\.?\s*[-–—:]?\s*/gi;
+      const matches = [...text.matchAll(inlineCorRegex)];
+      if (matches.length > 0) {
+        let cursor = 0;
+        for (let i = 0; i < matches.length; i += 1) {
+          const match = matches[i];
+          const start = match.index ?? 0;
+          const end = start + match[0].length;
+          const leading = text.slice(cursor, start).trim();
+          if (leading && current) {
+            current.textParts.push(leading);
+          }
+
+          const nextStart = i + 1 < matches.length ? (matches[i + 1].index ?? text.length) : text.length;
+          const body = text.slice(end, nextStart).trim();
+          const numeralChunk = (match[2] ?? '').trim();
+          const numerals = numeralChunk ? numeralChunk.split(/\s+AND\s+/i) : [];
+          const targets = numerals.length > 0 ? numerals : [null];
+
+          for (const numeral of targets) {
+            const parsed = numeral ? romanToInt(numeral) : corollaryIndex + 1;
+            const number = parsed > 0 ? parsed : corollaryIndex + 1;
+            corollaryIndex = Math.max(corollaryIndex, number);
+            startItem({
+              part: currentPart,
+              kind: 'corollary',
+              number,
+              ofProposition: lastProposition,
+              subIndex: number,
+              textParts: body ? [body] : [],
+            });
+          }
+
+          cursor = nextStart;
+        }
+
+        continue;
+      }
     }
 
     if (upper.startsWith('SCHOLIUM')) {
@@ -2507,13 +2540,26 @@ function validateCorpus(corpus: EthicsCorpus): void {
 
     const logicEntries = Array.isArray(item.logic) ? item.logic : [];
     for (const enc of logicEntries) {
-      if (enc.system === 'FOL' && enc.version === 'v1') {
-        const payload = `${enc.display ?? ''} ${enc.encoding ?? ''}`;
-        if (/(God\(|Substance\(|Attribute\(|Mode\()/i.test(payload)) {
-          console.warn(
-            `[Logic WARN] Unnormalized FOL v1 encoding on ${item.id}: contains verbose predicates.`
+      if (enc.system !== 'FOL' || enc.version !== 'v1') continue;
+
+      const payload = `${enc.display ?? ''} ${enc.encoding ?? ''}`;
+      const hasVerbose = /(God\(|Substance\(|Attribute\(|Mode\()/i.test(payload);
+      const isMeta = !!enc.encoding_format && enc.encoding_format.includes('meta');
+      const isScholium = item.kind === 'scholium';
+
+      if (isMeta || isScholium) {
+        if (hasVerbose) {
+          console.info(
+            `[Logic INFO] Scholium/meta FOL v1 encoding on ${item.id} uses extended predicates (allowed for now).`
           );
         }
+        continue;
+      }
+
+      if (hasVerbose) {
+        console.warn(
+          `[Logic WARN] Unnormalized FOL v1 encoding on ${item.id}: contains verbose predicates.`
+        );
       }
     }
   }
