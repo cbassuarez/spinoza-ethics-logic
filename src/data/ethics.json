@@ -1,4 +1,4 @@
-  [
+[
   {
     "id": "E1D1",
     "ref": "Part I, Definition 1",
@@ -20,10 +20,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{CausaSui}(x) \\leftrightarrow \\operatorname{EssenceInvolvesExistence}(x))",
+        "display": "\\forall x\\, (C(x) \\leftrightarrow E(x))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: CausaSui(x) <-> EssenceInvolvesExistence(x)",
-        "notes": "CausaSui(x): x is self-caused. EssenceInvolvesExistence(x): x's essence involves existence / its nature cannot be conceived except as existing."
+        "encoding": "forall x: C(x) <-> E(x)",
+        "notes": "C(x): x is causa sui (self-caused). E(x): x's essence involves existence (its nature necessitates existence)."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -61,10 +69,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{FiniteInKind}(x) \\leftrightarrow \\exists y\\, (\\operatorname{SameNature}(y, x) \\land \\operatorname{Limits}(y, x)))",
+        "display": "\\forall x\\, (F(x) \\leftrightarrow \\exists y\\, (Same(x, y) \\land Limits(y, x)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: FiniteInKind(x) <-> exists y: SameNature(y, x) & Limits(y, x)",
-        "notes": "FiniteInKind(x): x is finite in its kind. SameNature(y, x): y shares the same nature as x. Limits(y, x): y bounds or limits x's nature."
+        "encoding": "forall x: F(x) <-> exists y: Same(x, y) & Limits(y, x)",
+        "notes": "F(x): x is finite in its kind. Same(x, y): x and y share the same nature. Limits(y, x): y bounds or limits x's nature."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -102,10 +118,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{Substance}(x) \\leftrightarrow (\\operatorname{InSelf}(x) \\land \\operatorname{ConceivedThroughSelf}(x)))",
+        "display": "\\forall x\\, (S(x) \\leftrightarrow (InSelf(x) \\land SelfConceived(x)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: Substance(x) <-> (InSelf(x) & ConceivedThroughSelf(x))",
-        "notes": "Substance(x): x is a substance. InSelf(x): x exists in itself. ConceivedThroughSelf(x): x is conceived through itself (its concept does not require another)."
+        "encoding": "forall x: S(x) <-> (InSelf(x) & SelfConceived(x))",
+        "notes": "S(x): x is a substance. InSelf(x): x exists in itself. SelfConceived(x): x is conceived through itself (its concept does not require another)."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -145,10 +169,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall a\\, (\\operatorname{Attribute}(a) \\leftrightarrow \\exists s\\, (\\operatorname{Substance}(s) \\land \\operatorname{ConstitutesEssenceOf}(a, s) \\land \\operatorname{IntellectPerceivesAsEssence}(a, s)))",
+        "display": "\\forall \\alpha\\, (Attr(\\alpha) \\leftrightarrow \\exists s\\, (S(s) \\land A(s, \\alpha) \\land Ess(\\alpha)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall a: Attribute(a) <-> exists s: Substance(s) & ConstitutesEssenceOf(a, s) & IntellectPerceivesAsEssence(a, s)",
-        "notes": "Attribute(a): a is an attribute. ConstitutesEssenceOf(a, s): a expresses or constitutes the essence of substance s. IntellectPerceivesAsEssence(a, s): the intellect perceives a as the essence of s."
+        "encoding": "forall alpha: Attr(alpha) <-> exists s: S(s) & A(s, alpha) & Ess(alpha)",
+        "notes": "Attr(α): α is an attribute. S(s): s is a substance. A(s, α): α belongs to substance s. Ess(α): α expresses or constitutes the essence of the substance."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -187,10 +219,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{Mode}(x) \\leftrightarrow (\\operatorname{InAnother}(x) \\land \\operatorname{ConceivedThroughAnother}(x)))",
+        "display": "\\forall m\\,\\forall s\\,\\forall \\alpha\\, (M(m, \\alpha) \\leftrightarrow (A(s, \\alpha) \\land InOther(m, s) \\land ConceivedThrough(m, s)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: Mode(x) <-> (InAnother(x) & ConceivedThroughAnother(x))",
-        "notes": "Mode(x): x is a mode (affection). InAnother(x): x exists in another thing. ConceivedThroughAnother(x): x is conceived through another thing."
+        "encoding": "forall m forall s forall alpha: M(m, alpha) <-> (A(s, alpha) & InOther(m, s) & ConceivedThrough(m, s))",
+        "notes": "M(m, α): m is a mode under attribute α. A(s, α): α is an attribute of substance s. InOther(m, s): m exists in s. ConceivedThrough(m, s): m is conceived through s."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -231,10 +271,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{God}(x) \\leftrightarrow (\\operatorname{Substance}(x) \\land \\operatorname{AbsolutelyInfinite}(x) \\land \\forall a\\, ((\\operatorname{Attribute}(a) \\land \\operatorname{BelongsTo}(a, x)) \\rightarrow \\operatorname{ExpressesInfiniteEssence}(a, x))))",
+        "display": "S(G) ∧ E(G) ∧ ∀α (A(G,α) → Ess(α))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: God(x) <-> (Substance(x) & AbsolutelyInfinite(x) & forall a: (Attribute(a) & BelongsTo(a, x) -> ExpressesInfiniteEssence(a, x)))",
-        "notes": "God(x): x is God. AbsolutelyInfinite(x): x has absolutely infinite attributes. BelongsTo(a, x): attribute a belongs to x. ExpressesInfiniteEssence(a, x): a expresses the eternal and infinite essence of x."
+        "encoding": "S(G) & E(G) & forall a: A(G,a) -> Ess(a)",
+        "notes": "E1D6 (God): S(x): x is a substance; G: constant for God; E(x): x exists; A(x,a): a is an attribute of x; Ess(a): a expresses eternal and infinite essence."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -273,10 +321,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{Free}(x) \\leftrightarrow (\\operatorname{ExistsFromOwnNature}(x) \\land \\operatorname{ActsFromOwnNature}(x)))",
+        "display": "\\forall x\\, (Free(x) \\leftrightarrow (FromNature(x) \\land ActsFromNature(x)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: Free(x) <-> (ExistsFromOwnNature(x) & ActsFromOwnNature(x))",
-        "notes": "Free(x): x is free. ExistsFromOwnNature(x): x exists solely from the necessity of its own nature. ActsFromOwnNature(x): x is determined to act by itself alone (not by external compulsion)."
+        "encoding": "forall x: Free(x) <-> (FromNature(x) & ActsFromNature(x))",
+        "notes": "Free(x): x is free. FromNature(x): x exists solely from the necessity of its own nature. ActsFromNature(x): x is determined to act by itself alone (not by external compulsion)."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
@@ -315,10 +371,18 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (\\operatorname{Eternal}(x) \\leftrightarrow (\\operatorname{ExistenceFromDefinition}(x) \\land \\operatorname{ExcludesTime}(x)))",
+        "display": "\\forall x\\, (Eternal(x) \\leftrightarrow (DefImpliesExistence(x) \\land Atemporal(x)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: Eternal(x) <-> (ExistenceFromDefinition(x) & ExcludesTime(x))",
-        "notes": "Eternal(x): x is eternal. ExistenceFromDefinition(x): x's existence follows solely from its definition. ExcludesTime(x): x's existence is conceived without relation to time (atemporally)."
+        "encoding": "forall x: Eternal(x) <-> (DefImpliesExistence(x) & Atemporal(x))",
+        "notes": "Eternal(x): x is eternal. DefImpliesExistence(x): x's existence follows solely from its definition. Atemporal(x): x's existence is conceived without relation to time."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "encoding_format": "derivation-block",
+        "encoding": "predicate logic\nS(G)∧E(G)∧∀α[A(G,α)→Ess(α)]\n∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]\n→∀x[(S(x)∧x≠G)→¬E(x)]\n→∀x[(S(x)∧x≠G)→¬C(x)]\n∴∀x[S(x)→x=G]\n∴∃!G[S(G)]\n∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]",
+        "notes": "Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation."
       }
     ],
     "dependencies": {
