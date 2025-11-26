@@ -1395,6 +1395,26 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
       continue;
     }
 
+    // NEW: detect scholia in the English text that are marked as "Note." / "NOTE.—"
+    const noteMatch = text.match(/^(NOTE|Note)\s*[\.\-–—:]?\s*(.*)$/);
+    if (noteMatch) {
+      // Start a new scholium attached to the most recent proposition.
+      scholiumIndex += 1;
+      const inlineBody = noteMatch[2]?.trim() ?? '';
+
+      startItem({
+        part: currentPart,
+        kind: 'scholium',
+        number: scholiumIndex,
+        ofProposition: lastProposition || undefined,
+        subIndex: scholiumIndex,
+        textParts: inlineBody ? [inlineBody] : [],
+      });
+
+      // Subsequent blocks will be appended to this scholium by the generic current.textParts.push(text) logic.
+      continue;
+    }
+
     const lemmaMatch = upper.match(/^LEMMA\s*([IVXLCDM]+)/);
     if (lemmaMatch) {
       const number = romanToInt(lemmaMatch[1]);
