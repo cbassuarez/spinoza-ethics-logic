@@ -529,6 +529,408 @@ const LOGIC_FOL_V1_COROLLARIES_PART1: Record<string, LogicEncoding[]> = {
   ],
 };
 
+// FOL v1 encodings for a structural spine of Part I propositions (Tier A).
+const LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A: Record<string, LogicEncoding[]> = {
+  // Prop. 1: Substance is prior to its modes.
+  E1p1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀m∀s[(M(m) ∧ In(m,s)) → Prior(s,m)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall m forall s: (M(m) & In(m, s)) -> Prior(s, m)',
+      notes:
+        'Modes (M) inhering in a substance (In) presuppose that substance, which is prior (Prior) in nature.',
+    },
+  ],
+
+  // Prop. 2: Substances with different attributes have nothing in common.
+  E1p2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s∀t[(S(s) ∧ S(t) ∧ DiffAttr(s,t)) → ¬CommonNature(s,t)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s forall t: (S(s) & S(t) & DiffAttr(s, t)) -> not CommonNature(s, t)',
+      notes:
+        'Different attributes (DiffAttr) prevent two substances (S) from sharing anything (CommonNature).',
+    },
+  ],
+
+  // Prop. 3: Things without a common nature cannot cause one another.
+  E1p3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀y[¬CommonNature(x,y) → (¬CauseOf(x,y) ∧ ¬CauseOf(y,x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall y: not CommonNature(x, y) -> (~CauseOf(x, y) & ~CauseOf(y, x))',
+      notes:
+        'Absence of shared nature (CommonNature) blocks causal relations (CauseOf) in either direction.',
+    },
+  ],
+
+  // Prop. 4: Distinct things differ by attributes or affections.
+  E1p4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀y[x ≠ y → (DiffAttr(x,y) ∨ ∃m DiffAff(m,x,y))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall y: x != y -> (DiffAttr(x, y) | exists m: DiffAff(m, x, y))',
+      notes:
+        'If two things are distinct, the difference is either in attributes (DiffAttr) or in their affections (DiffAff).',
+    },
+  ],
+
+  // Prop. 5: No two substances share an attribute.
+  E1p5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s∀t∀α[(S(s) ∧ S(t) ∧ A(s,α) ∧ A(t,α)) → s = t]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s forall t forall a: (S(s) & S(t) & A(s, a) & A(t, a)) -> s = t',
+      notes:
+        'Sharing an attribute (A) collapses two substances (S) into identity; otherwise substances cannot share the same nature.',
+    },
+  ],
+
+  // Prop. 6: A substance cannot be produced by another substance.
+  E1p6: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s∀t[(S(s) ∧ S(t) ∧ CauseOf(t,s)) → t = s]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s forall t: (S(s) & S(t) & CauseOf(t, s)) -> t = s',
+      notes:
+        'No distinct substance (S) can stand as the cause (CauseOf) of another; causal production would force identity.',
+    },
+  ],
+
+  // Prop. 7: Existence belongs to the nature of substance.
+  E1p7: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s[S(s) → E(s)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s: S(s) -> E(s)',
+      notes: 'Any substance (S) has existence (E) contained within its nature.',
+    },
+  ],
+
+  // Prop. 8: Every substance is necessarily infinite.
+  E1p8: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s[(S(s) ∧ E(s)) → Infinite(s)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s: (S(s) & E(s)) -> Infinite(s)',
+      notes: 'A substance that exists (E) cannot be finite; it is infinite (Infinite) in its attribute.',
+    },
+  ],
+
+  // Prop. 9: More reality implies more attributes.
+  E1p9: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀y[(MoreReality(x,y)) → MoreAttributes(x,y)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall y: MoreReality(x, y) -> MoreAttributes(x, y)',
+      notes:
+        'When x has more reality (MoreReality) than y, it expresses that essence through more attributes (MoreAttributes).',
+    },
+  ],
+
+  // Prop. 10: Each attribute is conceived through itself.
+  E1p10: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀α∀β[(Attribute(α) ∧ Attribute(β) ∧ α ≠ β) → ¬ConceivedThrough(α,β)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall a forall b: (Attribute(a) & Attribute(b) & a != b) -> not ConceivedThrough(a, b)',
+      notes:
+        'Distinct attributes (Attribute) do not explain one another; each is self-conceived (¬ConceivedThrough).',
+    },
+  ],
+};
+
+// FOL v1 encodings for the remaining Part I propositions (Tier B).
+// Tier A handles a small "structural spine" subset; everything else in Part I
+// that is kind === "proposition" should be captured here.
+const LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B: Record<string, LogicEncoding[]> = {
+  E1p11: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Infinite(G) ∧ ∀α[A(G,α) → Ess(α)] → E(G)',
+      encoding_format: 'custom-fol',
+      encoding: 'Infinite(G) & forall a: (A(G, a) -> Ess(a)) -> E(G)',
+      notes: 'God (G), possessing infinite essential attributes (A, Ess), necessarily exists (E).',
+    },
+  ],
+  E1p12: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀α[(A(G,α) ∧ Ess(α)) → ¬Divisible(α)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall a: (A(G, a) & Ess(a)) -> not Divisible(a)',
+      notes: 'No divine attribute (A) expressing essence (Ess) can imply divisibility (Divisible).',
+    },
+  ],
+  E1p13: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'S(G) → ¬Divisible(G)',
+      encoding_format: 'custom-fol',
+      encoding: 'S(G) -> not Divisible(G)',
+      notes: 'The absolutely infinite substance God (S(G)) cannot be divided (¬Divisible).',
+    },
+  ],
+  E1p14: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀s[S(s) → s = G]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall s: S(s) -> s = G',
+      notes: 'Any substance (S) is identical with God (G); no other substance is granted or conceived.',
+    },
+  ],
+  E1p15: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[Exists(x) → In(x,G)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Exists(x) -> In(x, G)',
+      notes: 'Whatever exists is in God (In) and cannot be conceived apart from the divine.',
+    },
+  ],
+  E1p16: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Necessarily(G) ∧ ∀x[FollowsFrom(G,x) → Produced(G,x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'Necessarily(G) & forall x: FollowsFrom(G, x) -> Produced(G, x)',
+      notes: 'From the necessity of divine nature (Necessarily) infinitely many things follow (FollowsFrom) as produced by God.',
+    },
+  ],
+  E1p17: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'ActsByNature(G) ∧ ¬∃y Constrains(y,G)',
+      encoding_format: 'custom-fol',
+      encoding: 'ActsByNature(G) & not exists y: Constrains(y, G)',
+      notes: 'God acts solely from divine nature (ActsByNature) and is constrained by nothing external (Constrains).',
+    },
+  ],
+  E1p18: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[Exists(x) → (In(x,G) ∧ CauseOf(G,x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Exists(x) -> (In(x, G) & CauseOf(G, x))',
+      notes: 'All things existing are in God (In) and have God as immanent cause (CauseOf).',
+    },
+  ],
+  E1p19: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Eternal(G) ∧ ∀α[A(G,α) → Eternal(α)]',
+      encoding_format: 'custom-fol',
+      encoding: 'Eternal(G) & forall a: A(G, a) -> Eternal(a)',
+      notes: 'God and every divine attribute (A) are eternal (Eternal) without beginning or end.',
+    },
+  ],
+  E1p20: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Ess(G) ↔ E(G)',
+      encoding_format: 'custom-fol',
+      encoding: 'Ess(G) <-> E(G)',
+      notes: 'For God, essence (Ess) and existence (E) are one and the same reality.',
+    },
+  ],
+  E1p21: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[FollowsFromAbsAttr(x) → (Eternal(x) ∧ Infinite(x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: FollowsFromAbsAttr(x) -> (Eternal(x) & Infinite(x))',
+      notes: 'Whatever follows from the absolute nature of a divine attribute is eternal and infinite.',
+    },
+  ],
+  E1p22: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[FollowsFromModAttr(x) → (Necessary(x) ∧ Determinate(x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: FollowsFromModAttr(x) -> (Necessary(x) & Determinate(x))',
+      notes:
+        'Effects following from an attribute as modified (FollowsFromModAttr) exist necessarily (Necessary) in a determinate way.',
+    },
+  ],
+  E1p23: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀m[(M(m) ∧ Necessary(m) ∧ Infinite(m)) → (FollowsFromAbsAttr(m) ∨ FollowsFromInfiniteMode(m))]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall m: (M(m) & Necessary(m) & Infinite(m)) -> (FollowsFromAbsAttr(m) | FollowsFromInfiniteMode(m))',
+      notes:
+        'Any necessary infinite mode (M, Necessary, Infinite) either flows directly from an attribute or from another infinite mode (FollowsFromInfiniteMode).',
+    },
+  ],
+  E1p24: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[ProducedBy(G,x) → ¬EssImpliesExistence(x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: ProducedBy(G, x) -> not EssImpliesExistence(x)',
+      notes: 'Things produced by God (ProducedBy) do not have essences that entail existence (¬EssImpliesExistence).',
+    },
+  ],
+  E1p25: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[CauseOf(G,x) → (CauseEssence(G,x) ∧ CauseExistence(G,x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: CauseOf(G, x) -> (CauseEssence(G, x) & CauseExistence(G, x))',
+      notes: 'God is efficient cause (CauseOf) of both the essence and existence of whatever is caused (CauseEssence, CauseExistence).',
+    },
+  ],
+  E1p26: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀m[ConditionedToAct(x,m) → ConditionedBy(G,x,m)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall m: ConditionedToAct(x, m) -> ConditionedBy(G, x, m)',
+      notes: 'Any thing conditioned to act in some way (ConditionedToAct) has been so conditioned by God (ConditionedBy).',
+    },
+  ],
+  E1p27: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀m[ConditionedBy(G,x,m) → ¬CanMakeUnconditioned(x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall m: ConditionedBy(G, x, m) -> not CanMakeUnconditioned(x)',
+      notes: 'What is conditioned by God (ConditionedBy) cannot render itself free from that conditioning (¬CanMakeUnconditioned).',
+    },
+  ],
+  E1p28: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[(Finite(x) ∧ Exists(x)) → ∃y(Finite(y) ∧ CauseOf(y,x))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: (Finite(x) & Exists(x)) -> exists y: (Finite(y) & CauseOf(y, x))',
+      notes:
+        'Any finite, conditioned thing (Finite, Exists) depends on another finite cause (CauseOf) for its existence or action.',
+    },
+  ],
+  E1p29: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[NecessitatedBy(G,x) ∧ ¬Contingent(x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: NecessitatedBy(G, x) & not Contingent(x)',
+      notes: 'Nothing is contingent (¬Contingent); everything is necessitated by divine nature (NecessitatedBy).',
+    },
+  ],
+  E1p30: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀i[Intellect(i) → (∀α[A(G,α) → Comprehends(i,α)] ∧ ∀m[M(m) → Comprehends(i,m)])]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall i: Intellect(i) -> ((forall a: A(G, a) -> Comprehends(i, a)) & (forall m: M(m) -> Comprehends(i, m)))',
+      notes: 'Any intellect (Intellect) finite or infinite comprehends divine attributes and their modes (Comprehends).',
+    },
+  ],
+  E1p31: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀i[Intellect(i) → PassiveNature(i)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall i: Intellect(i) -> PassiveNature(i)',
+      notes: 'The intellect and its affects (Intellect) belong to natura naturata or passive nature (PassiveNature).',
+    },
+  ],
+  E1p32: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀w[Will(w) → NecessaryCause(w)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall w: Will(w) -> NecessaryCause(w)',
+      notes: 'Will (Will) is not a free cause; it operates as a necessary cause (NecessaryCause).',
+    },
+  ],
+  E1p33: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[FollowsFrom(G,x) → ¬CouldBeOtherwise(x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: FollowsFrom(G, x) -> not CouldBeOtherwise(x)',
+      notes: 'Whatever follows from God (FollowsFrom) could not have been produced differently (¬CouldBeOtherwise).',
+    },
+  ],
+  E1p34: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Identical(Power(G), Essence(G))',
+      encoding_format: 'custom-fol',
+      encoding: 'Identical(Power(G), Essence(G))',
+      notes: 'God’s power (Power(G)) is identical with the divine essence (Essence(G)).',
+    },
+  ],
+  E1p35: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x[InPowerOf(G,x) → Exists(x)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: InPowerOf(G, x) -> Exists(x)',
+      notes: 'Anything contained in God’s power (InPowerOf) necessarily exists (Exists).',
+    },
+  ],
+  E1p36: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀c[Cause(c) → ∃e EffectOf(c,e)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall c: Cause(c) -> exists e: EffectOf(c, e)',
+      notes: 'Every cause (Cause) produces some effect (EffectOf); nothing causal is barren.',
+    },
+  ],
+};
+
 // FOL v1 encodings for Part I postulates.
 // NOTE: Part I may have zero postulates in this corpus; it's okay for this map to start empty.
 // Later passes can extend this map, and analogues for Parts II–V, with hand-crafted encodings.
@@ -1402,6 +1804,57 @@ function applyFOLv1AxiomsPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1PropositionsPart1TierA(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'proposition') continue;
+
+    const encodings = LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A[item.id];
+    if (!encodings || encodings.length === 0) continue;
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    item.logic = item.logic.filter((enc) => !(enc.system === 'FOL' && enc.version === 'v1'));
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
+function applyFOLv1PropositionsPart1TierB(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'proposition') continue;
+
+    // Skip propositions that are explicitly handled by Tier A.
+    if (item.id in LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A) {
+      continue;
+    }
+
+    const encodings = LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B[item.id];
+    if (!encodings || encodings.length === 0) {
+      // For Tier B, it's okay to silently skip missing entries; we can
+      // fill them in future prompts.
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Remove any existing FOL v1 encodings for this proposition in Part I,
+    // so the Tier B map is the single source of truth for these items.
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
 function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     // Only Part I corollaries
@@ -1606,6 +2059,8 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyFOLv1PostulatesPart1(corpus);
   applyFOLv1LemmasPart1(corpus);
   applyFOLv1CorollariesPart1(corpus);
+  applyFOLv1PropositionsPart1TierA(corpus);
+  applyFOLv1PropositionsPart1TierB(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
