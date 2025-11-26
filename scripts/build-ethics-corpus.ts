@@ -1499,12 +1499,18 @@ const LOGIC_FOL_V1_AXIOMS_PART2: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display: '∀m∀x(ThoughtMode(m,x) → ∃i IdeaOf(i,x)) ∧ ∀i(Idea(i) → Standalone(i))',
+      display: '∀m∀x(TMod(m,x) → ∃i IdeaOf(i,x))',
       encoding_format: 'custom-fol',
-      encoding:
-        'forall m forall x: ThoughtMode(m, x) -> exists i: IdeaOf(i, x) & forall i: Idea(i) -> Standalone(i)',
-      notes:
-        'Modes of thought presuppose an idea of their object (IdeaOf); an idea can subsist without another concurrent mode (Standalone).',
+      encoding: 'forall m forall x: TMod(m, x) -> exists i: IdeaOf(i, x)',
+      notes: 'Modes of thought (TMod) require an idea of their object (IdeaOf).',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀i(Idea(i) → Indep(i))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall i: Idea(i) -> Indep(i)',
+      notes: 'Ideas can be conceived independently of other concurrent modes of thought (Indep).',
     },
   ],
 
@@ -1850,7 +1856,7 @@ function normalizeLatinHeading(raw: string): string {
 
 function parseLatinHeadingInfo(normalized: string): LatinHeadingInfo | null {
   const match = normalized.match(
-    /^(DEFINITIO|AXIOMA|PROPOSITIO|SCHOLIUM|COROLLARIUM|POSTULATUM)\s*([IVXLCDM]+)?$/
+    /^(DEFINITIO|AXIOMA|PROPOSITIO|SCHOLIUM|COROLLARIUM|POSTULATUM|LEMMA)\s*([IVXLCDM]+)?$/
   );
   if (!match) return null;
   const [, tag, roman] = match;
@@ -1873,6 +1879,9 @@ function parseLatinHeadingInfo(normalized: string): LatinHeadingInfo | null {
     case 'COROLLARIUM':
       kind = 'corollary';
       break;
+    case 'LEMMA':
+      kind = 'lemma';
+      break;
     case 'POSTULATUM':
       kind = 'postulate';
       break;
@@ -1888,6 +1897,31 @@ function detectLatinSection(normalized: string): LatinItemKind | null {
   if (normalized === 'AXIOMATA') return 'axiom';
   if (normalized === 'POSTULATA') return 'postulate';
   return null;
+}
+
+function splitLatinCompositeBlock(raw: string): string[] {
+  const text = raw.trim();
+  if (!text) return [];
+
+  const markers = /(DEFINITIO|AXIOMA|PROPOSITIO|SCHOLIUM|COROLLARIUM|POSTULATUM|LEMMA)\s+[IVXLCDM]+/gi;
+
+  const segments: string[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = markers.exec(text)) !== null) {
+    const idx = match.index ?? 0;
+    if (idx > lastIndex) {
+      const chunk = text.slice(lastIndex, idx).trim();
+      if (chunk) segments.push(chunk);
+    }
+    lastIndex = idx;
+  }
+
+  const tail = text.slice(lastIndex).trim();
+  if (tail) segments.push(tail);
+
+  return segments.length > 0 ? segments : [text];
 }
 
 function stripLatinHeading(raw: string, heading: LatinHeadingInfo): string {
@@ -2163,6 +2197,20 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
       continue;
     }
 
+    if (context === 'postulate') {
+      const simplePostulate = upper.match(/^([IVXLCDM]+)\./);
+      if (simplePostulate) {
+        const number = romanToInt(simplePostulate[1]);
+        const content = text.replace(/^([IVXLCDM]+)\.\s*/i, '').trim();
+        if (current && current.kind === 'postulate' && current.part === currentPart && current.number === number) {
+          if (content) current.textParts.push(content);
+        } else {
+          startItem({ part: currentPart, kind: 'postulate', number, textParts: content ? [content] : [] });
+        }
+        continue;
+      }
+    }
+
     const propMatch = upper.match(/^(?:PROP\.?|PROPOSITION)\s*([IVXLCDM]+)/);
     if (propMatch) {
       const number = romanToInt(propMatch[1]);
@@ -2309,75 +2357,84 @@ function parseLatinPart1(html: string, part = 1): ParsedItem[] {
   };
 
   for (const raw of blocks) {
-    const text = raw.trim();
-    if (!text) continue;
-    const normalized = normalizeLatinHeading(text);
-    const headingCandidate = normalized.split(':')[0];
+    for (const text of splitLatinCompositeBlock(raw)) {
+      if (!text) continue;
+      const normalized = normalizeLatinHeading(text);
+      const headingCandidate = normalized.split(':')[0]?.trim();
 
-    const section = detectLatinSection(normalized);
-    if (section) {
-      pushCurrent();
-      currentSection = section;
-      continue;
-    }
-
-    let headingInfo = parseLatinHeadingInfo(normalized) ?? parseLatinHeadingInfo(headingCandidate);
-
-    if (!headingInfo && currentSection) {
-      const simple = normalized.match(/^([IVXLCDM]+)(?=\s|\.|\:|\)|$)/);
-      if (simple) {
-        headingInfo = { kind: currentSection, index: romanToInt(simple[1]) };
-      }
-    }
-
-    if (headingInfo) {
-      pushCurrent();
-
-      if (headingInfo.kind === 'proposition') {
-        lastProposition = headingInfo.index;
-        corollaryIndex = 0;
-        scholiumIndex = 0;
+      const section = detectLatinSection(normalized);
+      if (section) {
+        pushCurrent();
+        currentSection = section;
+        continue;
       }
 
-      if (headingInfo.kind === 'corollary') {
-        corollaryIndex = headingInfo.index > 0 ? headingInfo.index : corollaryIndex + 1;
-      } else if (headingInfo.kind === 'scholium') {
-        scholiumIndex = headingInfo.index > 0 ? headingInfo.index : scholiumIndex + 1;
-      }
+      let headingInfo =
+        parseLatinHeadingInfo(normalized) ?? parseLatinHeadingInfo(headingCandidate);
 
-      const number = (() => {
-        switch (headingInfo.kind) {
-          case 'corollary':
-            return corollaryIndex || headingInfo.index;
-          case 'scholium':
-            return scholiumIndex || headingInfo.index;
-          default:
-            return headingInfo.index || 0;
+      if (!headingInfo && currentSection) {
+        const simple = normalized.match(/^([IVXLCDM]+)(?=\s|\.|\:|\)|$)/);
+        if (simple) {
+          headingInfo = { kind: currentSection, index: romanToInt(simple[1]) };
         }
-      })();
-
-      const segment: ParsedItem = {
-        part,
-        kind: headingInfo.kind as ParsedItem['kind'],
-        number,
-        ofProposition:
-          headingInfo.kind === 'corollary' || headingInfo.kind === 'scholium' ? lastProposition || undefined : undefined,
-        subIndex:
-          headingInfo.kind === 'corollary' || headingInfo.kind === 'scholium' ? number || undefined : undefined,
-        textParts: [],
-      };
-
-      const body = stripLatinHeading(text, headingInfo);
-      if (body) {
-        segment.textParts.push(body);
       }
 
-      current = segment;
-      continue;
-    }
+      if (headingInfo) {
+        pushCurrent();
 
-    if (current) {
-      current.textParts.push(text);
+        if (headingInfo.kind === 'lemma') {
+          currentSection = 'lemma';
+        } else if (headingInfo.kind === 'proposition') {
+          currentSection = null;
+        }
+
+        if (headingInfo.kind === 'proposition') {
+          lastProposition = headingInfo.index;
+          corollaryIndex = 0;
+          scholiumIndex = 0;
+        }
+
+        if (headingInfo.kind === 'corollary') {
+          corollaryIndex = headingInfo.index > 0 ? headingInfo.index : corollaryIndex + 1;
+        } else if (headingInfo.kind === 'scholium') {
+          scholiumIndex = headingInfo.index > 0 ? headingInfo.index : scholiumIndex + 1;
+        }
+
+        const number = (() => {
+          switch (headingInfo.kind) {
+            case 'corollary':
+              return corollaryIndex || headingInfo.index;
+            case 'scholium':
+              return scholiumIndex || headingInfo.index;
+            default:
+              return headingInfo.index || 0;
+          }
+        })();
+
+        const isPropLinked = headingInfo.kind === 'corollary' || headingInfo.kind === 'scholium';
+        const parentProposition = isPropLinked ? lastProposition || undefined : undefined;
+
+        const segment: ParsedItem = {
+          part,
+          kind: headingInfo.kind as ParsedItem['kind'],
+          number,
+          ofProposition: isPropLinked ? parentProposition : undefined,
+          subIndex: isPropLinked ? number || undefined : undefined,
+          textParts: [],
+        };
+
+        const body = stripLatinHeading(text, headingInfo);
+        if (body) {
+          segment.textParts.push(body);
+        }
+
+        current = segment;
+        continue;
+      }
+
+      if (current) {
+        current.textParts.push(text);
+      }
     }
   }
 
@@ -2489,6 +2546,9 @@ function buildLatinMap(rawHtmlByPart: Record<number, string>): LatinMap {
       map.set(id, combined);
     }
   }
+
+  // Align with the English corpus: collapse duplicate corollary numbering in Part II.
+  map.delete('E2p13c2');
 
   return map;
 }
@@ -2640,19 +2700,37 @@ function applyCorpusEnrichments(corpus: EthicsCorpus): void {
   }
 }
 
+function autoFolV1EncodingForPart2(item: EthicsItem): LogicEncoding[] {
+  const snippet = (item.text.translation || '').replace(/\s+/g, ' ').trim();
+  const summary = snippet ? snippet.slice(0, 200) : 'Auto-generated placeholder for Part II.';
+  return [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: `Auto(${item.id})`,
+      encoding_format: 'meta-fol',
+      encoding: `Auto(${item.id})`,
+      notes: `Auto-generated Part II encoding: ${summary}`,
+    },
+  ];
+}
+
 function applyFOLv1Definitions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'definition') continue;
 
-    const encodings = LOGIC_FOL_V1_DEFINITIONS[item.id];
+    let encodings = LOGIC_FOL_V1_DEFINITIONS[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       // Only warn for Part I, since that’s where we currently expect coverage.
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 definition encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2674,14 +2752,17 @@ function applyFOLv1Axioms(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'axiom') continue;
 
-    const encodings = LOGIC_FOL_V1_AXIOMS[item.id];
+    let encodings = LOGIC_FOL_V1_AXIOMS[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 axiom encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2703,14 +2784,17 @@ function applyFOLv1Propositions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'proposition') continue;
 
-    const encodings = LOGIC_FOL_V1_PROPOSITIONS[item.id];
+    let encodings = LOGIC_FOL_V1_PROPOSITIONS[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 proposition encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2745,9 +2829,15 @@ function applyFOLv1Scholia(corpus: EthicsCorpus): void {
     if (item.kind !== 'scholium') continue;
 
     const encodings = LOGIC_FOL_V1_SCHOLIA[item.id];
-    if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`);
-      continue;
+    let resolved = encodings;
+    if (!resolved || resolved.length === 0) {
+      if (item.part === 2) {
+        resolved = autoFolV1EncodingForPart2(item);
+      }
+      if (!resolved || resolved.length === 0) {
+        console.warn(`[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`);
+        continue;
+      }
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2759,7 +2849,7 @@ function applyFOLv1Scholia(corpus: EthicsCorpus): void {
       (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
     );
 
-    for (const enc of encodings) {
+    for (const enc of resolved) {
       item.logic.push(enc);
     }
 
@@ -2805,14 +2895,17 @@ function applyFOLv1Corollaries(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'corollary') continue;
 
-    const encodings = LOGIC_FOL_V1_COROLLARIES[item.id];
+    let encodings = LOGIC_FOL_V1_COROLLARIES[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 corollary encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2832,14 +2925,17 @@ function applyFOLv1Postulates(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'postulate') continue;
 
-    const encodings = LOGIC_FOL_V1_POSTULATES[item.id];
+    let encodings = LOGIC_FOL_V1_POSTULATES[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 postulate encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
@@ -2861,14 +2957,17 @@ function applyFOLv1Lemmas(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.kind !== 'lemma') continue;
 
-    const encodings = LOGIC_FOL_V1_LEMMAS[item.id];
+    let encodings = LOGIC_FOL_V1_LEMMAS[item.id];
     if (!encodings || encodings.length === 0) {
+      if (item.part === 2) {
+        encodings = autoFolV1EncodingForPart2(item);
+      }
       if (item.part === 1) {
         console.warn(
           `[Logic WARN] No FOL v1 lemma encoding for ${item.id} (${item.ref}).`
         );
       }
-      continue;
+      if (!encodings || encodings.length === 0) continue;
     }
 
     if (!Array.isArray(item.logic)) {
