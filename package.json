@@ -10,7 +10,7 @@
     "test": "vitest run",
     "lint": "echo 'Linting not configured'",
     "fetch:raw": "node --loader ts-node/esm scripts/fetch-raw-ethics.ts",
-    "build:corpus": "node scripts/build-ethics-corpus.mjs"
+    "build:corpus": "node --loader ts-node/esm scripts/build-ethics-corpus.ts"
   },
   "keywords": [],
   "author": "",
