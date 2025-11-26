@@ -189,7 +189,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display: '\\forall x\\, (C(x) \\leftrightarrow E(x))',
+      display: '∀x (C(x) ↔ E(x))',
       encoding_format: 'custom-fol',
       encoding: 'forall x: C(x) <-> E(x)',
       notes:
@@ -202,8 +202,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (F(x) \\leftrightarrow \\exists y\\, (Same(x, y) \\land Limits(y, x)))',
+      display: '∀x (F(x) ↔ ∃y (Same(x,y) ∧ Limits(y,x)))',
       encoding_format: 'custom-fol',
       encoding: 'forall x: F(x) <-> exists y: Same(x, y) & Limits(y, x)',
       notes:
@@ -216,8 +215,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (S(x) \\leftrightarrow (InSelf(x) \\land SelfConceived(x)))',
+      display: '∀x (S(x) ↔ (InSelf(x) ∧ SelfConceived(x)))',
       encoding_format: 'custom-fol',
       encoding: 'forall x: S(x) <-> (InSelf(x) & SelfConceived(x))',
       notes:
@@ -230,8 +228,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall \\alpha\\, (Attr(\\alpha) \\leftrightarrow \\exists s\\, (S(s) \\land A(s, \\alpha) \\land Ess(\\alpha)))',
+      display: '∀α (Attr(α) ↔ ∃s (S(s) ∧ A(s,α) ∧ Ess(α)))',
       encoding_format: 'custom-fol',
       encoding: 'forall alpha: Attr(alpha) <-> exists s: S(s) & A(s, alpha) & Ess(alpha)',
       notes:
@@ -244,8 +241,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall m\\,\\forall s\\,\\forall \\alpha\\, (M(m, \\alpha) \\leftrightarrow (A(s, \\alpha) \\land InOther(m, s) \\land ConceivedThrough(m, s)))',
+      display: '∀m∀s∀α (M(m,α) ↔ (A(s,α) ∧ InOther(m,s) ∧ ConceivedThrough(m,s)))',
       encoding_format: 'custom-fol',
       encoding:
         'forall m forall s forall alpha: M(m, alpha) <-> (A(s, alpha) & InOther(m, s) & ConceivedThrough(m, s))',
@@ -272,8 +268,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (Free(x) \\leftrightarrow (FromNature(x) \\land ActsFromNature(x)))',
+      display: '∀x (Free(x) ↔ (FromNature(x) ∧ ActsFromNature(x)))',
       encoding_format: 'custom-fol',
       encoding: 'forall x: Free(x) <-> (FromNature(x) & ActsFromNature(x))',
       notes:
@@ -286,8 +281,7 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (Eternal(x) \\leftrightarrow (DefImpliesExistence(x) \\land Atemporal(x)))',
+      display: '∀x (Eternal(x) ↔ (DefImpliesExistence(x) ∧ Atemporal(x)))',
       encoding_format: 'custom-fol',
       encoding: 'forall x: Eternal(x) <-> (DefImpliesExistence(x) & Atemporal(x))',
       notes:
@@ -1269,6 +1263,18 @@ function validateCorpus(corpus: EthicsCorpus): void {
     }
     if (!item.proof || !item.proof.status) {
       throw new Error(`Missing proof status on item ${item.id}`);
+    }
+
+    const logicEntries = Array.isArray(item.logic) ? item.logic : [];
+    for (const enc of logicEntries) {
+      if (enc.system === 'FOL' && enc.version === 'v1') {
+        const payload = `${enc.display ?? ''} ${enc.encoding ?? ''}`;
+        if (/(God\(|Substance\(|Attribute\(|Mode\()/i.test(payload)) {
+          console.warn(
+            `[Logic WARN] Unnormalized FOL v1 encoding on ${item.id}: contains verbose predicates.`
+          );
+        }
+      }
     }
   }
 

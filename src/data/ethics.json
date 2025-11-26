@@ -20,7 +20,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (C(x) \\leftrightarrow E(x))",
+        "display": "∀x (C(x) ↔ E(x))",
         "encoding_format": "custom-fol",
         "encoding": "forall x: C(x) <-> E(x)",
         "notes": "C(x): x is causa sui (self-caused). E(x): x's essence involves existence (its nature necessitates existence)."
@@ -69,7 +69,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (F(x) \\leftrightarrow \\exists y\\, (Same(x, y) \\land Limits(y, x)))",
+        "display": "∀x (F(x) ↔ ∃y (Same(x,y) ∧ Limits(y,x)))",
         "encoding_format": "custom-fol",
         "encoding": "forall x: F(x) <-> exists y: Same(x, y) & Limits(y, x)",
         "notes": "F(x): x is finite in its kind. Same(x, y): x and y share the same nature. Limits(y, x): y bounds or limits x's nature."
@@ -118,7 +118,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (S(x) \\leftrightarrow (InSelf(x) \\land SelfConceived(x)))",
+        "display": "∀x (S(x) ↔ (InSelf(x) ∧ SelfConceived(x)))",
         "encoding_format": "custom-fol",
         "encoding": "forall x: S(x) <-> (InSelf(x) & SelfConceived(x))",
         "notes": "S(x): x is a substance. InSelf(x): x exists in itself. SelfConceived(x): x is conceived through itself (its concept does not require another)."
@@ -169,7 +169,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall \\alpha\\, (Attr(\\alpha) \\leftrightarrow \\exists s\\, (S(s) \\land A(s, \\alpha) \\land Ess(\\alpha)))",
+        "display": "∀α (Attr(α) ↔ ∃s (S(s) ∧ A(s,α) ∧ Ess(α)))",
         "encoding_format": "custom-fol",
         "encoding": "forall alpha: Attr(alpha) <-> exists s: S(s) & A(s, alpha) & Ess(alpha)",
         "notes": "Attr(α): α is an attribute. S(s): s is a substance. A(s, α): α belongs to substance s. Ess(α): α expresses or constitutes the essence of the substance."
@@ -219,7 +219,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall m\\,\\forall s\\,\\forall \\alpha\\, (M(m, \\alpha) \\leftrightarrow (A(s, \\alpha) \\land InOther(m, s) \\land ConceivedThrough(m, s)))",
+        "display": "∀m∀s∀α (M(m,α) ↔ (A(s,α) ∧ InOther(m,s) ∧ ConceivedThrough(m,s)))",
         "encoding_format": "custom-fol",
         "encoding": "forall m forall s forall alpha: M(m, alpha) <-> (A(s, alpha) & InOther(m, s) & ConceivedThrough(m, s))",
         "notes": "M(m, α): m is a mode under attribute α. A(s, α): α is an attribute of substance s. InOther(m, s): m exists in s. ConceivedThrough(m, s): m is conceived through s."
@@ -321,7 +321,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (Free(x) \\leftrightarrow (FromNature(x) \\land ActsFromNature(x)))",
+        "display": "∀x (Free(x) ↔ (FromNature(x) ∧ ActsFromNature(x)))",
         "encoding_format": "custom-fol",
         "encoding": "forall x: Free(x) <-> (FromNature(x) & ActsFromNature(x))",
         "notes": "Free(x): x is free. FromNature(x): x exists solely from the necessity of its own nature. ActsFromNature(x): x is determined to act by itself alone (not by external compulsion)."
@@ -371,7 +371,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "\\forall x\\, (Eternal(x) \\leftrightarrow (DefImpliesExistence(x) \\land Atemporal(x)))",
+        "display": "∀x (Eternal(x) ↔ (DefImpliesExistence(x) ∧ Atemporal(x)))",
         "encoding_format": "custom-fol",
         "encoding": "forall x: Eternal(x) <-> (DefImpliesExistence(x) & Atemporal(x))",
         "notes": "Eternal(x): x is eternal. DefImpliesExistence(x): x's existence follows solely from its definition. Atemporal(x): x's existence is conceived without relation to time."
