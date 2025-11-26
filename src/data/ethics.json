@@ -1187,17 +1187,39 @@
       "Existence",
       "Infinity"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Eternal(S) ∧ Infinite(S) ∧ ∀m (Mode(m) ∧ In(m, S) → FollowsFromNature(m, S))",
+        "encoding_format": "custom-fol",
+        "encoding": "Eternal(S) & Infinite(S) & forall m: Mode(m) & In(m, S) -> FollowsFromNature(m, S)",
+        "notes": "Core object-level claim: the scholium elaborates that all modes follow from the nature of the substance (God) as necessary consequences of its eternal and infinite essence."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p8s1, E1p8) ∧ Clarifies(ModeOrder, FromSubstanceNature)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p8s1, E1p8) & Clarifies(ModeOrder, FromSubstanceNature)",
+        "notes": "Meta-level encoding: scholium E1p8s1 explains and clarifies how the necessity of substance’s existence entails the structured order of modes."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p7",
           "role": "proposition"
+        },
+        {
+          "id": "E1p8",
+          "role": "proposition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p8 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -1227,17 +1249,39 @@
       "Existence",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "FollowsInInfinitelyManyWays( ModesFrom(S), DivineNature(S) )",
+        "encoding_format": "custom-fol",
+        "encoding": "FollowsInInfinitelyManyWays(ModesFrom(S), DivineNature(S))",
+        "notes": "Core object-level claim: scholium emphasizes that the modes follow from God’s nature in infinitely many ways."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p8s2, E1p8) ∧ Emphasizes(InfinitelyManyModes, FromDivineNature)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p8s2, E1p8) & Emphasizes(InfinitelyManyModes, FromDivineNature)",
+        "notes": "Meta-level encoding: scholium E1p8s2 stresses the infinitude and variety of modes grounded in divine nature."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p7",
           "role": "proposition"
+        },
+        {
+          "id": "E1p8",
+          "role": "proposition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p8 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -1366,12 +1410,39 @@
       "Essence",
       "Infinity"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀α (Attribute(α) → ExpressesEssenceOf(S, α)) ∧ ¬∃αβ (Attribute(α) ∧ Attribute(β) ∧ α ≠ β ∧ Derivable(α, β))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall a: Attribute(a) -> ExpressesEssenceOf(S, a) & not exists a,b: Attribute(a) & Attribute(b) & a != b & Derivable(a, b)",
+        "notes": "Core object-level claim: scholium to E1p10 underscores that each attribute expresses the essence of substance and no attribute is derivable from another."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p10s1, E1p10) ∧ Clarifies(IndependenceOfAttributes, ConceptualAutonomy)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p10s1, E1p10) & Clarifies(IndependenceOfAttributes, ConceptualAutonomy)",
+        "notes": "Meta-level encoding: scholium E1p10s1 clarifies how attributes are conceptually autonomous expressions of the same substance."
+      }
+    ],
     "dependencies": {
-      "uses": []
+      "uses": [
+        {
+          "id": "E1p10",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D4",
+          "role": "definition"
+        }
+      ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p10 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -1460,17 +1531,47 @@
       "Infinity",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ExistsNecessarily(G) ∧ ∀x (Substance(x) → (x = G))",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & ExistsNecessarily(G) & forall x: Substance(x) -> x = G",
+        "notes": "Core object-level claim: scholium to E1p11 elaborates that the absolutely infinite substance (God) exists necessarily and uniquely."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p11s1, E1p11) ∧ Clarifies(IdentityOfGodAndSubstance, UniqueInfiniteSubstance)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p11s1, E1p11) & Clarifies(IdentityOfGodAndSubstance, UniqueInfiniteSubstance)",
+        "notes": "Meta-level encoding: scholium E1p11s1 clarifies that “God” and “Substance” name the same absolutely infinite being."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p6",
           "role": "proposition"
+        },
+        {
+          "id": "E1p11",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
+        },
+        {
+          "id": "E1D6",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p11 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -1663,17 +1764,47 @@
       "Substance",
       "Infinity"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀m (Mode(m) → In(m, G)) ∧ ¬∃x (Substance(x) ∧ x ≠ G)",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall m: Mode(m) -> In(m, G) & not exists x: Substance(x) & x != G",
+        "notes": "Core object-level claim: scholium to E1p13 stresses that all finite things (modes) are in God and that there is no substance apart from God."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p13s1, E1p13) ∧ Clarifies(ImmanenceOfGod, AllModesInGod)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p13s1, E1p13) & Clarifies(ImmanenceOfGod, AllModesInGod)",
+        "notes": "Meta-level encoding: scholium E1p13s1 underlines the immanence doctrine: nothing exists or is conceived without God."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p8",
           "role": "proposition"
+        },
+        {
+          "id": "E1p13",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
+        },
+        {
+          "id": "E1D5",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p13 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -1918,7 +2049,24 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀m (Mode(m) → FollowsFromNature(m, G)) ∧ InfinitelyMany(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall m: Mode(m) -> FollowsFromNature(m, G) & InfinitelyMany(m)",
+        "notes": "Core object-level claim: scholium to E1p15 elaborates that modes follow from God’s nature in infinitely many ways, not merely in a finite set."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p15s1, E1p15) ∧ Clarifies(InfinitelyManyModes, FromDivineNature)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p15s1, E1p15) & Clarifies(InfinitelyManyModes, FromDivineNature)",
+        "notes": "Meta-level encoding: scholium E1p15s1 explains how the conclusion of E1p15 generalizes to infinitely many modes grounded in God."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -1940,11 +2088,28 @@
         {
           "id": "E1p13",
           "role": "proposition"
+        },
+        {
+          "id": "E1p15",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
+        },
+        {
+          "id": "E1D5",
+          "role": "definition"
+        },
+        {
+          "id": "E1D6",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p15 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -2286,17 +2451,43 @@
       "Infinity",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀x (Mode(x) → DependsOn(x, G)) ∧ ¬Transcendent(G)",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall x: Mode(x) -> DependsOn(x, G) & not Transcendent(G)",
+        "notes": "Core object-level claim: scholium to E1p17 clarifies that God is immanent, not transcendent, cause of all things."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p17s1, E1p17) ∧ Clarifies(ImmanentCause, AgainstTranscendence)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p17s1, E1p17) & Clarifies(ImmanentCause, AgainstTranscendence)",
+        "notes": "Meta-level encoding: scholium E1p17s1 interprets E1p17 in explicitly immanentist, anti-transcendent terms."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p16",
           "role": "proposition"
+        },
+        {
+          "id": "E1p17",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p17 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -2442,7 +2633,24 @@
       "Essence",
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀x (Mode(x) → DeterminedBy(x, G)) ∧ ¬FreeWillInSenseOfIndifference(G)",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall x: Mode(x) -> DeterminedBy(x, G) & not FreeWillInSenseOfIndifference(G)",
+        "notes": "Core object-level claim: scholium to E1p19 denies a voluntarist conception of divine will, insisting instead on necessity in God’s actions."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p19s1, E1p19) ∧ Clarifies(DivineNecessity, RejectsIndifferentWill)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p19s1, E1p19) & Clarifies(DivineNecessity, RejectsIndifferentWill)",
+        "notes": "Meta-level encoding: scholium E1p19s1 clarifies that God’s will is identical with the necessity of divine nature, not an arbitrary choice."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -2452,11 +2660,20 @@
         {
           "id": "E1p19",
           "role": "proposition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
+        },
+        {
+          "id": "E1D6",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p19 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -2842,17 +3059,51 @@
       "Essence",
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀x (Mode(x) → ProducedBy(G, x)) ∧ NoFinalCausesInNature",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall x: Mode(x) -> ProducedBy(G, x) & NoFinalCausesInNature",
+        "notes": "Core object-level claim: scholium to E1p25 attacks final causes and insists that all things follow from God’s nature without teleological purposes."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p25s1, E1p25) ∧ Clarifies(RejectionOfTeleology, NecessityOfNature)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p25s1, E1p25) & Clarifies(RejectionOfTeleology, NecessityOfNature)",
+        "notes": "Meta-level encoding: scholium E1p25s1 interprets the proposition as a denial of final causes and a defense of necessity in nature."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
           "id": "E1p16",
           "role": "proposition"
+        },
+        {
+          "id": "E1p25",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D1",
+          "role": "definition"
+        },
+        {
+          "id": "E1D2",
+          "role": "definition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p25 in Part I."
     },
     "meta": {
       "status": "draft",
@@ -3075,7 +3326,24 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "God(G) ∧ ∀x (FiniteThing(x) → DeterminedByFiniteCauses(x)) ∧ InfiniteRegressOfFiniteModesIn(G)",
+        "encoding_format": "custom-fol",
+        "encoding": "God(G) & forall x: FiniteThing(x) -> DeterminedByFiniteCauses(x) & InfiniteRegressOfFiniteModesIn(G)",
+        "notes": "Core object-level claim: scholium to E1p28 describes finite things as determined by a chain of finite causes within God."
+      },
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Explains(E1p28s1, E1p28) ∧ Clarifies(ChainOfFiniteCauses, ImmanentDeterminism)",
+        "encoding_format": "meta-fol",
+        "encoding": "Explains(E1p28s1, E1p28) & Clarifies(ChainOfFiniteCauses, ImmanentDeterminism)",
+        "notes": "Meta-level encoding: scholium E1p28s1 clarifies the deterministic structure of finite things within God."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -3085,11 +3353,24 @@
         {
           "id": "E1p24",
           "role": "proposition"
+        },
+        {
+          "id": "E1p28",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D1",
+          "role": "definition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Scholium-level commentary: elaborates and clarifies the content of E1p28 in Part I."
     },
     "meta": {
       "status": "draft",

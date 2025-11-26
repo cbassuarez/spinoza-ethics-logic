@@ -931,6 +931,319 @@ const LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B: Record<string, LogicEncoding[]> = 
   ],
 };
 
+// Tier A scholia for Part I: core cluster + meta encodings.
+// NOTE: This is a first pass and can be refined later.
+const LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A: Record<string, LogicEncoding[]> = {
+  // E1p8s1 – scholium to Proposition 8
+  E1p8s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Eternal(S) ∧ Infinite(S) ∧ ∀m (Mode(m) ∧ In(m, S) → FollowsFromNature(m, S))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'Eternal(S) & Infinite(S) & forall m: Mode(m) & In(m, S) -> FollowsFromNature(m, S)',
+      notes:
+        'Core object-level claim: the scholium elaborates that all modes follow from the nature of the substance (God) as necessary consequences of its eternal and infinite essence.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Explains(E1p8s1, E1p8) ∧ Clarifies(ModeOrder, FromSubstanceNature)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p8s1, E1p8) & Clarifies(ModeOrder, FromSubstanceNature)',
+      notes:
+        'Meta-level encoding: scholium E1p8s1 explains and clarifies how the necessity of substance’s existence entails the structured order of modes.',
+    },
+  ],
+
+  // E1p8s2 – scholium to Proposition 8 (further elaboration)
+  E1p8s2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'FollowsInInfinitelyManyWays( ModesFrom(S), DivineNature(S) )',
+      encoding_format: 'custom-fol',
+      encoding:
+        'FollowsInInfinitelyManyWays(ModesFrom(S), DivineNature(S))',
+      notes:
+        'Core object-level claim: scholium emphasizes that the modes follow from God’s nature in infinitely many ways.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p8s2, E1p8) ∧ Emphasizes(InfinitelyManyModes, FromDivineNature)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p8s2, E1p8) & Emphasizes(InfinitelyManyModes, FromDivineNature)',
+      notes:
+        'Meta-level encoding: scholium E1p8s2 stresses the infinitude and variety of modes grounded in divine nature.',
+    },
+  ],
+
+  // E1p10s1 – scholium to Proposition 10
+  E1p10s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '∀α (Attribute(α) → ExpressesEssenceOf(S, α)) ∧ ¬∃αβ (Attribute(α) ∧ Attribute(β) ∧ α ≠ β ∧ Derivable(α, β))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall a: Attribute(a) -> ExpressesEssenceOf(S, a) & not exists a,b: Attribute(a) & Attribute(b) & a != b & Derivable(a, b)',
+      notes:
+        'Core object-level claim: scholium to E1p10 underscores that each attribute expresses the essence of substance and no attribute is derivable from another.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p10s1, E1p10) ∧ Clarifies(IndependenceOfAttributes, ConceptualAutonomy)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p10s1, E1p10) & Clarifies(IndependenceOfAttributes, ConceptualAutonomy)',
+      notes:
+        'Meta-level encoding: scholium E1p10s1 clarifies how attributes are conceptually autonomous expressions of the same substance.',
+    },
+  ],
+
+  // E1p11s1 – scholium to Proposition 11
+  E1p11s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ExistsNecessarily(G) ∧ ∀x (Substance(x) → (x = G))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & ExistsNecessarily(G) & forall x: Substance(x) -> x = G',
+      notes:
+        'Core object-level claim: scholium to E1p11 elaborates that the absolutely infinite substance (God) exists necessarily and uniquely.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p11s1, E1p11) ∧ Clarifies(IdentityOfGodAndSubstance, UniqueInfiniteSubstance)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p11s1, E1p11) & Clarifies(IdentityOfGodAndSubstance, UniqueInfiniteSubstance)',
+      notes:
+        'Meta-level encoding: scholium E1p11s1 clarifies that “God” and “Substance” name the same absolutely infinite being.',
+    },
+  ],
+
+  // E1p13s1 – scholium to Proposition 13
+  E1p13s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀m (Mode(m) → In(m, G)) ∧ ¬∃x (Substance(x) ∧ x ≠ G)',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall m: Mode(m) -> In(m, G) & not exists x: Substance(x) & x != G',
+      notes:
+        'Core object-level claim: scholium to E1p13 stresses that all finite things (modes) are in God and that there is no substance apart from God.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p13s1, E1p13) ∧ Clarifies(ImmanenceOfGod, AllModesInGod)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p13s1, E1p13) & Clarifies(ImmanenceOfGod, AllModesInGod)',
+      notes:
+        'Meta-level encoding: scholium E1p13s1 underlines the immanence doctrine: nothing exists or is conceived without God.',
+    },
+  ],
+
+  // E1p15s1 – scholium to Proposition 15
+  E1p15s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀m (Mode(m) → FollowsFromNature(m, G)) ∧ InfinitelyMany(m)',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall m: Mode(m) -> FollowsFromNature(m, G) & InfinitelyMany(m)',
+      notes:
+        'Core object-level claim: scholium to E1p15 elaborates that modes follow from God’s nature in infinitely many ways, not merely in a finite set.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p15s1, E1p15) ∧ Clarifies(InfinitelyManyModes, FromDivineNature)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p15s1, E1p15) & Clarifies(InfinitelyManyModes, FromDivineNature)',
+      notes:
+        'Meta-level encoding: scholium E1p15s1 explains how the conclusion of E1p15 generalizes to infinitely many modes grounded in God.',
+    },
+  ],
+
+  // E1p17s1 – scholium to Proposition 17
+  E1p17s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀x (Mode(x) → DependsOn(x, G)) ∧ ¬Transcendent(G)',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall x: Mode(x) -> DependsOn(x, G) & not Transcendent(G)',
+      notes:
+        'Core object-level claim: scholium to E1p17 clarifies that God is immanent, not transcendent, cause of all things.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p17s1, E1p17) ∧ Clarifies(ImmanentCause, AgainstTranscendence)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p17s1, E1p17) & Clarifies(ImmanentCause, AgainstTranscendence)',
+      notes:
+        'Meta-level encoding: scholium E1p17s1 interprets E1p17 in explicitly immanentist, anti-transcendent terms.',
+    },
+  ],
+
+  // E1p19s1 – scholium to Proposition 19
+  E1p19s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀x (Mode(x) → DeterminedBy(x, G)) ∧ ¬FreeWillInSenseOfIndifference(G)',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall x: Mode(x) -> DeterminedBy(x, G) & not FreeWillInSenseOfIndifference(G)',
+      notes:
+        'Core object-level claim: scholium to E1p19 denies a voluntarist conception of divine will, insisting instead on necessity in God’s actions.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p19s1, E1p19) ∧ Clarifies(DivineNecessity, RejectsIndifferentWill)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p19s1, E1p19) & Clarifies(DivineNecessity, RejectsIndifferentWill)',
+      notes:
+        'Meta-level encoding: scholium E1p19s1 clarifies that God’s will is identical with the necessity of divine nature, not an arbitrary choice.',
+    },
+  ],
+
+  // E1p25s1 – scholium to Proposition 25
+  E1p25s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀x (Mode(x) → ProducedBy(G, x)) ∧ NoFinalCausesInNature',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall x: Mode(x) -> ProducedBy(G, x) & NoFinalCausesInNature',
+      notes:
+        'Core object-level claim: scholium to E1p25 attacks final causes and insists that all things follow from God’s nature without teleological purposes.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p25s1, E1p25) ∧ Clarifies(RejectionOfTeleology, NecessityOfNature)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p25s1, E1p25) & Clarifies(RejectionOfTeleology, NecessityOfNature)',
+      notes:
+        'Meta-level encoding: scholium E1p25s1 interprets the proposition as a denial of final causes and a defense of necessity in nature.',
+    },
+  ],
+
+  // E1p28s1 – scholium to Proposition 28
+  E1p28s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'God(G) ∧ ∀x (FiniteThing(x) → DeterminedByFiniteCauses(x)) ∧ InfiniteRegressOfFiniteModesIn(G)',
+      encoding_format: 'custom-fol',
+      encoding:
+        'God(G) & forall x: FiniteThing(x) -> DeterminedByFiniteCauses(x) & InfiniteRegressOfFiniteModesIn(G)',
+      notes:
+        'Core object-level claim: scholium to E1p28 describes finite things as determined by a chain of finite causes within God.',
+    },
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        'Explains(E1p28s1, E1p28) ∧ Clarifies(ChainOfFiniteCauses, ImmanentDeterminism)',
+      encoding_format: 'meta-fol',
+      encoding:
+        'Explains(E1p28s1, E1p28) & Clarifies(ChainOfFiniteCauses, ImmanentDeterminism)',
+      notes:
+        'Meta-level encoding: scholium E1p28s1 clarifies the deterministic structure of finite things within God.',
+    },
+  ],
+};
+
+// Optional explicit scholia dependency hints for Tier A, merged into item.dependencies.uses
+const SCHOLIA_DEPENDENCIES_PART1_TIER_A: Record<string, Dependency[]> = {
+  E1p8s1: [
+    { id: 'E1p8', role: 'proposition' },
+  ],
+  E1p8s2: [
+    { id: 'E1p8', role: 'proposition' },
+  ],
+  E1p10s1: [
+    { id: 'E1p10', role: 'proposition' },
+    { id: 'E1D4', role: 'definition' },
+  ],
+  E1p11s1: [
+    { id: 'E1p11', role: 'proposition' },
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D6', role: 'definition' },
+  ],
+  E1p13s1: [
+    { id: 'E1p13', role: 'proposition' },
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D5', role: 'definition' },
+  ],
+  E1p15s1: [
+    { id: 'E1p15', role: 'proposition' },
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D5', role: 'definition' },
+    { id: 'E1D6', role: 'definition' },
+  ],
+  E1p17s1: [
+    { id: 'E1p17', role: 'proposition' },
+    { id: 'E1D3', role: 'definition' },
+  ],
+  E1p19s1: [
+    { id: 'E1p19', role: 'proposition' },
+    { id: 'E1D3', role: 'definition' },
+    { id: 'E1D6', role: 'definition' },
+  ],
+  E1p25s1: [
+    { id: 'E1p25', role: 'proposition' },
+    { id: 'E1D1', role: 'definition' },
+    { id: 'E1D2', role: 'definition' },
+    { id: 'E1D3', role: 'definition' },
+  ],
+  E1p28s1: [
+    { id: 'E1p28', role: 'proposition' },
+    { id: 'E1D1', role: 'definition' },
+    { id: 'E1D3', role: 'definition' },
+  ],
+};
+
 // FOL v1 encodings for Part I postulates.
 // NOTE: Part I may have zero postulates in this corpus; it's okay for this map to start empty.
 // Later passes can extend this map, and analogues for Parts II–V, with hand-crafted encodings.
@@ -1875,6 +2188,79 @@ function applyFOLv1PropositionsPart1TierB(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1ScholiaPart1TierA(corpus: EthicsCorpus): void {
+  const corpusIds = new Set<string>(corpus.map((it) => it.id));
+
+  const getParentPropId = (scholiumId: string): string | null => {
+    // Expect IDs of the form "E1pNsM"
+    const m = scholiumId.match(/^E(\d+)p(\d+)s\d+$/);
+    if (!m) return null;
+    const part = parseInt(m[1], 10);
+    const propIndex = parseInt(m[2], 10);
+    if (!Number.isFinite(part) || !Number.isFinite(propIndex)) return null;
+    return `E${part}p${propIndex}`;
+  };
+
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'scholium') continue;
+
+    const encodings = LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A[item.id];
+    if (!encodings || encodings.length === 0) {
+      continue; // Only Tier A scholia get logic in this pass.
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Drop any existing FOL v1 encodings for this scholium, then apply the Tier A cluster.
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+
+    // Ensure dependencies.uses exists.
+    if (!item.dependencies) {
+      item.dependencies = { uses: [] };
+    }
+    if (!Array.isArray(item.dependencies.uses)) {
+      item.dependencies.uses = [];
+    }
+
+    const baseDeps = item.dependencies.uses;
+
+    // 1) Ensure a dependency on the parent proposition, if we can infer it from the scholium ID.
+    const parentId = getParentPropId(item.id);
+    const parentDeps: Dependency[] = [];
+    if (parentId && corpusIds.has(parentId)) {
+      parentDeps.push({ id: parentId, role: 'proposition' });
+    }
+
+    // 2) Add any manual scholia dependency hints for Tier A.
+    const tableDeps = SCHOLIA_DEPENDENCIES_PART1_TIER_A[item.id] ?? [];
+
+    // 3) Merge baseDeps + parentDeps + tableDeps using the general merge helper.
+    const merged = mergeDependencies(baseDeps, [...parentDeps, ...tableDeps]);
+    item.dependencies.uses = merged;
+
+    // 4) Upgrade proof status to "sketch" if it was "none" and we now have logic.
+    if (!item.proof || !item.proof.status || item.proof.status === 'none') {
+      item.proof = {
+        status: 'sketch',
+        sketch:
+          item.proof && item.proof.sketch
+            ? item.proof.sketch
+            : `Scholium-level commentary: elaborates and clarifies the content of ${
+                parentId ?? 'its parent proposition'
+              } in Part I.`,
+      };
+    }
+  }
+}
+
 function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     // Only Part I corollaries
@@ -2081,6 +2467,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyFOLv1CorollariesPart1(corpus);
   applyFOLv1PropositionsPart1TierA(corpus);
   applyFOLv1PropositionsPart1TierB(corpus);
+  applyFOLv1ScholiaPart1TierA(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
