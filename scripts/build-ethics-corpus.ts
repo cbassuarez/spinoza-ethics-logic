@@ -290,6 +290,21 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
   ],
 };
 
+const LOGIC_FOL_V1_AXIOMS_PART1: Record<string, LogicEncoding[]> = {
+  // Axiom 1: Everything which exists, exists either in itself or in something else.
+  E1Ax1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (E(x) → (InSelf(x) ∨ ∃y InOther(x,y)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: E(x) -> (InSelf(x) | exists y: InOther(x, y))',
+      notes:
+        'E1Ax1: every existent thing either exists in itself (InSelf) or in another (InOther). E(x): x exists; InSelf(x): x exists in itself; InOther(x,y): x exists in another y.',
+    },
+  ],
+};
+
 const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
   E1D1: PREDICATE_LOGIC_CLUSTER_ENCODING,
   E1D2: PREDICATE_LOGIC_CLUSTER_ENCODING,
@@ -1104,6 +1119,32 @@ function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1AxiomsPart1(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    // Only Part I axioms
+    if (item.part !== 1 || item.kind !== 'axiom') continue;
+
+    const encodings = LOGIC_FOL_V1_AXIOMS_PART1[item.id];
+    if (!encodings || encodings.length === 0) {
+      console.warn(`[Logic WARN] No FOL v1 axiom encoding for ${item.id} (${item.ref}).`);
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Remove any existing FOL v1 encodings for this item so this map is canonical
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
 function applyPredicateLogicClusterForPart1Definitions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.part !== 1 || item.kind !== 'definition') continue;
@@ -1228,6 +1269,8 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyCorpusEnrichments(corpus);
   applyFOLv1DefinitionsPart1(corpus);
   applyPredicateLogicClusterForPart1Definitions(corpus);
+  // NEW: attach FOL v1 encodings for Part I axioms (currently just E1Ax1)
+  applyFOLv1AxiomsPart1(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
@@ -1299,6 +1342,9 @@ function validateCorpus(corpus: EthicsCorpus): void {
       console.warn('[Deps WARN] E1p1 has no dependencies after Layer 4.');
     }
   }
+
+  const withLogic = corpus.filter((it) => it.logic && it.logic.length > 0);
+  console.log('[Logic INFO] items with logic encodings:', withLogic.map((it) => it.id));
 }
 
 function writeCorpusToFile(corpus: EthicsCorpus): void {
