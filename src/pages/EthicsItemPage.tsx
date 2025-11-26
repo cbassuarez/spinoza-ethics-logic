@@ -2,30 +2,67 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import MathDisplay from '../components/MathDisplay';
 import { corpus, findDependents, getItemById } from '../data';
-import type { LogicEncoding } from '../data/types';
+import type { EthicsItem } from '../data/types';
 
-const EthicsItemPage = () => {
-  const { id } = useParams();
-  const item = getItemById(id || '');
+type LogicSectionProps = {
+  item: EthicsItem;
+};
+
+const LogicSection = ({ item }: LogicSectionProps) => {
   const [activeLogic, setActiveLogic] = useState<number>(0);
 
-  const folEncodings = useMemo(
-    () =>
-      (item?.logic ?? []).filter(
-        (encoding) => encoding.system === 'FOL' && encoding.version === 'v1'
-      ),
-    [item]
+  const folEncodings = (item.logic ?? []).filter(
+    (enc) => enc.system === 'FOL' && enc.version === 'v1'
   );
 
   useEffect(() => {
     setActiveLogic(0);
-  }, [id]);
+  }, [item.id]);
 
   useEffect(() => {
     if (activeLogic >= folEncodings.length) {
       setActiveLogic(0);
     }
   }, [activeLogic, folEncodings.length]);
+
+  if (!folEncodings.length) {
+    return null;
+  }
+
+  const logicEntry = folEncodings[activeLogic];
+
+  return (
+    <section className="card space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-lg font-semibold text-slate-900">Logic encodings</h3>
+        <div className="flex flex-wrap gap-2">
+          {folEncodings.map((logic, idx) => (
+            <button
+              key={`${logic.system}-${logic.version}-${idx}`}
+              type="button"
+              onClick={() => setActiveLogic(idx)}
+              className={`badge border ${activeLogic === idx ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50'}`}
+            >
+              {logic.system} {logic.version}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="space-y-3">
+        <MathDisplay latex={logicEntry.display} />
+        <div>
+          <p className="text-xs uppercase text-slate-500">Encoding ({logicEntry.encoding_format})</p>
+          <pre className="code-block">{logicEntry.encoding}</pre>
+          {logicEntry.notes && <p className="text-sm text-slate-600">{logicEntry.notes}</p>}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const EthicsItemPage = () => {
+  const { id } = useParams();
+  const item = getItemById(id || '');
 
   const dependents = useMemo(() => (id ? findDependents(id) : []), [id]);
 
@@ -39,8 +76,6 @@ const EthicsItemPage = () => {
       </div>
     );
   }
-
-  const logicEntry: LogicEncoding | undefined = folEncodings[activeLogic];
 
   return (
     <div className="space-y-6">
@@ -74,35 +109,7 @@ const EthicsItemPage = () => {
         </div>
       </section>
 
-      <section className="card space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold text-slate-900">Logic encodings</h3>
-          <div className="flex flex-wrap gap-2">
-            {folEncodings.map((logic, idx) => (
-              <button
-                key={`${logic.system}-${logic.version}-${idx}`}
-                type="button"
-                onClick={() => setActiveLogic(idx)}
-                className={`badge border ${activeLogic === idx ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50'}`}
-              >
-                {logic.system} {logic.version}
-              </button>
-            ))}
-          </div>
-        </div>
-        {logicEntry ? (
-          <div className="space-y-3">
-            <MathDisplay latex={logicEntry.display} />
-            <div>
-              <p className="text-xs uppercase text-slate-500">Encoding ({logicEntry.encoding_format})</p>
-              <pre className="code-block">{logicEntry.encoding}</pre>
-              {logicEntry.notes && <p className="text-sm text-slate-600">{logicEntry.notes}</p>}
-            </div>
-          </div>
-        ) : (
-          <p className="text-slate-600">No FOL v1 logic encodings available.</p>
-        )}
-      </section>
+      <LogicSection item={item} />
 
       <section className="card space-y-3">
         <h3 className="text-lg font-semibold text-slate-900">Concepts</h3>
