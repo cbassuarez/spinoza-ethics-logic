@@ -571,11 +571,16 @@
         {
           "id": "E1D3",
           "role": "definition"
+        },
+        {
+          "id": "E1D5",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Spinoza notes that modes presuppose the substance whose affections they are (Def. 5), while substance is conceived through itself (Def. 3); therefore substance is by nature prior to its modifications."
     },
     "meta": {
       "status": "draft",
@@ -605,11 +610,16 @@
         {
           "id": "E1D3",
           "role": "definition"
+        },
+        {
+          "id": "E1D4",
+          "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Because each substance must be conceived through itself (Def. 3) and an attribute expresses its essence (Def. 4), substances with different attributes share no common nature and thus have nothing in common."
     },
     "meta": {
       "status": "draft",
@@ -647,7 +657,8 @@
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "If two things have nothing in common, the conception of one does not involve the other (Ax. 5); therefore neither can serve as the cause of the other."
     },
     "meta": {
       "status": "draft",
@@ -677,6 +688,14 @@
     "dependencies": {
       "uses": [
         {
+          "id": "E1D4",
+          "role": "definition"
+        },
+        {
+          "id": "E1D5",
+          "role": "definition"
+        },
+        {
           "id": "E1Ax1",
           "role": "axiom"
         },
@@ -687,7 +706,8 @@
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Distinct things must differ either in their attributes or in the affections that follow from those attributes; otherwise they would lack any ground for distinction and collapse into one."
     },
     "meta": {
       "status": "draft",
@@ -718,6 +738,14 @@
     "dependencies": {
       "uses": [
         {
+          "id": "E1p2",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D4",
+          "role": "definition"
+        },
+        {
           "id": "E1p4",
           "role": "proposition"
         },
@@ -728,7 +756,8 @@
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Suppose two substances shared the same attribute; by Prop. 2 they would have nothing in common, which contradicts the shared attribute, so no two substances can possess the same nature or attribute."
     },
     "meta": {
       "status": "draft",
@@ -759,6 +788,18 @@
     "dependencies": {
       "uses": [
         {
+          "id": "E1p5",
+          "role": "proposition"
+        },
+        {
+          "id": "E1D1",
+          "role": "definition"
+        },
+        {
+          "id": "E1D3",
+          "role": "definition"
+        },
+        {
           "id": "E1p2",
           "role": "proposition"
         },
@@ -769,7 +810,8 @@
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "If a substance were produced by another, they would share an attribute and thus be indistinguishable (Prop. 5), but a substance is conceived through itself (Def. 3), so no substance can be produced by another."
     },
     "meta": {
       "status": "draft",
@@ -846,13 +888,22 @@
     "dependencies": {
       "uses": [
         {
+          "id": "E1Ax1",
+          "role": "axiom"
+        },
+        {
+          "id": "E1D1",
+          "role": "definition"
+        },
+        {
           "id": "E1p6",
           "role": "proposition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Every substance must exist either in itself or be produced by another (Ax. 1); Prop. 6 rules out external production, leaving self-causation, whose essence (Def. 1) involves existence, so existence belongs to substance’s nature."
     },
     "meta": {
       "status": "draft",
@@ -891,17 +942,18 @@
           "role": "definition"
         },
         {
-          "id": "E1p7",
+          "id": "E1p5",
           "role": "proposition"
         },
         {
-          "id": "E1p5",
+          "id": "E1p7",
           "role": "proposition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "A finite substance would be limited by another of the same nature (Def. 2), but Prop. 5 denies multiple substances of one attribute; therefore any substance that exists (Prop. 7) must be infinite."
     },
     "meta": {
       "status": "draft",
@@ -935,7 +987,8 @@
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "An attribute expresses the essence of a substance (Def. 4), so the more reality or being a thing has, the more ways its essence can be expressed; hence greater reality entails a greater number of attributes."
     },
     "meta": {
       "status": "draft",
@@ -972,13 +1025,18 @@
           "role": "definition"
         },
         {
+          "id": "E1p5",
+          "role": "proposition"
+        },
+        {
           "id": "E1D3",
           "role": "definition"
         }
       ]
     },
     "proof": {
-      "status": "none"
+      "status": "sketch",
+      "sketch": "Each attribute expresses substance’s essence (Def. 4) and is conceived through itself, so no attribute can be explained through another; consequently every attribute must be conceived through itself."
     },
     "meta": {
       "status": "draft",
