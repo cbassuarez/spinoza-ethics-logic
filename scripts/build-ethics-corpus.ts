@@ -529,6 +529,39 @@ const LOGIC_FOL_V1_COROLLARIES_PART1: Record<string, LogicEncoding[]> = {
   ],
 };
 
+// FOL v1 encodings for Part I postulates.
+// NOTE: Part I may have zero postulates in this corpus; it's okay for this map to start empty.
+// Later passes can extend this map, and analogues for Parts II–V, with hand-crafted encodings.
+const LOGIC_FOL_V1_POSTULATES_PART1: Record<string, LogicEncoding[]> = {
+  // Example shape (keep commented-out as a template until we have a real Part I postulate id):
+  // E1Post1: [
+  //   {
+  //     system: 'FOL',
+  //     version: 'v1',
+  //     display: '…pretty LaTeX-style formula…',
+  //     encoding_format: 'custom-fol',
+  //     encoding: '...ascii version...',
+  //     notes: 'Short gloss explaining the predicates for this postulate.',
+  //   },
+  // ],
+};
+
+// FOL v1 encodings for Part I lemmas.
+// Same pattern as postulates: may be empty if Part I has no lemmas in the parsed corpus.
+const LOGIC_FOL_V1_LEMMAS_PART1: Record<string, LogicEncoding[]> = {
+  // Example shape (again, a template placeholder until we map real ids):
+  // E1L1: [
+  //   {
+  //     system: 'FOL',
+  //     version: 'v1',
+  //     display: '…pretty LaTeX-style formula…',
+  //     encoding_format: 'custom-fol',
+  //     encoding: '...ascii version...',
+  //     notes: 'Short gloss explaining the predicates for this lemma.',
+  //   },
+  // ],
+};
+
 const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
   E1D1: PREDICATE_LOGIC_CLUSTER_ENCODING,
   E1D2: PREDICATE_LOGIC_CLUSTER_ENCODING,
@@ -1393,6 +1426,56 @@ function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1PostulatesPart1(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'postulate') continue;
+
+    const encodings = LOGIC_FOL_V1_POSTULATES_PART1[item.id];
+    if (!encodings || encodings.length === 0) {
+      console.warn(`[Logic WARN] No FOL v1 postulate encoding for ${item.id} (${item.ref}).`);
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Remove any existing FOL v1 encodings for this item before inserting the canonical ones.
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
+function applyFOLv1LemmasPart1(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'lemma') continue;
+
+    const encodings = LOGIC_FOL_V1_LEMMAS_PART1[item.id];
+    if (!encodings || encodings.length === 0) {
+      console.warn(`[Logic WARN] No FOL v1 lemma encoding for ${item.id} (${item.ref}).`);
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    // Remove any existing FOL v1 encodings for this item before inserting the canonical ones.
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
 function applyPredicateLogicClusterForPart1Definitions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
     if (item.part !== 1 || item.kind !== 'definition') continue;
@@ -1515,10 +1598,13 @@ function buildEthicsCorpus(): EthicsCorpus {
 
   enrichE1D1(corpus);
   applyCorpusEnrichments(corpus);
+
+  // Logic: Part I families in a stable order
   applyFOLv1DefinitionsPart1(corpus);
   applyPredicateLogicClusterForPart1Definitions(corpus);
-  // Attach FOL v1 encodings for Part I axioms and corollaries
   applyFOLv1AxiomsPart1(corpus);
+  applyFOLv1PostulatesPart1(corpus);
+  applyFOLv1LemmasPart1(corpus);
   applyFOLv1CorollariesPart1(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
