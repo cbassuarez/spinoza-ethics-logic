@@ -1751,14 +1751,18 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
       continue;
     }
 
-    if (lastProposition > 0 && /(COROLLAR(Y|IES)|COROLL\.)/.test(upper)) {
-      const inlineCorRegex =
-        /(Corollaries?|Cor\.)\s*([IVXLCDM]+(?:\s+AND\s+[IVXLCDM]+)?)?\.?\s*[-–—:]?\s*/gi;
-      const matches = [...text.matchAll(inlineCorRegex)];
-      if (matches.length > 0) {
-        let cursor = 0;
-        for (let i = 0; i < matches.length; i += 1) {
-          const match = matches[i];
+      if (lastProposition > 0 && /(COROLLAR(Y|IES)|COROLL\.)/.test(upper)) {
+                const inlineCorRegex =
+                      /(Corollaries?|Cor\.)\s*([IVXLCDM]+(?:\s+AND\s+[IVXLCDM]+)?)?\.?\s*[-–—:]?\s*/gi;
+               const matches: RegExpExecArray[] = [];
+                let inlineMatch: RegExpExecArray | null;
+                while ((inlineMatch = inlineCorRegex.exec(text)) !== null) {
+                      matches.push(inlineMatch);
+                    }
+                if (matches.length > 0) {
+                      let cursor = 0;
+                      for (let i = 0; i < matches.length; i += 1) {
+                            const match = matches[i];
           const start = match.index ?? 0;
           const end = start + match[0].length;
           const leading = text.slice(cursor, start).trim();
