@@ -6,6 +6,7 @@ import type {
   Dependency,
   EthicsCorpus,
   EthicsItem,
+  LogicEncoding,
   ProofInfo,
 } from '../src/data/types';
 
@@ -83,6 +84,122 @@ const CONCEPT_RULES: ConceptRule[] = [
     patterns: [/\bfreedom\b/i, /\bliber(ty|a|um)\b/i],
   },
 ];
+
+const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
+  // E1D1: Self-caused (causa sui)
+  E1D1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{CausaSui}(x) \\leftrightarrow \\operatorname{EssenceInvolvesExistence}(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: CausaSui(x) <-> EssenceInvolvesExistence(x)',
+      notes:
+        'CausaSui(x): x is self-caused. EssenceInvolvesExistence(x): x\'s essence involves existence / its nature cannot be conceived except as existing.',
+    },
+  ],
+
+  // E1D2: Finite in its kind
+  E1D2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{FiniteInKind}(x) \\leftrightarrow \\exists y\\, (\\operatorname{SameNature}(y, x) \\land \\operatorname{Limits}(y, x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: FiniteInKind(x) <-> exists y: SameNature(y, x) & Limits(y, x)',
+      notes:
+        'FiniteInKind(x): x is finite in its kind. SameNature(y, x): y shares the same nature as x. Limits(y, x): y bounds or limits x\'s nature.',
+    },
+  ],
+
+  // E1D3: Substance
+  E1D3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{Substance}(x) \\leftrightarrow (\\operatorname{InSelf}(x) \\land \\operatorname{ConceivedThroughSelf}(x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Substance(x) <-> (InSelf(x) & ConceivedThroughSelf(x))',
+      notes:
+        'Substance(x): x is a substance. InSelf(x): x exists in itself. ConceivedThroughSelf(x): x is conceived through itself (its concept does not require another).',
+    },
+  ],
+
+  // E1D4: Attribute
+  E1D4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall a\\, (\\operatorname{Attribute}(a) \\leftrightarrow \\exists s\\, (\\operatorname{Substance}(s) \\land \\operatorname{ConstitutesEssenceOf}(a, s) \\land \\operatorname{IntellectPerceivesAsEssence}(a, s)))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall a: Attribute(a) <-> exists s: Substance(s) & ConstitutesEssenceOf(a, s) & IntellectPerceivesAsEssence(a, s)',
+      notes:
+        'Attribute(a): a is an attribute. ConstitutesEssenceOf(a, s): a expresses or constitutes the essence of substance s. IntellectPerceivesAsEssence(a, s): the intellect perceives a as the essence of s.',
+    },
+  ],
+
+  // E1D5: Mode
+  E1D5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{Mode}(x) \\leftrightarrow (\\operatorname{InAnother}(x) \\land \\operatorname{ConceivedThroughAnother}(x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Mode(x) <-> (InAnother(x) & ConceivedThroughAnother(x))',
+      notes:
+        'Mode(x): x is a mode (affection). InAnother(x): x exists in another thing. ConceivedThroughAnother(x): x is conceived through another thing.',
+    },
+  ],
+
+  // E1D6: God
+  E1D6: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{God}(x) \\leftrightarrow (\\operatorname{Substance}(x) \\land \\operatorname{AbsolutelyInfinite}(x) \\land \\forall a\\, ((\\operatorname{Attribute}(a) \\land \\operatorname{BelongsTo}(a, x)) \\rightarrow \\operatorname{ExpressesInfiniteEssence}(a, x))))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall x: God(x) <-> (Substance(x) & AbsolutelyInfinite(x) & forall a: (Attribute(a) & BelongsTo(a, x) -> ExpressesInfiniteEssence(a, x)))',
+      notes:
+        'God(x): x is God. AbsolutelyInfinite(x): x has absolutely infinite attributes. BelongsTo(a, x): attribute a belongs to x. ExpressesInfiniteEssence(a, x): a expresses the eternal and infinite essence of x.',
+    },
+  ],
+
+  // E1D7: Free
+  E1D7: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{Free}(x) \\leftrightarrow (\\operatorname{ExistsFromOwnNature}(x) \\land \\operatorname{ActsFromOwnNature}(x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Free(x) <-> (ExistsFromOwnNature(x) & ActsFromOwnNature(x))',
+      notes:
+        'Free(x): x is free. ExistsFromOwnNature(x): x exists solely from the necessity of its own nature. ActsFromOwnNature(x): x is determined to act by itself alone (not by external compulsion).',
+    },
+  ],
+
+  // E1D8: Eternal
+  E1D8: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '\\forall x\\, (\\operatorname{Eternal}(x) \\leftrightarrow (\\operatorname{ExistenceFromDefinition}(x) \\land \\operatorname{ExcludesTime}(x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Eternal(x) <-> (ExistenceFromDefinition(x) & ExcludesTime(x))',
+      notes:
+        'Eternal(x): x is eternal. ExistenceFromDefinition(x): x\'s existence follows solely from its definition. ExcludesTime(x): x\'s existence is conceived without relation to time (atemporally).',
+    },
+  ],
+};
 
 type ParsedItem = {
   part: number;
@@ -847,6 +964,28 @@ function applyCorpusEnrichments(corpus: EthicsCorpus): void {
   }
 }
 
+function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'definition') continue;
+
+    const encodings = LOGIC_FOL_V1_DEFINITIONS_PART1[item.id];
+    if (!encodings || encodings.length === 0) {
+      console.warn(`[Logic WARN] No FOL v1 definition encoding for ${item.id} (${item.ref}).`);
+      continue;
+    }
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    item.logic = item.logic.filter((enc) => !(enc.system === 'FOL' && enc.version === 'v1'));
+
+    for (const enc of encodings) {
+      item.logic.push(enc);
+    }
+  }
+}
+
 function buildEthicsCorpus(): EthicsCorpus {
   ensureRawFilesExist();
   const englishHtml = loadFile(RAW_ENGLISH_PATH);
@@ -909,6 +1048,7 @@ function buildEthicsCorpus(): EthicsCorpus {
 
   enrichE1D1(corpus);
   applyCorpusEnrichments(corpus);
+  applyFOLv1DefinitionsPart1(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
 
@@ -945,6 +1085,15 @@ function validateCorpus(corpus: EthicsCorpus): void {
       throw new Error(`Missing proof status on item ${item.id}`);
     }
   }
+
+  const e1d1 = corpus.find((it) => it.id === 'E1D1');
+  if (e1d1) {
+    const folV1 = e1d1.logic.filter((enc) => enc.system === 'FOL' && enc.version === 'v1');
+    if (folV1.length === 0) {
+      throw new Error('E1D1 should have at least one FOL v1 encoding.');
+    }
+  }
+
   if (corpus.length < 200) {
     console.warn(`Warning: corpus only has ${corpus.length} items; expected more (check parsing)`);
   }
