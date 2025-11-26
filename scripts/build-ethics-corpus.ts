@@ -15,6 +15,27 @@ const CANONICAL_LATIN_SOURCE_URL =
 const CANONICAL_ENGLISH_SOURCE_URL =
   'https://www.marxists.org/reference/subject/philosophy/works/ne/ethics.htm';
 
+const PREDICATE_BLOCK_PART1_DEFS = [
+  'predicate logic',
+  'S(G)∧E(G)∧∀α[A(G,α)→Ess(α)]',
+  '∀x∀y[(S(x)∧S(y)∧∃α(A(x,α)∧A(y,α)))→x=y]',
+  '→∀x[(S(x)∧x≠G)→¬E(x)]',
+  '→∀x[(S(x)∧x≠G)→¬C(x)]',
+  '∴∀x[S(x)→x=G]',
+  '∴∃!G[S(G)]',
+  '∴∀x[(Ext(x)∨Cog(x))→∃α((A(G,α)∧(x=α))∨M(x,α))]',
+].join('\n');
+
+const PREDICATE_LOGIC_CLUSTER_ENCODING: LogicEncoding = {
+  system: 'FOL',
+  version: 'v1',
+  display: PREDICATE_BLOCK_PART1_DEFS,
+  encoding_format: 'derivation-block',
+  encoding: PREDICATE_BLOCK_PART1_DEFS,
+  notes:
+    'Cluster-level derivation for Part I definitions (God, substance, attributes, modes) using S,G,E,A,Ess,M,Ext,Cog,C,… notation.',
+};
+
 const RAW_ENGLISH_PATH = path.join(process.cwd(), 'data', 'raw', 'english-ethics.html');
 const RAW_LATIN_PATH = path.join(process.cwd(), 'data', 'raw', 'latin-part1.html');
 const OUTPUT_PATH = path.join(process.cwd(), 'src', 'data', 'ethics.json');
@@ -276,6 +297,17 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
         'Eternal(x): x is eternal. ExistenceFromDefinition(x): x\'s existence follows solely from its definition. ExcludesTime(x): x\'s existence is conceived without relation to time (atemporally).',
     },
   ],
+};
+
+const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
+  E1D1: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D2: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D3: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D4: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D5: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D6: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D7: PREDICATE_LOGIC_CLUSTER_ENCODING,
+  E1D8: PREDICATE_LOGIC_CLUSTER_ENCODING,
 };
 
 type ParsedItem = {
@@ -1081,6 +1113,31 @@ function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
   }
 }
 
+function applyPredicateLogicClusterForPart1Definitions(corpus: EthicsCorpus): void {
+  for (const item of corpus) {
+    if (item.part !== 1 || item.kind !== 'definition') continue;
+
+    const extra = PREDICATE_LOGIC_CLUSTER_PART1_DEFS[item.id];
+    if (!extra) continue;
+
+    if (!Array.isArray(item.logic)) {
+      item.logic = [];
+    }
+
+    const alreadyPresent = item.logic.some(
+      (enc) =>
+        enc.system === extra.system &&
+        enc.version === extra.version &&
+        enc.encoding_format === extra.encoding_format &&
+        enc.display === extra.display
+    );
+
+    if (!alreadyPresent) {
+      item.logic.push(extra);
+    }
+  }
+}
+
 function applyProofsAndDependenciesForPart1P1toP10(corpus: EthicsCorpus): void {
   const corpusIds = new Set<string>(corpus.map((it) => it.id));
 
@@ -1179,6 +1236,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   enrichE1D1(corpus);
   applyCorpusEnrichments(corpus);
   applyFOLv1DefinitionsPart1(corpus);
+  applyPredicateLogicClusterForPart1Definitions(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
   const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
