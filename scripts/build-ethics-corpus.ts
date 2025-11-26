@@ -43,12 +43,27 @@ type ParsedEnglishItem = ParsedItem & {
 
 type LatinMap = Map<string, string>;
 
+type LatinItemKind =
+  | 'definition'
+  | 'axiom'
+  | 'postulate'
+  | 'proposition'
+  | 'scholium'
+  | 'corollary'
+  | 'lemma';
+
+type LatinHeadingInfo = {
+  kind: LatinItemKind;
+  index: number;
+};
+
 function romanToInt(roman: string): number {
   const map: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
   let total = 0;
   let prev = 0;
   for (const char of roman.toUpperCase()) {
-    const value = map[char] ?? 0;
+    const value = map[char];
+    if (!value) return 0;
     if (value > prev) {
       total += value - 2 * prev;
     } else {
@@ -95,6 +110,91 @@ function normalizeParagraphs(parts: string[]): string {
     .map((p) => normalizeBlock(p))
     .filter((p) => p.length > 0);
   return cleaned.join('\n\n');
+}
+
+function normalizeLatinHeading(raw: string): string {
+  return raw
+    .toUpperCase()
+    .replace(/\s+/g, ' ')
+    .replace(/[\.\:\;]+$/g, '')
+    .trim();
+}
+
+function parseLatinHeadingInfo(normalized: string): LatinHeadingInfo | null {
+  const match = normalized.match(
+    /^(DEFINITIO|AXIOMA|PROPOSITIO|SCHOLIUM|COROLLARIUM|POSTULATUM)\s*([IVXLCDM]+)?$/
+  );
+  if (!match) return null;
+  const [, tag, roman] = match;
+  const index = roman ? romanToInt(roman) : 0;
+
+  let kind: LatinItemKind;
+  switch (tag) {
+    case 'DEFINITIO':
+      kind = 'definition';
+      break;
+    case 'AXIOMA':
+      kind = 'axiom';
+      break;
+    case 'PROPOSITIO':
+      kind = 'proposition';
+      break;
+    case 'SCHOLIUM':
+      kind = 'scholium';
+      break;
+    case 'COROLLARIUM':
+      kind = 'corollary';
+      break;
+    case 'POSTULATUM':
+      kind = 'postulate';
+      break;
+    default:
+      return null;
+  }
+
+  return { kind, index };
+}
+
+function detectLatinSection(normalized: string): LatinItemKind | null {
+  if (normalized === 'DEFINITIONES') return 'definition';
+  if (normalized === 'AXIOMATA') return 'axiom';
+  if (normalized === 'POSTULATA') return 'postulate';
+  return null;
+}
+
+function stripLatinHeading(raw: string, heading: LatinHeadingInfo): string {
+  const headingWordMap: Record<LatinItemKind, string> = {
+    definition: 'DEFINITIO',
+    axiom: 'AXIOMA',
+    postulate: 'POSTULATUM',
+    proposition: 'PROPOSITIO',
+    scholium: 'SCHOLIUM',
+    corollary: 'COROLLARIUM',
+    lemma: 'LEMMA',
+  };
+
+  const headingWord = headingWordMap[heading.kind];
+  const roman = heading.index > 0 ? intToRoman(heading.index) : '';
+  const candidates: RegExp[] = [];
+
+  if (headingWord && roman) {
+    candidates.push(new RegExp(`^\s*${headingWord}\s+${roman}[\s\.:;\-–—]*`, 'i'));
+  }
+  if (headingWord) {
+    candidates.push(new RegExp(`^\s*${headingWord}\s*[\s\.:;\-–—]*`, 'i'));
+  }
+  if (roman) {
+    candidates.push(new RegExp(`^\s*${roman}[\s\.:;\-–—]*`, 'i'));
+  }
+
+  let result = raw.trim();
+  for (const pattern of candidates) {
+    if (pattern.test(result)) {
+      result = result.replace(pattern, '').trim();
+      break;
+    }
+  }
+  return result.trim();
 }
 
 function mergeEnglishSegments(segments: ParsedEnglishItem[]): ParsedEnglishItem[] {
@@ -377,6 +477,7 @@ function parseLatinPart1(html: string): ParsedItem[] {
   const items: ParsedItem[] = [];
 
   let current: ParsedItem | null = null;
+  let currentSection: LatinItemKind | null = null;
   let lastProposition = 0;
   let corollaryIndex = 0;
   let scholiumIndex = 0;
@@ -388,76 +489,71 @@ function parseLatinPart1(html: string): ParsedItem[] {
     }
   };
 
-  const startItem = (segment: ParsedItem) => {
-    pushCurrent();
-    if (segment.kind === 'proposition') {
-      lastProposition = segment.number;
-      corollaryIndex = 0;
-      scholiumIndex = 0;
-    }
-    current = { ...segment, textParts: [...segment.textParts] };
-  };
-
   for (const raw of blocks) {
     const text = raw.trim();
     if (!text) continue;
-    const upper = text.toUpperCase();
+    const normalized = normalizeLatinHeading(text);
+    const headingCandidate = normalized.split(':')[0];
 
-    const defMatch = upper.match(/^DEFINITIO\s*([IVXLCDM]+)/);
-    if (defMatch) {
-      startItem({ part: 1, kind: 'definition', number: romanToInt(defMatch[1]), textParts: [] });
+    const section = detectLatinSection(normalized);
+    if (section) {
+      pushCurrent();
+      currentSection = section;
       continue;
     }
 
-    const axiomMatch = upper.match(/^AXIOMA\s*([IVXLCDM]+)/);
-    if (axiomMatch) {
-      startItem({ part: 1, kind: 'axiom', number: romanToInt(axiomMatch[1]), textParts: [] });
-      continue;
+    let headingInfo = parseLatinHeadingInfo(normalized) ?? parseLatinHeadingInfo(headingCandidate);
+
+    if (!headingInfo && currentSection) {
+      const simple = normalized.match(/^([IVXLCDM]+)(?=\s|\.|\:|\)|$)/);
+      if (simple) {
+        headingInfo = { kind: currentSection, index: romanToInt(simple[1]) };
+      }
     }
 
-    const postMatch = upper.match(/^POSTULATUM\s*([IVXLCDM]+)/);
-    if (postMatch) {
-      startItem({ part: 1, kind: 'postulate', number: romanToInt(postMatch[1]), textParts: [] });
-      continue;
-    }
+    if (headingInfo) {
+      pushCurrent();
 
-    const propMatch = upper.match(/^PROPOSITIO\s*([IVXLCDM]+)/);
-    if (propMatch) {
-      startItem({ part: 1, kind: 'proposition', number: romanToInt(propMatch[1]), textParts: [] });
-      continue;
-    }
+      if (headingInfo.kind === 'proposition') {
+        lastProposition = headingInfo.index;
+        corollaryIndex = 0;
+        scholiumIndex = 0;
+      }
 
-    const corMatch = upper.match(/^COROLLARIUM\s*([IVXLCDM]+)?/);
-    if (corMatch) {
-      corollaryIndex += 1;
-      const number = corMatch[1] ? romanToInt(corMatch[1]) : corollaryIndex;
-      startItem({
+      if (headingInfo.kind === 'corollary') {
+        corollaryIndex = headingInfo.index > 0 ? headingInfo.index : corollaryIndex + 1;
+      } else if (headingInfo.kind === 'scholium') {
+        scholiumIndex = headingInfo.index > 0 ? headingInfo.index : scholiumIndex + 1;
+      }
+
+      const number = (() => {
+        switch (headingInfo.kind) {
+          case 'corollary':
+            return corollaryIndex || headingInfo.index;
+          case 'scholium':
+            return scholiumIndex || headingInfo.index;
+          default:
+            return headingInfo.index || 0;
+        }
+      })();
+
+      const segment: ParsedItem = {
         part: 1,
-        kind: 'corollary',
+        kind: headingInfo.kind as ParsedItem['kind'],
         number,
-        ofProposition: lastProposition,
-        subIndex: number,
+        ofProposition:
+          headingInfo.kind === 'corollary' || headingInfo.kind === 'scholium' ? lastProposition || undefined : undefined,
+        subIndex:
+          headingInfo.kind === 'corollary' || headingInfo.kind === 'scholium' ? number || undefined : undefined,
         textParts: [],
-      });
-      continue;
-    }
+      };
 
-    if (upper.startsWith('SCHOLIUM')) {
-      scholiumIndex += 1;
-      startItem({
-        part: 1,
-        kind: 'scholium',
-        number: scholiumIndex,
-        ofProposition: lastProposition,
-        subIndex: scholiumIndex,
-        textParts: [],
-      });
-      continue;
-    }
+      const body = stripLatinHeading(text, headingInfo);
+      if (body) {
+        segment.textParts.push(body);
+      }
 
-    const lemmaMatch = upper.match(/^LEMMA\s*([IVXLCDM]+)/);
-    if (lemmaMatch) {
-      startItem({ part: 1, kind: 'lemma', number: romanToInt(lemmaMatch[1]), textParts: [] });
+      current = segment;
       continue;
     }
 
@@ -537,13 +633,32 @@ function makeLabel(segment: ParsedItem): string {
   }
 }
 
-function buildLatinMap(latinSegments: ParsedItem[]): LatinMap {
+function buildLatinMapForPart1(rawHtml: string): LatinMap {
+  const latinSegments = mergeParsedSegments(parseLatinPart1(rawHtml));
   const map: LatinMap = new Map();
+
   for (const seg of latinSegments) {
+    if (seg.part !== 1) continue;
+
+    if (seg.number <= 0) {
+      console.warn(`[Latin WARN] Skipping ${seg.kind} with no numeral: ${JSON.stringify(seg.textParts[0] ?? '')}`);
+      continue;
+    }
+
+    if ((seg.kind === 'corollary' || seg.kind === 'scholium') && !seg.ofProposition) {
+      console.warn(
+        `[Latin WARN] Could not map Latin ${seg.kind} ${seg.number} because parent proposition is unknown.`
+      );
+      continue;
+    }
+
     const id = makeId(seg);
     const text = normalizeParagraphs(seg.textParts);
-    map.set(id, text);
+    const existing = map.get(id);
+    const combined = existing ? [existing, text].filter(Boolean).join('\n\n') : text;
+    map.set(id, combined);
   }
+
   return map;
 }
 
@@ -564,8 +679,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   const latinHtml = loadFile(RAW_LATIN_PATH);
 
   const englishSegments = mergeEnglishSegments(parseEnglishEthics(englishHtml));
-  const latinSegments = mergeParsedSegments(parseLatinPart1(latinHtml));
-  const latinMap = buildLatinMap(latinSegments);
+  const latinMap = buildLatinMapForPart1(latinHtml);
 
   const corpus: EthicsCorpus = [];
   let currentPart = 0;
@@ -599,7 +713,7 @@ function buildEthicsCorpus(): EthicsCorpus {
       order,
       text: {
         original_language: 'Latin',
-        original: latinMap.get(id) ?? '',
+        original: seg.part === 1 ? latinMap.get(id) ?? '' : '',
         translation: seg.translation,
       },
       concepts: [],
@@ -620,6 +734,20 @@ function buildEthicsCorpus(): EthicsCorpus {
   }
 
   enrichE1D1(corpus);
+  const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
+  for (const id of latinMap.keys()) {
+    if (!englishIds.has(id)) {
+      console.warn(`[Latin WARN] Latin map has entry for ${id} but no matching English item.`);
+    }
+  }
+
+  for (const item of corpus) {
+    if (item.part === 1) {
+      if (!item.text.original || !item.text.original.trim()) {
+        console.warn(`[Latin WARN] No Latin text for ${item.id} (${item.ref}).`);
+      }
+    }
+  }
   return corpus;
 }
 
