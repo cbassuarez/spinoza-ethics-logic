@@ -189,12 +189,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
     {
       system: 'FOL',
       version: 'v1',
-      display:
-        '\\forall x\\, (\\operatorname{CausaSui}(x) \\leftrightarrow \\operatorname{EssenceInvolvesExistence}(x))',
+      display: '\\forall x\\, (C(x) \\leftrightarrow E(x))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: CausaSui(x) <-> EssenceInvolvesExistence(x)',
+      encoding: 'forall x: C(x) <-> E(x)',
       notes:
-        'CausaSui(x): x is self-caused. EssenceInvolvesExistence(x): x\'s essence involves existence / its nature cannot be conceived except as existing.',
+        'C(x): x is causa sui (self-caused). E(x): x\'s essence involves existence (its nature necessitates existence).',
     },
   ],
 
@@ -204,11 +203,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{FiniteInKind}(x) \\leftrightarrow \\exists y\\, (\\operatorname{SameNature}(y, x) \\land \\operatorname{Limits}(y, x)))',
+        '\\forall x\\, (F(x) \\leftrightarrow \\exists y\\, (Same(x, y) \\land Limits(y, x)))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: FiniteInKind(x) <-> exists y: SameNature(y, x) & Limits(y, x)',
+      encoding: 'forall x: F(x) <-> exists y: Same(x, y) & Limits(y, x)',
       notes:
-        'FiniteInKind(x): x is finite in its kind. SameNature(y, x): y shares the same nature as x. Limits(y, x): y bounds or limits x\'s nature.',
+        'F(x): x is finite in its kind. Same(x, y): x and y share the same nature. Limits(y, x): y bounds or limits x\'s nature.',
     },
   ],
 
@@ -218,11 +217,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{Substance}(x) \\leftrightarrow (\\operatorname{InSelf}(x) \\land \\operatorname{ConceivedThroughSelf}(x)))',
+        '\\forall x\\, (S(x) \\leftrightarrow (InSelf(x) \\land SelfConceived(x)))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: Substance(x) <-> (InSelf(x) & ConceivedThroughSelf(x))',
+      encoding: 'forall x: S(x) <-> (InSelf(x) & SelfConceived(x))',
       notes:
-        'Substance(x): x is a substance. InSelf(x): x exists in itself. ConceivedThroughSelf(x): x is conceived through itself (its concept does not require another).',
+        'S(x): x is a substance. InSelf(x): x exists in itself. SelfConceived(x): x is conceived through itself (its concept does not require another).',
     },
   ],
 
@@ -232,12 +231,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall a\\, (\\operatorname{Attribute}(a) \\leftrightarrow \\exists s\\, (\\operatorname{Substance}(s) \\land \\operatorname{ConstitutesEssenceOf}(a, s) \\land \\operatorname{IntellectPerceivesAsEssence}(a, s)))',
+        '\\forall \\alpha\\, (Attr(\\alpha) \\leftrightarrow \\exists s\\, (S(s) \\land A(s, \\alpha) \\land Ess(\\alpha)))',
       encoding_format: 'custom-fol',
-      encoding:
-        'forall a: Attribute(a) <-> exists s: Substance(s) & ConstitutesEssenceOf(a, s) & IntellectPerceivesAsEssence(a, s)',
+      encoding: 'forall alpha: Attr(alpha) <-> exists s: S(s) & A(s, alpha) & Ess(alpha)',
       notes:
-        'Attribute(a): a is an attribute. ConstitutesEssenceOf(a, s): a expresses or constitutes the essence of substance s. IntellectPerceivesAsEssence(a, s): the intellect perceives a as the essence of s.',
+        'Attr(α): α is an attribute. S(s): s is a substance. A(s, α): α belongs to substance s. Ess(α): α expresses or constitutes the essence of the substance.',
     },
   ],
 
@@ -247,11 +245,12 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{Mode}(x) \\leftrightarrow (\\operatorname{InAnother}(x) \\land \\operatorname{ConceivedThroughAnother}(x)))',
+        '\\forall m\\,\\forall s\\,\\forall \\alpha\\, (M(m, \\alpha) \\leftrightarrow (A(s, \\alpha) \\land InOther(m, s) \\land ConceivedThrough(m, s)))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: Mode(x) <-> (InAnother(x) & ConceivedThroughAnother(x))',
+      encoding:
+        'forall m forall s forall alpha: M(m, alpha) <-> (A(s, alpha) & InOther(m, s) & ConceivedThrough(m, s))',
       notes:
-        'Mode(x): x is a mode (affection). InAnother(x): x exists in another thing. ConceivedThroughAnother(x): x is conceived through another thing.',
+        'M(m, α): m is a mode under attribute α. A(s, α): α is an attribute of substance s. InOther(m, s): m exists in s. ConceivedThrough(m, s): m is conceived through s.',
     },
   ],
 
@@ -261,12 +260,12 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{God}(x) \\leftrightarrow (\\operatorname{Substance}(x) \\land \\operatorname{AbsolutelyInfinite}(x) \\land \\forall a\\, ((\\operatorname{Attribute}(a) \\land \\operatorname{BelongsTo}(a, x)) \\rightarrow \\operatorname{ExpressesInfiniteEssence}(a, x))))',
+        '\\forall x\\, (G(x) \\leftrightarrow (S(x) \\land InfAtt(x) \\land \\forall \\alpha\\, (A(x, \\alpha) \\rightarrow Ess(\\alpha))))',
       encoding_format: 'custom-fol',
       encoding:
-        'forall x: God(x) <-> (Substance(x) & AbsolutelyInfinite(x) & forall a: (Attribute(a) & BelongsTo(a, x) -> ExpressesInfiniteEssence(a, x)))',
+        'forall x: G(x) <-> (S(x) & InfAtt(x) & forall alpha: (A(x, alpha) -> Ess(alpha)))',
       notes:
-        'God(x): x is God. AbsolutelyInfinite(x): x has absolutely infinite attributes. BelongsTo(a, x): attribute a belongs to x. ExpressesInfiniteEssence(a, x): a expresses the eternal and infinite essence of x.',
+        'G(x): x is God. S(x): x is a substance. InfAtt(x): x has absolutely infinite attributes. A(x, α): attribute α belongs to x. Ess(α): α expresses the essence of the substance.',
     },
   ],
 
@@ -276,11 +275,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{Free}(x) \\leftrightarrow (\\operatorname{ExistsFromOwnNature}(x) \\land \\operatorname{ActsFromOwnNature}(x)))',
+        '\\forall x\\, (Free(x) \\leftrightarrow (FromNature(x) \\land ActsFromNature(x)))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: Free(x) <-> (ExistsFromOwnNature(x) & ActsFromOwnNature(x))',
+      encoding: 'forall x: Free(x) <-> (FromNature(x) & ActsFromNature(x))',
       notes:
-        'Free(x): x is free. ExistsFromOwnNature(x): x exists solely from the necessity of its own nature. ActsFromOwnNature(x): x is determined to act by itself alone (not by external compulsion).',
+        'Free(x): x is free. FromNature(x): x exists solely from the necessity of its own nature. ActsFromNature(x): x is determined to act by itself alone (not by external compulsion).',
     },
   ],
 
@@ -290,11 +289,11 @@ const LOGIC_FOL_V1_DEFINITIONS_PART1: Record<string, LogicEncoding[]> = {
       system: 'FOL',
       version: 'v1',
       display:
-        '\\forall x\\, (\\operatorname{Eternal}(x) \\leftrightarrow (\\operatorname{ExistenceFromDefinition}(x) \\land \\operatorname{ExcludesTime}(x)))',
+        '\\forall x\\, (Eternal(x) \\leftrightarrow (DefImpliesExistence(x) \\land Atemporal(x)))',
       encoding_format: 'custom-fol',
-      encoding: 'forall x: Eternal(x) <-> (ExistenceFromDefinition(x) & ExcludesTime(x))',
+      encoding: 'forall x: Eternal(x) <-> (DefImpliesExistence(x) & Atemporal(x))',
       notes:
-        'Eternal(x): x is eternal. ExistenceFromDefinition(x): x\'s existence follows solely from its definition. ExcludesTime(x): x\'s existence is conceived without relation to time (atemporally).',
+        'Eternal(x): x is eternal. DefImpliesExistence(x): x\'s existence follows solely from its definition. Atemporal(x): x\'s existence is conceived without relation to time.',
     },
   ],
 };
