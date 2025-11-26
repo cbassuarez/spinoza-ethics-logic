@@ -28,6 +28,62 @@ const ALLOWED_KINDS: EthicsItem['kind'][] = [
   'lemma',
 ];
 
+type ConceptRule = {
+  concept: string;
+  patterns: RegExp[];
+};
+
+const CONCEPT_RULES: ConceptRule[] = [
+  {
+    concept: 'Substance',
+    patterns: [/substance\b/i, /\bsubstantia\b/i],
+  },
+  {
+    concept: 'Attribute',
+    patterns: [/attribute\b/i, /\battributum\b/i],
+  },
+  {
+    concept: 'Mode',
+    patterns: [/\bmode\b/i, /\bmodus\b/i],
+  },
+  {
+    concept: 'God',
+    patterns: [/\bgod\b/i, /\bdeus\b/i],
+  },
+  {
+    concept: 'Causa sui',
+    patterns: [/self-caused\b/i, /\bcausa\s+sui\b/i],
+  },
+  {
+    concept: 'Essence',
+    patterns: [/\bessence\b/i, /\bessentia\b/i],
+  },
+  {
+    concept: 'Existence',
+    patterns: [/\bexistence\b/i, /\bexistentia\b/i, /\bexistens\b/i],
+  },
+  {
+    concept: 'Infinity',
+    patterns: [/\binfinite\b/i, /\binfinit(y|e)\b/i, /\binfinitum\b/i],
+  },
+  {
+    concept: 'Mind',
+    patterns: [/\bmind\b/i, /\bmens\b/i],
+  },
+  {
+    concept: 'Body',
+    patterns: [/\bbody\b/i, /\bcorpus\b/i],
+  },
+  {
+    concept: 'Power',
+    patterns: [/\bpower\b/i, /\bpotentia\b/i],
+  },
+  {
+    concept: 'Freedom',
+    patterns: [/\bfreedom\b/i, /\bliber(ty|a|um)\b/i],
+  },
+];
+
 type ParsedItem = {
   part: number;
   kind: EthicsItem['kind'];
@@ -673,6 +729,124 @@ function enrichE1D1(items: EthicsItem[]): void {
     'By that which is self-caused, I mean that of which the essence involves existence, or that of which the nature is only conceivable as existent.';
 }
 
+function tagConcepts(item: EthicsItem): string[] {
+  const haystack = `${item.text.translation} ${item.text.original}`.toLowerCase();
+  const tags: string[] = [];
+
+  for (const rule of CONCEPT_RULES) {
+    if (rule.patterns.some((re) => re.test(haystack))) {
+      tags.push(rule.concept);
+    }
+  }
+
+  const seen = new Set<string>();
+  const uniqueTags: string[] = [];
+  for (const tag of tags) {
+    if (!seen.has(tag)) {
+      seen.add(tag);
+      uniqueTags.push(tag);
+    }
+  }
+
+  return uniqueTags;
+}
+
+function inferDependencies(item: EthicsItem, corpusIds: Set<string>): Dependency[] {
+  const deps: Dependency[] = [];
+  const text = `${item.text.translation} ${item.text.original}`.toUpperCase();
+
+  const addDep = (id: string, role: Dependency['role']) => {
+    if (!corpusIds.has(id)) return;
+    if (deps.some((d) => d.id === id)) return;
+    deps.push({ id, role });
+  };
+
+  const scan = (regex: RegExp, buildId: (n: number) => string, role: Dependency['role']) => {
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(text)) !== null) {
+      const raw = match[1];
+      const n = /^[0-9]+$/.test(raw) ? parseInt(raw, 10) : romanToInt(raw);
+      if (n > 0) {
+        const candidateId = buildId(n);
+        addDep(candidateId, role);
+      }
+    }
+  };
+
+  scan(/\bDEF\.?\s+([IVXLCDM]+|\d+)\b/g, (n) => `E${item.part}D${n}`, 'definition');
+  scan(/\bAX\.?\s+([IVXLCDM]+|\d+)\b/g, (n) => `E${item.part}Ax${n}`, 'axiom');
+  scan(/\bPROP\.?\s+([IVXLCDM]+|\d+)\b/g, (n) => `E${item.part}p${n}`, 'proposition');
+
+  return deps;
+}
+
+function defaultProof(item: EthicsItem): ProofInfo {
+  switch (item.kind) {
+    case 'definition':
+      return {
+        status: 'none',
+        sketch: 'Stipulative definition; no proof required.',
+      };
+    case 'axiom':
+    case 'postulate':
+      return {
+        status: 'none',
+        sketch: 'Axiom/postulate; accepted without proof.',
+      };
+    case 'proposition':
+    case 'corollary':
+    case 'scholium':
+    case 'lemma':
+    default:
+      return { status: 'none' };
+  }
+}
+
+function normalizeMeta(item: EthicsItem): EthicsItem['meta'] {
+  const meta = item.meta ?? {
+    status: 'draft',
+    contributors: [],
+    sources: [],
+  };
+
+  let status: 'draft' | 'reviewed' = meta.status === 'reviewed' ? 'reviewed' : 'draft';
+
+  if (item.id === 'E1D1') {
+    status = 'reviewed';
+  }
+
+  const contributors = Array.isArray(meta.contributors) ? meta.contributors : [];
+  const sources = Array.isArray(meta.sources) ? meta.sources : [];
+
+  return {
+    status,
+    contributors,
+    sources,
+  };
+}
+
+function applyCorpusEnrichments(corpus: EthicsCorpus): void {
+  const corpusIds = new Set<string>(corpus.map((it) => it.id));
+
+  for (const item of corpus) {
+    item.concepts = tagConcepts(item);
+
+    item.dependencies = item.dependencies || { uses: [] as Dependency[] };
+    item.dependencies.uses = inferDependencies(item, corpusIds);
+
+    const fallback = defaultProof(item);
+    if (!item.proof || !item.proof.status) {
+      item.proof = fallback;
+    } else if (!['none', 'sketch', 'formal'].includes(item.proof.status)) {
+      item.proof = fallback;
+    } else if (item.proof.status === 'none' && fallback.sketch && !item.proof.sketch) {
+      item.proof = { ...item.proof, sketch: fallback.sketch };
+    }
+
+    item.meta = normalizeMeta(item);
+  }
+}
+
 function buildEthicsCorpus(): EthicsCorpus {
   ensureRawFilesExist();
   const englishHtml = loadFile(RAW_ENGLISH_PATH);
@@ -734,17 +908,17 @@ function buildEthicsCorpus(): EthicsCorpus {
   }
 
   enrichE1D1(corpus);
-    const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
+  applyCorpusEnrichments(corpus);
 
-    latinMap.forEach((_text, id) => {
-        if (!englishIds.has(id)) {
-            console.warn(
-                `[Latin WARN] Latin map has entry for ${id} but no matching English item.`
-            );
-        }
-    });
+  const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
 
-    for (const item of corpus) {
+  latinMap.forEach((_text, id) => {
+    if (!englishIds.has(id)) {
+      console.warn(`[Latin WARN] Latin map has entry for ${id} but no matching English item.`);
+    }
+  });
+
+  for (const item of corpus) {
     if (item.part === 1) {
       if (!item.text.original || !item.text.original.trim()) {
         console.warn(`[Latin WARN] No Latin text for ${item.id} (${item.ref}).`);
@@ -766,6 +940,9 @@ function validateCorpus(corpus: EthicsCorpus): void {
     }
     if (!ALLOWED_KINDS.includes(item.kind)) {
       throw new Error(`Invalid kind on item ${item.id}: ${item.kind}`);
+    }
+    if (!item.proof || !item.proof.status) {
+      throw new Error(`Missing proof status on item ${item.id}`);
     }
   }
   if (corpus.length < 200) {
