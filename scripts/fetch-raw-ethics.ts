@@ -5,6 +5,36 @@ import https from 'node:https';
 import { execFile } from 'node:child_process';
 import { CANONICAL_ENGLISH_SOURCE_URL, CANONICAL_LATIN_SOURCE_URL } from '../src/data/constants.js';
 
+const RAW_DIR = path.join(process.cwd(), 'data', 'raw');
+
+const LATIN_PART_SOURCES = [
+  {
+    part: 1,
+    url: CANONICAL_LATIN_SOURCE_URL,
+    output: path.join(RAW_DIR, 'latin-part1.html'),
+  },
+  {
+    part: 2,
+    url: 'https://www.thelatinlibrary.com/spinoza.ethica2.html',
+    output: path.join(RAW_DIR, 'latin-part2.html'),
+  },
+  {
+    part: 3,
+    url: 'https://www.thelatinlibrary.com/spinoza.ethica3.html',
+    output: path.join(RAW_DIR, 'latin-part3.html'),
+  },
+  {
+    part: 4,
+    url: 'https://www.thelatinlibrary.com/spinoza.ethica4.html',
+    output: path.join(RAW_DIR, 'latin-part4.html'),
+  },
+  {
+    part: 5,
+    url: 'https://www.thelatinlibrary.com/spinoza.ethica5.html',
+    output: path.join(RAW_DIR, 'latin-part5.html'),
+  },
+] as const;
+
 // Simple helper to ensure directories exist
 function ensureDir(dir: string) {
   if (!fs.existsSync(dir)) {
@@ -68,12 +98,21 @@ async function fetchAndWrite(url: string, targetPath: string) {
   console.log(`Saved ${targetPath}`);
 }
 
+async function fetchLatinWithCurlFallback(source: (typeof LATIN_PART_SOURCES)[number]) {
+  const { part, url, output } = source;
+  const label = `Latin Part ${part}`;
+
+  console.log(`Fetching ${label} from ${url} ...`);
+  await fetchAndWrite(url, output);
+}
+
 async function main() {
-  const latinPath = path.join(process.cwd(), 'data', 'raw', 'latin-part1.html');
-  const englishPath = path.join(process.cwd(), 'data', 'raw', 'english-ethics.html');
+  const englishPath = path.join(RAW_DIR, 'english-ethics.html');
 
   console.log('Capturing raw Ethics HTML sources (for offline segmentation only)...');
-  await fetchAndWrite(CANONICAL_LATIN_SOURCE_URL, latinPath);
+  for (const source of LATIN_PART_SOURCES) {
+    await fetchLatinWithCurlFallback(source);
+  }
   await fetchAndWrite(CANONICAL_ENGLISH_SOURCE_URL, englishPath);
   console.log('Done. Review the raw HTML files and segment manually into structured JSON.');
 }

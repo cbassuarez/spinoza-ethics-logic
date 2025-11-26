@@ -1343,15 +1343,381 @@ const LOGIC_FOL_V1_LEMMAS_PART1: Record<string, LogicEncoding[]> = {
   // ],
 };
 
+const LOGIC_FOL_V1_DEFINITIONS_PART2: Record<string, LogicEncoding[]> = {
+  E2D1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀b (Body(b) ↔ (M(b,Ext) ∧ ExpressesAs(b,G,Ext)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall b: Body(b) <-> (M(b, Ext) & ExpressesAs(b, G, Ext))',
+      notes:
+        'Body(b): a finite mode of extension (Ext) expressing God (G) in a determinate way; ExpressesAs captures the finite expression of an attribute.',
+    },
+  ],
+
+  E2D2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀φ (EssPart(φ,x) ↔ ((Given(φ,x) → Exists(x)) ∧ (Removed(φ,x) → ¬Exists(x))))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall x forall phi: EssPart(phi, x) <-> ((Given(phi, x) -> Exists(x)) & (Removed(phi, x) -> ~Exists(x)))',
+      notes:
+        'EssPart(φ,x): φ belongs to the essence of x; existence tracks the presence or absence of φ (Given/Removed).',
+    },
+  ],
+
+  E2D3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Idea(i) ↔ ∃m (Mind(m) ∧ Forms(m,i) ∧ ThinksOf(m,i))',
+      encoding_format: 'custom-fol',
+      encoding: 'Idea(i) <-> exists m: Mind(m) & Forms(m, i) & ThinksOf(m, i)',
+      notes:
+        'Idea(i): a conception formed by a mind (Mind) as a thinking thing (Forms/ThinksOf).',
+    },
+  ],
+
+  E2D4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'AdequateIdea(i) ↔ (Idea(i) ∧ TrueMarks(i))',
+      encoding_format: 'custom-fol',
+      encoding: 'AdequateIdea(i) <-> (Idea(i) & TrueMarks(i))',
+      notes:
+        'AdequateIdea(i): an idea bearing the intrinsic marks of truth (TrueMarks) considered in itself.',
+    },
+  ],
+
+  E2D5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Duration(x) ↔ (ExistsContinuously(x) ∧ Indefinite(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'Duration(x) <-> (ExistsContinuously(x) & Indefinite(x))',
+      notes:
+        'Duration(x): indefinite continuance of existence (ExistsContinuously) not fixed by the cause (Indefinite).',
+    },
+  ],
+
+  E2D6: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (Reality(x) ↔ Perfection(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Reality(x) <-> Perfection(x)',
+      notes: 'Reality and perfection are interchangeable predicates.',
+    },
+  ],
+
+  E2D7: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Particular(x) ↔ (Finite(x) ∧ Conditioned(x)) ∨ (JointAction(x) ∧ SharedCause(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'Particular(x) <-> ((Finite(x) & Conditioned(x)) | (JointAction(x) & SharedCause(x)))',
+      notes:
+        'Particular(x): finite, conditioned individuals or coordinated collections (JointAction/SharedCause) treated as one.',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_DEFINITIONS_PART3: Record<string, LogicEncoding[]> = {
+  E3D1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'AdequateCause(c,e) ↔ (CauseOf(c,e) ∧ ClearDistinct(e,c))',
+      encoding_format: 'custom-fol',
+      encoding: 'AdequateCause(c, e) <-> (CauseOf(c, e) & ClearDistinct(e, c))',
+      notes:
+        'AdequateCause(c,e): cause c renders effect e intelligible (ClearDistinct). Inadequate/partial causes fail this adequacy.',
+    },
+  ],
+
+  E3D2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '∀x∀e[(Act(x,e) ↔ AdequateCause(x,e)) ∧ (Passion(x,e) ↔ (CauseOf(x,e) ∧ ¬AdequateCause(x,e)))]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall x forall e: (Act(x, e) <-> AdequateCause(x, e)) & (Passion(x, e) <-> (CauseOf(x, e) & ~AdequateCause(x, e)))',
+      notes:
+        'Act(x,e): x is an adequate cause of e; Passion(x,e): e follows from x only partially or inadequately.',
+    },
+  ],
+
+  E3D3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Emotion(ε,x) ↔ (ModifiesBody(ε,x) ∧ AdjustsPower(ε,x) ∧ IdeaOf(ε,x))',
+      encoding_format: 'custom-fol',
+      encoding: 'Emotion(e, x) <-> (ModifiesBody(e, x) & AdjustsPower(e, x) & IdeaOf(e, x))',
+      notes:
+        'Emotion(e,x): bodily modification with an accompanying idea that increases or diminishes a body’s power (AdjustsPower).',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_AXIOMS_PART2: Record<string, LogicEncoding[]> = {
+  E2Ax1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀h(Human(h) → ¬EssImpliesExistence(h)) ∧ ∀b(Body(b) → (InMotion(b) ∨ AtRest(b)))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall h: Human(h) -> ~EssImpliesExistence(h) & forall b: Body(b) -> (InMotion(b) | AtRest(b))',
+      notes:
+        'Human essences do not necessitate existence; every body (Body) is either moving or at rest (InMotion/AtRest).',
+    },
+  ],
+
+  E2Ax2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀h(Human(h) → Thinks(h)) ∧ ∀b(Body(b) → VariableSpeed(b))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall h: Human(h) -> Thinks(h) & forall b: Body(b) -> VariableSpeed(b)',
+      notes:
+        'Humans (Human) think; bodies admit variation of motion (VariableSpeed) across rest/quickness/slowness.',
+    },
+  ],
+
+  E2Ax3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀m∀x(ThoughtMode(m,x) → ∃i IdeaOf(i,x)) ∧ ∀i(Idea(i) → Standalone(i))',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall m forall x: ThoughtMode(m, x) -> exists i: IdeaOf(i, x) & forall i: Idea(i) -> Standalone(i)',
+      notes:
+        'Modes of thought presuppose an idea of their object (IdeaOf); an idea can subsist without another concurrent mode (Standalone).',
+    },
+  ],
+
+  E2Ax4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∃b (Body(b) ∧ ManyAffections(b))',
+      encoding_format: 'custom-fol',
+      encoding: 'exists b: Body(b) & ManyAffections(b)',
+      notes: 'We encounter at least one body affected in many ways (ManyAffections).',
+    },
+  ],
+
+  E2Ax5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (Particular(x) → (Body(x) ∨ ModeOfThought(x)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Particular(x) -> (Body(x) | ModeOfThought(x))',
+      notes:
+        'All particulars are either bodies or modes of thought (ModeOfThought), matching the perceivable kinds.',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_PROPOSITIONS_PART2_SPINE: Record<string, LogicEncoding[]> = {
+  E2p1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Attr(Thought) ∧ A(G,Thought)',
+      encoding_format: 'custom-fol',
+      encoding: 'Attr(Thought) & A(G, Thought)',
+      notes: 'Thought is an attribute (Attr) of God (G); God is a thinking thing (A(G, Thought)).',
+    },
+  ],
+
+  E2p2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Attr(Ext) ∧ A(G,Ext)',
+      encoding_format: 'custom-fol',
+      encoding: 'Attr(Ext) & A(G, Ext)',
+      notes: 'Extension (Ext) is likewise an attribute of God; God is extended (A(G, Ext)).',
+    },
+  ],
+
+  E2p3: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'IdeaOf(G,Ess(G)) ∧ ∀x(FollowsFromEss(x,G) → IdeaOf(G,x))',
+      encoding_format: 'custom-fol',
+      encoding: 'IdeaOf(G, Ess(G)) & forall x: FollowsFromEss(x, G) -> IdeaOf(G, x)',
+      notes:
+        'God has an idea of his essence (Ess); for every x following from that essence, God likewise holds the corresponding idea.',
+    },
+  ],
+
+  E2p4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∃!i (IdeaOf(G,i) ∧ InfiniteOrder(i))',
+      encoding_format: 'custom-fol',
+      encoding: 'exists! i: IdeaOf(G, i) & InfiniteOrder(i)',
+      notes: 'There is a unique idea of God from which infinitely many things follow in infinite ways (InfiniteOrder).',
+    },
+  ],
+
+  E2p5: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀i[(Idea(i) ∧ Exists(i)) → CauseAsThought(G,i)]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall i: (Idea(i) & Exists(i)) -> CauseAsThought(G, i)',
+      notes:
+        'The actual being of any idea (Idea ∧ Exists) is caused by God insofar as he is thinking (CauseAsThought).',
+    },
+  ],
+
+  E2p7: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x∀y (OrderThings(x,y) ↔ OrderIdeas(IdeaOf(x),IdeaOf(y)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x forall y: OrderThings(x, y) <-> OrderIdeas(IdeaOf(x), IdeaOf(y))',
+      notes: 'The order and connection of ideas matches the order and connection of the corresponding things.',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_PROPOSITIONS_PART3_SPINE: Record<string, LogicEncoding[]> = {
+  E3p1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '∀m[(Mind(m) ∧ AdequateIdeas(m)) → Active(m)] ∧ ∀m[(Mind(m) ∧ InadequateIdeas(m)) → Passive(m)]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall m: (Mind(m) & AdequateIdeas(m) -> Active(m)) & (Mind(m) & InadequateIdeas(m) -> Passive(m))',
+      notes:
+        'A mind with adequate ideas is active; with inadequate ideas it is passive, capturing the dual status of human minds.',
+    },
+  ],
+
+  E3p2: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀b∀m[(Body(b) ∧ MindOf(m,b)) → (¬Determines(b,m) ∧ ¬Determines(m,b))]',
+      encoding_format: 'custom-fol',
+      encoding: 'forall b forall m: (Body(b) & MindOf(m, b)) -> (~Determines(b, m) & ~Determines(m, b))',
+      notes:
+        'Neither body nor its associated mind determines the other; causal lines stay within their attributes (extension/thought).',
+    },
+  ],
+
+  E3p4: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (Destruction(x) → ∃c ExternalCause(c,x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Destruction(x) -> exists c: ExternalCause(c, x)',
+      notes: 'Whatever is destroyed must have an external cause; self-destruction contradicts its definition.',
+    },
+  ],
+
+  E3p6: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀x (Thing(x) → StrivesToPersist(x))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall x: Thing(x) -> StrivesToPersist(x)',
+      notes: 'Every individual thing expresses a conatus—an endeavor to persist in its own being.',
+    },
+  ],
+
+  E3p9: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display:
+        '∀m[(Mind(m) ∧ (AdequateIdeas(m) ∨ InadequateIdeas(m))) → StrivesToPersist(m)]',
+      encoding_format: 'custom-fol',
+      encoding:
+        'forall m: (Mind(m) & (AdequateIdeas(m) | InadequateIdeas(m))) -> StrivesToPersist(m)',
+      notes:
+        'Whether its ideas are clear or confused, the mind strives to persist; the conatus is independent of representational quality.',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_COROLLARIES_PART2: Record<string, LogicEncoding[]> = {
+  E2p7c1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: '∀e (FollowsFromExt(e) ↔ FollowsFromThought(IdeaOf(e)))',
+      encoding_format: 'custom-fol',
+      encoding: 'forall e: FollowsFromExt(e) <-> FollowsFromThought(IdeaOf(e))',
+      notes:
+        'Parallelism: whatever follows from God in extension (FollowsFromExt) follows, in the same order, from the divine idea (FollowsFromThought).',
+    },
+  ],
+};
+
+const LOGIC_FOL_V1_SCHOLIA_PART2: Record<string, LogicEncoding[]> = {
+  E2p1s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Clarifies(E2p1s1,E2p1) ∧ Emphasizes(E2p1s1,InfiniteThinking(G))',
+      encoding_format: 'meta-fol',
+      encoding: 'Clarifies(E2p1s1, E2p1) & Emphasizes(E2p1s1, InfiniteThinking(G))',
+      notes:
+        'Scholium underscores that conceiving infinitely many thoughts confirms thought as an infinite attribute of God.',
+    },
+  ],
+
+  E2p7s1: [
+    {
+      system: 'FOL',
+      version: 'v1',
+      display: 'Clarifies(E2p7s1,E2p7) ∧ Connects(E2p7s1,ParallelOrders)',
+      encoding_format: 'meta-fol',
+      encoding: 'Clarifies(E2p7s1, E2p7) & Connects(E2p7s1, ParallelOrders)',
+      notes:
+        'Scholium elaborates on the sameness of the order of ideas and things, exploring the parallel articulation across attributes.',
+    },
+  ],
+};
+
 // Global FOL v1 maps keyed by full Ethics IDs.
-// Currently seeded from Part I only. Parts II–V can be added inline later.
+// Parts I–III are encoded here; Parts IV–V can be added inline later.
 
 const LOGIC_FOL_V1_DEFINITIONS: Record<string, LogicEncoding[]> = {
   ...LOGIC_FOL_V1_DEFINITIONS_PART1,
+  ...LOGIC_FOL_V1_DEFINITIONS_PART2,
+  ...LOGIC_FOL_V1_DEFINITIONS_PART3,
 };
 
 const LOGIC_FOL_V1_AXIOMS: Record<string, LogicEncoding[]> = {
   ...LOGIC_FOL_V1_AXIOMS_PART1,
+  ...LOGIC_FOL_V1_AXIOMS_PART2,
 };
 
 const LOGIC_FOL_V1_POSTULATES: Record<string, LogicEncoding[]> = {
@@ -1365,14 +1731,18 @@ const LOGIC_FOL_V1_LEMMAS: Record<string, LogicEncoding[]> = {
 const LOGIC_FOL_V1_PROPOSITIONS: Record<string, LogicEncoding[]> = {
   ...LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A,
   ...LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B,
+  ...LOGIC_FOL_V1_PROPOSITIONS_PART2_SPINE,
+  ...LOGIC_FOL_V1_PROPOSITIONS_PART3_SPINE,
 };
 
 const LOGIC_FOL_V1_COROLLARIES: Record<string, LogicEncoding[]> = {
   ...LOGIC_FOL_V1_COROLLARIES_PART1,
+  ...LOGIC_FOL_V1_COROLLARIES_PART2,
 };
 
 const LOGIC_FOL_V1_SCHOLIA: Record<string, LogicEncoding[]> = {
   ...LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A,
+  ...LOGIC_FOL_V1_SCHOLIA_PART2,
 };
 
 const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
@@ -2376,11 +2746,7 @@ function applyFOLv1Scholia(corpus: EthicsCorpus): void {
 
     const encodings = LOGIC_FOL_V1_SCHOLIA[item.id];
     if (!encodings || encodings.length === 0) {
-      if (item.part === 1) {
-        console.warn(
-          `[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`
-        );
-      }
+      console.warn(`[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`);
       continue;
     }
 
