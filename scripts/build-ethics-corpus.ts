@@ -37,7 +37,16 @@ const PREDICATE_LOGIC_CLUSTER_ENCODING: LogicEncoding = {
 };
 
 const RAW_ENGLISH_PATH = path.join(process.cwd(), 'data', 'raw', 'english-ethics.html');
-const RAW_LATIN_PATH = path.join(process.cwd(), 'data', 'raw', 'latin-part1.html');
+
+// Latin raw HTML sources, one per part. For now we only require Part I;
+// the others are optional and can be added incrementally.
+const RAW_LATIN_PATHS: Record<number, string> = {
+  1: path.join(process.cwd(), 'data', 'raw', 'latin-part1.html'),
+  2: path.join(process.cwd(), 'data', 'raw', 'latin-part2.html'),
+  3: path.join(process.cwd(), 'data', 'raw', 'latin-part3.html'),
+  4: path.join(process.cwd(), 'data', 'raw', 'latin-part4.html'),
+  5: path.join(process.cwd(), 'data', 'raw', 'latin-part5.html'),
+};
 const OUTPUT_PATH = path.join(process.cwd(), 'src', 'data', 'ethics.json');
 
 const ALLOWED_KINDS: EthicsItem['kind'][] = [
@@ -1334,6 +1343,38 @@ const LOGIC_FOL_V1_LEMMAS_PART1: Record<string, LogicEncoding[]> = {
   // ],
 };
 
+// Global FOL v1 maps keyed by full Ethics IDs.
+// Currently seeded from Part I only. Parts II–V can be added inline later.
+
+const LOGIC_FOL_V1_DEFINITIONS: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_DEFINITIONS_PART1,
+};
+
+const LOGIC_FOL_V1_AXIOMS: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_AXIOMS_PART1,
+};
+
+const LOGIC_FOL_V1_POSTULATES: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_POSTULATES_PART1,
+};
+
+const LOGIC_FOL_V1_LEMMAS: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_LEMMAS_PART1,
+};
+
+const LOGIC_FOL_V1_PROPOSITIONS: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A,
+  ...LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B,
+};
+
+const LOGIC_FOL_V1_COROLLARIES: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_COROLLARIES_PART1,
+};
+
+const LOGIC_FOL_V1_SCHOLIA: Record<string, LogicEncoding[]> = {
+  ...LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A,
+};
+
 const PREDICATE_LOGIC_CLUSTER_PART1_DEFS: Record<string, LogicEncoding> = {
   E1D1: PREDICATE_LOGIC_CLUSTER_ENCODING,
   E1D2: PREDICATE_LOGIC_CLUSTER_ENCODING,
@@ -1548,17 +1589,42 @@ function mergeParsedSegments(segments: ParsedItem[]): ParsedItem[] {
 }
 
 function ensureRawFilesExist(): void {
-  const missing: string[] = [];
-  if (!fs.existsSync(RAW_ENGLISH_PATH)) missing.push(RAW_ENGLISH_PATH);
-  if (!fs.existsSync(RAW_LATIN_PATH)) missing.push(RAW_LATIN_PATH);
-  if (missing.length) {
+  const missingRequired: string[] = [];
+  const missingOptional: string[] = [];
+
+  if (!fs.existsSync(RAW_ENGLISH_PATH)) {
+    missingRequired.push(RAW_ENGLISH_PATH);
+  }
+
+  for (const [partStr, filePath] of Object.entries(RAW_LATIN_PATHS)) {
+    const part = Number(partStr);
+    if (!Number.isFinite(part)) continue;
+
+    if (!fs.existsSync(filePath)) {
+      // All Latin sources are optional for now; we just warn.
+      missingOptional.push(filePath);
+    }
+  }
+
+  if (missingRequired.length) {
     const message = [
       'Missing required raw HTML files for Ethics corpus builder.',
       'Expected files:',
-      ...missing.map((m) => `  - ${m}`),
+      ...missingRequired.map((m) => `  - ${m}`),
       'Please run `npm run fetch:raw` to download the sources before building the corpus.',
     ].join('\n');
     throw new Error(message);
+  }
+
+  if (missingOptional.length) {
+    console.warn(
+      [
+        'Optional Latin raw HTML files are missing.',
+        'Latin text will be empty for the corresponding parts.',
+        'Missing files:',
+        ...missingOptional.map((m) => `  - ${m}`),
+      ].join('\n')
+    );
   }
 }
 
@@ -1855,7 +1921,7 @@ function parseEnglishEthics(html: string): ParsedEnglishItem[] {
   return items;
 }
 
-function parseLatinPart1(html: string): ParsedItem[] {
+function parseLatinPart1(html: string, part = 1): ParsedItem[] {
   const blocks = extractBlocks(html);
   const items: ParsedItem[] = [];
 
@@ -1921,7 +1987,7 @@ function parseLatinPart1(html: string): ParsedItem[] {
       })();
 
       const segment: ParsedItem = {
-        part: 1,
+        part,
         kind: headingInfo.kind as ParsedItem['kind'],
         number,
         ofProposition:
@@ -1947,6 +2013,10 @@ function parseLatinPart1(html: string): ParsedItem[] {
 
   pushCurrent();
   return items;
+}
+
+function parseLatinPart(html: string, part: number): ParsedItem[] {
+  return parseLatinPart1(html, part);
 }
 
 function makeId(segment: ParsedItem): string {
@@ -2016,30 +2086,38 @@ function makeLabel(segment: ParsedItem): string {
   }
 }
 
-function buildLatinMapForPart1(rawHtml: string): LatinMap {
-  const latinSegments = mergeParsedSegments(parseLatinPart1(rawHtml));
+function buildLatinMap(rawHtmlByPart: Record<number, string>): LatinMap {
   const map: LatinMap = new Map();
 
-  for (const seg of latinSegments) {
-    if (seg.part !== 1) continue;
+  for (const [partStr, rawHtml] of Object.entries(rawHtmlByPart)) {
+    const part = Number(partStr);
+    if (!Number.isFinite(part)) continue;
 
-    if (seg.number <= 0) {
-      console.warn(`[Latin WARN] Skipping ${seg.kind} with no numeral: ${JSON.stringify(seg.textParts[0] ?? '')}`);
-      continue;
+    const latinSegments = mergeParsedSegments(parseLatinPart(rawHtml, part));
+
+    for (const seg of latinSegments) {
+      if (seg.number <= 0) {
+        console.warn(
+          `[Latin WARN] Skipping ${seg.kind} with no numeral (part ${seg.part}): ${JSON.stringify(
+            seg.textParts[0] ?? ''
+          )}`
+        );
+        continue;
+      }
+
+      if ((seg.kind === 'corollary' || seg.kind === 'scholium') && !seg.ofProposition) {
+        console.warn(
+          `[Latin WARN] Could not map Latin ${seg.kind} ${seg.number} (part ${seg.part}) because parent proposition is unknown.`
+        );
+        continue;
+      }
+
+      const id = makeId(seg);
+      const text = normalizeParagraphs(seg.textParts);
+      const existing = map.get(id);
+      const combined = existing ? [existing, text].filter(Boolean).join('\n\n') : text;
+      map.set(id, combined);
     }
-
-    if ((seg.kind === 'corollary' || seg.kind === 'scholium') && !seg.ofProposition) {
-      console.warn(
-        `[Latin WARN] Could not map Latin ${seg.kind} ${seg.number} because parent proposition is unknown.`
-      );
-      continue;
-    }
-
-    const id = makeId(seg);
-    const text = normalizeParagraphs(seg.textParts);
-    const existing = map.get(id);
-    const combined = existing ? [existing, text].filter(Boolean).join('\n\n') : text;
-    map.set(id, combined);
   }
 
   return map;
@@ -2192,13 +2270,18 @@ function applyCorpusEnrichments(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
+function applyFOLv1Definitions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'definition') continue;
+    if (item.kind !== 'definition') continue;
 
-    const encodings = LOGIC_FOL_V1_DEFINITIONS_PART1[item.id];
+    const encodings = LOGIC_FOL_V1_DEFINITIONS[item.id];
     if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 definition encoding for ${item.id} (${item.ref}).`);
+      // Only warn for Part I, since that’s where we currently expect coverage.
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 definition encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2206,7 +2289,10 @@ function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
       item.logic = [];
     }
 
-    item.logic = item.logic.filter((enc) => !(enc.system === 'FOL' && enc.version === 'v1'));
+    // Make LOGIC_FOL_V1_DEFINITIONS the canonical FOL v1 definitions source.
+    item.logic = item.logic.filter(
+      (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
+    );
 
     for (const enc of encodings) {
       item.logic.push(enc);
@@ -2214,14 +2300,17 @@ function applyFOLv1DefinitionsPart1(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1AxiomsPart1(corpus: EthicsCorpus): void {
+function applyFOLv1Axioms(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    // Only Part I axioms
-    if (item.part !== 1 || item.kind !== 'axiom') continue;
+    if (item.kind !== 'axiom') continue;
 
-    const encodings = LOGIC_FOL_V1_AXIOMS_PART1[item.id];
+    const encodings = LOGIC_FOL_V1_AXIOMS[item.id];
     if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 axiom encoding for ${item.id} (${item.ref}).`);
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 axiom encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2240,38 +2329,17 @@ function applyFOLv1AxiomsPart1(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1PropositionsPart1TierA(corpus: EthicsCorpus): void {
+function applyFOLv1Propositions(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'proposition') continue;
+    if (item.kind !== 'proposition') continue;
 
-    const encodings = LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A[item.id];
-    if (!encodings || encodings.length === 0) continue;
-
-    if (!Array.isArray(item.logic)) {
-      item.logic = [];
-    }
-
-    item.logic = item.logic.filter((enc) => !(enc.system === 'FOL' && enc.version === 'v1'));
-
-    for (const enc of encodings) {
-      item.logic.push(enc);
-    }
-  }
-}
-
-function applyFOLv1PropositionsPart1TierB(corpus: EthicsCorpus): void {
-  for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'proposition') continue;
-
-    // Skip propositions that are explicitly handled by Tier A.
-    if (item.id in LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_A) {
-      continue;
-    }
-
-    const encodings = LOGIC_FOL_V1_PROPOSITIONS_PART1_TIER_B[item.id];
+    const encodings = LOGIC_FOL_V1_PROPOSITIONS[item.id];
     if (!encodings || encodings.length === 0) {
-      // For Tier B, it's okay to silently skip missing entries; we can
-      // fill them in future prompts.
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 proposition encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2279,8 +2347,7 @@ function applyFOLv1PropositionsPart1TierB(corpus: EthicsCorpus): void {
       item.logic = [];
     }
 
-    // Remove any existing FOL v1 encodings for this proposition in Part I,
-    // so the Tier B map is the single source of truth for these items.
+    // LOGIC_FOL_V1_PROPOSITIONS now defines the canonical FOL v1 encodings.
     item.logic = item.logic.filter(
       (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
     );
@@ -2291,11 +2358,11 @@ function applyFOLv1PropositionsPart1TierB(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1ScholiaPart1TierA(corpus: EthicsCorpus): void {
+function applyFOLv1Scholia(corpus: EthicsCorpus): void {
   const corpusIds = new Set<string>(corpus.map((it) => it.id));
 
   const getParentPropId = (scholiumId: string): string | null => {
-    // Expect IDs of the form "E1pNsM"
+    // Expect IDs of the form "E<p>p<n>s<m>"
     const m = scholiumId.match(/^E(\d+)p(\d+)s\d+$/);
     if (!m) return null;
     const part = parseInt(m[1], 10);
@@ -2305,18 +2372,23 @@ function applyFOLv1ScholiaPart1TierA(corpus: EthicsCorpus): void {
   };
 
   for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'scholium') continue;
+    if (item.kind !== 'scholium') continue;
 
-    const encodings = LOGIC_FOL_V1_SCHOLIA_PART1_TIER_A[item.id];
+    const encodings = LOGIC_FOL_V1_SCHOLIA[item.id];
     if (!encodings || encodings.length === 0) {
-      continue; // Only Tier A scholia get logic in this pass.
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 scholium encoding for ${item.id} (${item.ref}).`
+        );
+      }
+      continue;
     }
 
     if (!Array.isArray(item.logic)) {
       item.logic = [];
     }
 
-    // Drop any existing FOL v1 encodings for this scholium, then apply the Tier A cluster.
+    // Replace any existing FOL v1 encodings for this scholium.
     item.logic = item.logic.filter(
       (enc) => !(enc.system === 'FOL' && enc.version === 'v1')
     );
@@ -2335,21 +2407,20 @@ function applyFOLv1ScholiaPart1TierA(corpus: EthicsCorpus): void {
 
     const baseDeps = item.dependencies.uses;
 
-    // 1) Ensure a dependency on the parent proposition, if we can infer it from the scholium ID.
+    // 1) Parent proposition from scholium id.
     const parentId = getParentPropId(item.id);
     const parentDeps: Dependency[] = [];
     if (parentId && corpusIds.has(parentId)) {
       parentDeps.push({ id: parentId, role: 'proposition' });
     }
 
-    // 2) Add any manual scholia dependency hints for Tier A.
+    // 2) Part I–specific scholia dependency hints.
     const tableDeps = SCHOLIA_DEPENDENCIES_PART1_TIER_A[item.id] ?? [];
 
-    // 3) Merge baseDeps + parentDeps + tableDeps using the general merge helper.
     const merged = mergeDependencies(baseDeps, [...parentDeps, ...tableDeps]);
     item.dependencies.uses = merged;
 
-    // 4) Upgrade proof status to "sketch" if it was "none" and we now have logic.
+    // 3) Upgrade proof status to "sketch" if we now have scholium-level logic.
     if (!item.proof || !item.proof.status || item.proof.status === 'none') {
       item.proof = {
         status: 'sketch',
@@ -2358,20 +2429,23 @@ function applyFOLv1ScholiaPart1TierA(corpus: EthicsCorpus): void {
             ? item.proof.sketch
             : `Scholium-level commentary: elaborates and clarifies the content of ${
                 parentId ?? 'its parent proposition'
-              } in Part I.`,
+              }.`,
       };
     }
   }
 }
 
-function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
+function applyFOLv1Corollaries(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    // Only Part I corollaries
-    if (item.part !== 1 || item.kind !== 'corollary') continue;
+    if (item.kind !== 'corollary') continue;
 
-    const encodings = LOGIC_FOL_V1_COROLLARIES_PART1[item.id];
+    const encodings = LOGIC_FOL_V1_COROLLARIES[item.id];
     if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 corollary encoding for ${item.id} (${item.ref}).`);
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 corollary encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2388,13 +2462,17 @@ function applyFOLv1CorollariesPart1(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1PostulatesPart1(corpus: EthicsCorpus): void {
+function applyFOLv1Postulates(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'postulate') continue;
+    if (item.kind !== 'postulate') continue;
 
-    const encodings = LOGIC_FOL_V1_POSTULATES_PART1[item.id];
+    const encodings = LOGIC_FOL_V1_POSTULATES[item.id];
     if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 postulate encoding for ${item.id} (${item.ref}).`);
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 postulate encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2413,13 +2491,17 @@ function applyFOLv1PostulatesPart1(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1LemmasPart1(corpus: EthicsCorpus): void {
+function applyFOLv1Lemmas(corpus: EthicsCorpus): void {
   for (const item of corpus) {
-    if (item.part !== 1 || item.kind !== 'lemma') continue;
+    if (item.kind !== 'lemma') continue;
 
-    const encodings = LOGIC_FOL_V1_LEMMAS_PART1[item.id];
+    const encodings = LOGIC_FOL_V1_LEMMAS[item.id];
     if (!encodings || encodings.length === 0) {
-      console.warn(`[Logic WARN] No FOL v1 lemma encoding for ${item.id} (${item.ref}).`);
+      if (item.part === 1) {
+        console.warn(
+          `[Logic WARN] No FOL v1 lemma encoding for ${item.id} (${item.ref}).`
+        );
+      }
       continue;
     }
 
@@ -2501,10 +2583,17 @@ function applyProofsAndDependenciesForPart1P1toP10(corpus: EthicsCorpus): void {
 function buildEthicsCorpus(): EthicsCorpus {
   ensureRawFilesExist();
   const englishHtml = loadFile(RAW_ENGLISH_PATH);
-  const latinHtml = loadFile(RAW_LATIN_PATH);
+
+  const latinRawByPart: Record<number, string> = {};
+  for (const [partStr, filePath] of Object.entries(RAW_LATIN_PATHS)) {
+    const part = Number(partStr);
+    if (!Number.isFinite(part)) continue;
+    if (!fs.existsSync(filePath)) continue;
+    latinRawByPart[part] = loadFile(filePath);
+  }
 
   const englishSegments = mergeEnglishSegments(parseEnglishEthics(englishHtml));
-  const latinMap = buildLatinMapForPart1(latinHtml);
+  const latinMap = buildLatinMap(latinRawByPart);
 
   const corpus: EthicsCorpus = [];
   let currentPart = 0;
@@ -2538,7 +2627,7 @@ function buildEthicsCorpus(): EthicsCorpus {
       order,
       text: {
         original_language: 'Latin',
-        original: seg.part === 1 ? latinMap.get(id) ?? '' : '',
+        original: latinMap.get(id) ?? '',
         translation: seg.translation,
       },
       concepts: [],
@@ -2562,18 +2651,17 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyCorpusEnrichments(corpus);
 
   // Logic: Part I families in a stable order
-  applyFOLv1DefinitionsPart1(corpus);
+  applyFOLv1Definitions(corpus);
   applyPredicateLogicClusterForPart1Definitions(corpus);
-  applyFOLv1AxiomsPart1(corpus);
-  applyFOLv1PostulatesPart1(corpus);
-  applyFOLv1LemmasPart1(corpus);
-  applyFOLv1CorollariesPart1(corpus);
-  applyFOLv1PropositionsPart1TierA(corpus);
-  applyFOLv1PropositionsPart1TierB(corpus);
-  applyFOLv1ScholiaPart1TierA(corpus);
+  applyFOLv1Axioms(corpus);
+  applyFOLv1Postulates(corpus);
+  applyFOLv1Lemmas(corpus);
+  applyFOLv1Corollaries(corpus);
+  applyFOLv1Propositions(corpus);
+  applyFOLv1Scholia(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
-  const englishIds = new Set(corpus.filter((it) => it.part === 1).map((it) => it.id));
+  const englishIds = new Set(corpus.map((it) => it.id));
 
   latinMap.forEach((_text, id) => {
     if (!englishIds.has(id)) {
@@ -2581,11 +2669,20 @@ function buildEthicsCorpus(): EthicsCorpus {
     }
   });
 
+  // Determine which parts should have Latin available based on existing sources.
+  const partsWithLatinSources = new Set<number>();
+  for (const [partStr, filePath] of Object.entries(RAW_LATIN_PATHS)) {
+    const part = Number(partStr);
+    if (!Number.isFinite(part)) continue;
+    if (fs.existsSync(filePath)) {
+      partsWithLatinSources.add(part);
+    }
+  }
+
   for (const item of corpus) {
-    if (item.part === 1) {
-      if (!item.text.original || !item.text.original.trim()) {
-        console.warn(`[Latin WARN] No Latin text for ${item.id} (${item.ref}).`);
-      }
+    if (!partsWithLatinSources.has(item.part)) continue;
+    if (!item.text.original || !item.text.original.trim()) {
+      console.warn(`[Latin WARN] No Latin text for ${item.id} (${item.ref}).`);
     }
   }
   return corpus;
@@ -2688,6 +2785,7 @@ export {
   mergeParsedSegments,
   parseEnglishEthics,
   parseLatinPart1,
+  parseLatinPart,
   validateCorpus,
   writeCorpusToFile,
 };
