@@ -414,7 +414,16 @@
       "translation": "Everything which exists, exists either in itself or in something else."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x (E(x) → (InSelf(x) ∨ ∃y InOther(x,y)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: E(x) -> (InSelf(x) | exists y: InOther(x, y))",
+        "notes": "E1Ax1: every existent thing either exists in itself (InSelf) or in another (InOther). E(x): x exists; InSelf(x): x exists in itself; InOther(x,y): x exists in another y."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
