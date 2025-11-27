@@ -143,9 +143,16 @@ summary:focus-visible {
 }
 
 .button-secondary:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+    /* Force golden hover text in light theme (and as a base) */
+    color: #f3d98b;
+}
+
+.theme-dark .button-secondary:hover {
+    /* In dark theme, override golden with the main text color (white-ish) */
+    color: var(--text);
 }
 
 .proposition-card {
