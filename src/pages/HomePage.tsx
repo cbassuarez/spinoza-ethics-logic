@@ -60,10 +60,10 @@ const HomePage = () => {
             </div>
             <div className="card flex flex-col gap-1 bg-[var(--bg-elevated)]/80">
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Modes</p>
-              <p className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-serif)' }}>
-                Text → Logic
-              </p>
-              <p className="text-sm text-[var(--text-muted)]">English · Latin · Formal</p>
+                <p className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-serif)' }}>
+                    Parts & Explorer
+                </p>
+                <p className="text-sm text-[var(--text-muted)]">English · Latin · Formal</p>
             </div>
           </div>
         </div>

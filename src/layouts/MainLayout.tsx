@@ -4,11 +4,12 @@ import { FiMenu, FiX, FiSun, FiMoon, FiArrowUpRight, FiSearch } from 'react-icon
 import SpinozaMark from '../components/SpinozaMark';
 
 const navItems = [
-  { to: '/', label: 'Home' },
-  { to: '/ethics/part/1', label: 'Text → Logic' },
-  { to: '/graph', label: 'Logic Lab' },
-  { to: '/logic', label: 'Method' },
-  { to: '/about', label: 'About' },
+    { to: '/', label: 'Home' },
+    { to: '/ethics/part/1', label: 'Parts' },
+    { to: '/corpus', label: 'Corpus' },
+    { to: '/graph', label: 'Explorer' },
+    { to: '/logic', label: 'Method' },
+    { to: '/about', label: 'About' },
 ];
 
 const MainLayout = () => {
