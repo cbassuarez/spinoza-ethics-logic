@@ -86,9 +86,6 @@ const HomePage = () => {
           </div>
           <div className="relative flex items-center gap-3 rounded-[16px] border border-[var(--border)] bg-[var(--panel)]/70 px-4 py-3 text-sm text-[var(--text-muted)]">
             <SpinozaMark />
-            <p className="leading-snug">
-              Formal encodings, dependency graphs, and bilingual text aligned in a single scholarly interface.
-            </p>
           </div>
         </motion.div>
       </div>
