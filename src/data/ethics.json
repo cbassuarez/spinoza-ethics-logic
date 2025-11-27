@@ -20974,7 +20974,16 @@
       "translation": "If two contrary actions be started in the same subject, a change must necessarily take place, either in both, or in one of the two, and continue until they cease to be contrary.\n\nIn the actual knowledge of the emotions (V. iv. note)."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x∀a∀b((Contrary(a,b) ∧ In(a,x) ∧ In(b,x)) → (Changes(a,x) ∨ Changes(b,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x forall a forall b: (Contrary(a, b) & In(a, x) & In(b, x)) -> (Changes(a, x) | Changes(b, x))",
+        "notes": "Contrary actions in one subject force alteration until contrariety ceases."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21007,7 +21016,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀c∀e(CauseOf(c,e) → Power(e) ≤ Power(c))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall c forall e: CauseOf(c, e) -> Power(e) <= Power(c)",
+        "notes": "An effect’s force is bounded by the causal power that defines it."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21040,7 +21058,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MindOf(m,b) → (OrderIdeas(m) ↔ OrderBodyMods(b))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall b: MindOf(m, b) -> (OrderIdeas(m) <-> OrderBodyModifications(b))",
+        "notes": "Mental order of ideas mirrors bodily order of images and vice versa."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21069,7 +21096,16 @@
       "translation": "If we remove a disturbance of the spirit, or emotion, from the thought of an external cause, and unite it to other thoughts, then will the love or hatred towards that external cause, and also the vacillations of spirit which arise from these emotions, be destroyed.\n\nProof. — That, which constitutes the reality of love or hatred, is pleasure or pain, accompanied by the idea of an external cause (Def. of the Emotions, vi. vii.); wherefore, when this cause is removed, the reality of love or hatred is removed with it; therefore these emotions and those which arise therefrom are destroyed. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "DetachEmotionFromExternalCause(e) → DestroyLoveHateTiedToCause(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: Emotion(e) & RemovedExternalIdea(e) -> EliminatesAttachedLoveHate(e)",
+        "notes": "Re-associating an emotion away from an external cause dissolves love or hate toward that cause."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21100,7 +21136,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Passion(e) ∧ ClearDistinctIdea(e) → ¬Passion(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: Passion(e) & ClearDistinctIdea(e) -> ~Passion(e)",
+        "notes": "A passive emotion stops being passion once grasped clearly."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21131,7 +21176,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreKnowledge(e) → GreaterControl(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: KnowsBetter(e) -> MorePowerOver(e)",
+        "notes": "Control rises with how well we know a passion."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21162,7 +21216,16 @@
     "concepts": [
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀m(BodyModification(m) → CanFormClearIdea(m))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: BodyModification(m) -> CanFormClearIdea(m)",
+        "notes": "Every bodily modification admits a clear and distinct conception."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21193,7 +21256,16 @@
     "concepts": [
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀e(Emotion(e) → CanFormClearIdea(e))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: Emotion(e) -> CanFormClearIdea(e)",
+        "notes": "Hence every emotion can be clearly conceived."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21225,7 +21297,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsSelfAndEmotions(m) → LessSubjectToEmotions(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) & ClearSelfKnowledge(m) -> ReducesPassivity(m)",
+        "notes": "Knowing oneself and one’s emotions lets the mind redirect them toward truth."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21254,7 +21335,16 @@
       "translation": "An emotion towards a thing, which we conceive simply, and not as necessary, or as contingent, or as possible, is, other conditions being equal, greater than any other emotion.\n\nProof. — An emotion towards a thing, which we conceive to be free, is greater than one towards what we conceive to be necessary (III. xlix.), and, consequently, still greater than one towards what we conceive as possible, or contingent (IV. xi.). But to conceive a thing as free can be nothing else than to conceive it simply, while we are in ignorance of the causes whereby it has been determined to action (II. xxxv. note); therefore, an emotion towards a thing which we conceive simply is, other conditions being equal, greater than one, which we feel towards what is necessary, possible, or contingent, and, consequently, it is the greatest of all. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EmotionTowardSimplyConceived(x) → StrongestEmotion(x)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: EmotionTowardSimplyConceived(x) -> MaxIntensity(x)",
+        "notes": "Emotion at a thing conceived freely (without necessity) is strongest."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21288,7 +21378,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsNecessity(m,AllThings) → GreaterPowerOverEmotions(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: UnderstandsNecessityOfAll(m) -> LessSubjectToEmotions(m)",
+        "notes": "Seeing everything as necessary diminishes emotional bondage."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21320,7 +21419,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "AppliesNecessityToParticulars(m) → MitigatesPain(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: AppliesNecessityToLoss(m) -> LessensSorrow(m)",
+        "notes": "Applying necessity to vivid particulars eases harmful emotions."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21353,7 +21461,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EmotionFromReason(e) → StrongerThanAbsentObjectEmotion(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: EmotionFromReason(e) -> OutlastsEmotionFromAbsentObject(e)",
+        "notes": "Rational emotions outweigh those tied to absent particulars."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -21387,7 +21504,16 @@
       "translation": "An emotion is stronger in proportion to the number of simultaneous concurrent causes whereby it is aroused.\n\nProof. — Many simultaneous causes are more powerful than a few (III. vii.): therefore (IV. v.), in proportion to the increased number of simultaneous causes whereby it is aroused, an emotion becomes stronger. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreConcurrentCauses(e) → StrongerEmotion(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: MultipleSimultaneousCauses(e) -> Stronger(e)",
+        "notes": "Emotion intensity grows with simultaneous causes."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21416,7 +21542,16 @@
       "translation": "This proposition is also evident from V. Ax. ii."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MultipleCauses(e) ↔ ExplainedByAx2(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: MultipleSimultaneousCauses(e) -> UsesAxiom2ForStrength(e)",
+        "notes": "Strength from many causes follows from the power of causes."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -21454,7 +21589,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EmotionFromManyCauses(e) → LessHarmful(e) ∧ LessSubjection(e)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: EmotionFromManyCauses(e) -> (LessHurtful(e) & LessSubjectToEachCause(e))",
+        "notes": "Distributed emotions harm and enslave less than focused ones."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21487,7 +21631,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "¬ContraryEmotions(m) → CanOrderBodyModsIntellectually(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) & NoContraryPassions(m) -> OrdersBodyByIntellect(m)",
+        "notes": "When unhindered by contrary passions, we can order bodily images intellectually."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21520,7 +21673,16 @@
       "Power",
       "Freedom"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "OrdersBodyByIntellect(m) → ResistsEvilEmotions(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: OrdersBodyByIntellect(m) -> HarderToStirEvilPassions(m)",
+        "notes": "Right ordering of images protects against troublesome emotions."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21551,7 +21713,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreObjectsReferred(image) → MoreFrequentAndDominant(image)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall i: RefersToMany(i) -> (MoreFrequent(i) & OccupiesMind(i))",
+        "notes": "Images tied to many objects recur more and fill the mind."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21580,7 +21751,16 @@
       "translation": "The mental images of things are more easily associated with the images referred to things which we clearly and distinctly understand, than with others.\n\nProof. — Things which we clearly and distinctly understand, are either the common properties of things or deductions therefrom (see definition of Reason, II. xl. note ii.), and are consequently (by the last Prop.) more often aroused in us. Wherefore it may more readily happen, that we should contemplate other things in conjunction with these than in conjunction with something else, and consequently (II. xviii.) that the images of the said things should be more often associated with the images of these than with the images of something else. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ClearIdeas(x) → EasierAssociationOfImages(x)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: ClearDistinctIdeas(x) -> ImagesAssociateMoreEasilyWith(x)",
+        "notes": "Images link more easily to clearly understood things."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21609,7 +21789,16 @@
       "translation": "A mental image is more often vivid, in proportion as it is associated with a greater number of other images.\n\nProof. — In proportion as an image is associated with a greater number of other images, so (II. xviii.) are there more causes whereby it can be aroused. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreImageAssociations(i) → GreaterVividness(i)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall i: ManyAssociations(i) -> MoreVivid(i)",
+        "notes": "An image grows vivid as its associations multiply."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21642,7 +21831,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MindOf(m,b) → CanReferAllImagesToGod(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall b: MindOf(m, b) -> CanReferImagesToIdeaOfGod(m)",
+        "notes": "The mind can relate every bodily image to the idea of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21673,7 +21871,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsSelfClearly(m) → LovesGod(m) ∧ Degree ∝ SelfUnderstanding(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: ClearUnderstandingOfSelf(m) -> (LovesGod(m) & LoveIntensity(m, God) ~ UnderstandingSelf(m))",
+        "notes": "Clear knowledge of self and emotions yields proportional love of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21706,7 +21913,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "LovesGod(m) ∧ FromUnderstanding(m) → ChiefEmotion(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: LoveOfGodFromUnderstanding(m) -> DominantAffect(m)",
+        "notes": "The intellectual love of God holds first place in the mind."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21737,7 +21953,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "¬Passion(God) ∧ ¬(Pleasure(God) ∨ Pain(God))",
+        "encoding_format": "custom-fol",
+        "encoding": "~Passion(God) & ~(Pleasure(God) | Pain(God))",
+        "notes": "All ideas in God are adequate; God is impassive."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21768,7 +21993,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "¬(Loves(God,x) ∨ Hates(God,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: ~(Love(God, x) | Hate(God, x))",
+        "notes": "Strictly speaking God neither loves nor hates as passions."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21799,7 +22033,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀m ¬Hate(m,God)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) -> ~Hate(m, God)",
+        "notes": "No one can hate God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21830,7 +22073,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Love(m,God) → ¬TurnsToHate(m,God)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Love(m, God) -> ~CanTransformToHate(m, God)",
+        "notes": "Love of God cannot be converted into hate."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21861,7 +22113,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsGodAsCauseOfAll(m) → UnderstandsPainNecessarily(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: UnderstandsGodAsCause(m) -> RegardsPainAsNecessary(m)",
+        "notes": "Viewing God as necessary cause removes grounds for hatred."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21892,7 +22153,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "LovesGod(m) → ¬DesiresReciprocalLove(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Love(m, God) -> ~Desires(GodLoves(m))",
+        "notes": "One who loves God does not seek God’s love in return."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21923,7 +22193,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Love(m,God) ∧ OthersLoveGod → JoyWithoutEnvy(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall n: (Love(m, God) & Love(n, God)) -> (JoyAtUnion(m, n) & ~Envy(m, n))",
+        "notes": "Love of God is unstained by envy and grows as others share it."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21957,7 +22236,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "¬∃e(ContraryToLoveOfGod(e))",
+        "encoding_format": "custom-fol",
+        "encoding": "not exists e: ContraryToLoveOfGod(e)",
+        "notes": "No contrary emotion can destroy the intellectual love of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -21986,7 +22274,16 @@
       "translation": "In the fact, that, in respect to time, the emotions referred to things, which we distinctly understand, surpass those referred to what we conceive in a confused and fragmentary manner (V. vii.)."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "DistinctUnderstanding(e) → SurpassesInTime(e,ConfusedEmotions)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall e: EmotionFromClearIdea(e) -> StrongerOverTimeThanConfused(e)",
+        "notes": "Emotions tied to clear understanding outlast confused ones."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22018,7 +22315,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreCommonCauses(mod) → GreaterFostering(mod)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: MoreCommonCauses(m) -> MoreSustained(m)",
+        "notes": "Shared or divine properties multiply sustaining causes for our modifications."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22053,7 +22359,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "OrdersEmotionsByMind(m) → IncreasedPowerOverEmotions(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) & CanOrderEmotions(m) -> StrongerControl(m)",
+        "notes": "The mind’s capacity to order its emotions enhances its dominion over them."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22087,7 +22402,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Imagines(m,x) ∨ Remembers(m,x) → BodyEndures(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall x: (Imagines(m, x) | Remembers(m, x)) -> BodyExists(m)",
+        "notes": "Imagination and memory depend on the body’s endurance."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22121,7 +22445,16 @@
       "Existence",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∃i(IdeaInGod(i) ∧ ExpressesEssenceEternally(i,HumanBody))",
+        "encoding_format": "custom-fol",
+        "encoding": "exists i: IdeaInGod(i) & ExpressesEssenceEternally(i, HumanBody)",
+        "notes": "In God there is an eternal idea of each human body’s essence."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -22161,7 +22494,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Mind(m) → ∃p(EternalPartOfMind(m,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) -> exists p: EternalPartOfMind(m, p)",
+        "notes": "Something of the human mind remains eternal when the body perishes."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22197,7 +22539,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EternalIdeaOfBody(i,m) → ModeOfThinking(i) ∧ InMindEssence(i,m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall i forall m: EternalIdeaOfBody(i, m) -> (ModeOfThinking(i) & BelongsToEssence(i, m))",
+        "notes": "The eternal idea of the body is a thinking mode belonging to the mind’s essence."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22228,7 +22579,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsMoreParticulars(m) → UnderstandsGodMore(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: UnderstandsManyParticulars(m) -> IncreasesKnowledgeOfGod(m)",
+        "notes": "Understanding particulars increases understanding of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22262,7 +22622,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "HighestVirtue(m) ↔ StrivesForThirdKindKnowledge(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: HighestVirtue(m) <-> EndeavourThirdKnowledge(m)",
+        "notes": "The supreme endeavour and virtue is to grasp things by the third kind of knowledge."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22293,7 +22662,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreCapableThirdKnowledge(m) → GreaterDesireForThirdKnowledge(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: CapabilityThirdKnowledge(m) -> DesireThirdKnowledge(m)",
+        "notes": "Ability for intuitive knowledge breeds desire for it."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22325,7 +22703,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ThirdKindKnowledge(m) → HighestAcquiescence(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: UsesThirdKindKnowledge(m) -> HighestAcquiescence(m)",
+        "notes": "The third kind of knowledge yields maximal mental acquiescence."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22354,7 +22741,16 @@
       "translation": "The endeavour or desire to know things by the third kind of knowledge cannot arise from the first, but from the second kind of knowledge.\n\nProof. — This proposition is self-evident. For whatsoever we understand clearly and distinctly, we understand either through itself, or through that which is conceived through itself; that is, ideas which are clear and distinct in us, or which are referred to the third kind of knowledge (II. xl. note. ii.) cannot follow from ideas that are fragmentary and confused, and are referred to knowledge of the first kind, but must follow from adequate ideas, or ideas of the second and third kind of knowledge; therefore (Def. of the Emotions, i.), the desire of knowing things by the third kind of knowledge cannot arise from the first, but from the second kind. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "DesireThirdKnowledge(m) → ArisesFromSecondKnowledge(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: DesireThirdKnowledge(m) -> OriginatesFromSecondKind(m)",
+        "notes": "The drive toward intuitive knowledge springs from rational (second kind) knowledge."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22389,7 +22785,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsUnderEternity(m,x) → NotViaPresentBody(x)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall x: UnderstandsUnderEternity(m, x) -> ~DependsOnPresentBody(x)",
+        "notes": "Eternal understanding is not derived from imagining present bodily existence."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22422,7 +22827,16 @@
       "Essence",
       "Infinity"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ConceivesTemporal(x) ∨ ConceivesEternal(x)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: ConceivesAsTemporal(x) | ConceivesAsEternal(x)",
+        "notes": "We conceive things either temporally or as contained in God eternally."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22457,7 +22871,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "KnowsSelfUnderEternity(m) → KnowsInGod(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: KnowsSelfUnderEternity(m) -> (KnowsGod(m) & KnowsBeingInGod(m))",
+        "notes": "Knowing self and body under eternity entails knowing God and our being in God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22490,7 +22913,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ThirdKindKnowledge(m) → CausedByMindAsEternal(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: ThirdKindKnowledge(m) -> FormalCauseIsEternalMind(m)",
+        "notes": "The mind insofar as eternal formally causes intuitive knowledge."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22522,7 +22954,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MoreThirdKnowledge(m) → GreaterSelfAndGodConsciousness(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: ExpandsThirdKnowledge(m) -> HeightensAwarenessOfSelfAndGod(m)",
+        "notes": "Growth in intuitive knowledge heightens awareness of self and God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22554,7 +22995,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "UnderstandsByThirdKind(m,x) → DelightWithIdeaOfGodAsCause(m,x)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall x: UnderstandsByThirdKind(m, x) -> (PleasureFrom(m, x) & IdeaOfGodAsCause(m, x))",
+        "notes": "Third-kind understanding yields delight accompanied by God as cause."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22585,7 +23035,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ThirdKindKnowledge(m) → IntellectualLoveOfGod(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: ThirdKindKnowledge(m) -> IntellectualLoveOfGod(m)",
+        "notes": "The intellectual love of God necessarily flows from intuitive knowledge."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22616,7 +23075,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "IntellectualLoveOfGod(m) → Eternal(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: IntellectualLoveOfGod(m) -> EternalLove(m)",
+        "notes": "The intellectual love of God is eternal."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -22653,7 +23121,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EternalIntellectualLove(m) → PossessesAllPerfectionsOfLove(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: EternalIntellectualLove(m) -> FullPerfectionAsLove(m)",
+        "notes": "Though beginningless, intellectual love retains the character of love."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22685,7 +23162,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "PassionEmotionsAffect(m) → OnlyWhileBodyEndures(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: PassionEmotionsAffect(m) -> BodyExists(m)",
+        "notes": "Passional emotions touch the mind only while the body lasts."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22714,7 +23200,16 @@
       "translation": "— Hence it follows that no love save intellectual love is eternal."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EternalLove(m) ↔ IntellectualLoveOfGod(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: EternalLove(m) <-> IntellectualLoveOfGod(m)",
+        "notes": "Only intellectual love is eternal."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22745,7 +23240,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(CommonOpinion(p) → Confuses(p,Eternity,Duration))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: CommonOpinion(p) -> Confuses(p, Eternity, Duration)",
+        "notes": "People mistakenly treat eternity as endless duration tied to imagination."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22777,7 +23281,16 @@
       "God",
       "Infinity"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Love(God,God) ∧ IntellectualLove(God,God) ∧ Infinite(Love(God,God))",
+        "encoding_format": "custom-fol",
+        "encoding": "IntellectualLove(God, God) & Infinite(IntellectualLove(God, God))",
+        "notes": "God loves himself with infinite intellectual love."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22811,7 +23324,16 @@
       "Infinity",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "IntellectualLoveOfMindForGod(m) = Restriction(IntellectualLove(God,God),m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: IntellectualLoveOfGod(m) = RestrictSelfLoveOfGodToEssence(m)",
+        "notes": "The mind’s intellectual love of God is the very self-love of God expressed through human essence."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22843,7 +23365,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "SelfLoveOfGod → LoveForHumans",
+        "encoding_format": "custom-fol",
+        "encoding": "SelfLoveOfGod -> forall m: Love(God, m)",
+        "notes": "God’s self-love entails love for humans; our love for God and God’s for us coincide."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22878,7 +23409,16 @@
       "Mind",
       "Freedom"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Blessedness(m) ↔ ConstantEternalLoveOfGod(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Blessed(m) <-> ConstantEternalLoveOfGod(m)",
+        "notes": "Salvation and freedom consist in enduring intellectual love of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22910,7 +23450,16 @@
       "God",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "¬∃x(ContraryTo(IntellectualLoveOfGod,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "not exists x: ContraryTo(IntellectualLoveOfGod, x)",
+        "notes": "Nothing in nature opposes or removes the intellectual love of God."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22939,7 +23488,16 @@
       "translation": "— The Axiom of Part IV. has reference to particular things, in so far as they are regarded in relation to a given time and place: of this, I think, no one can doubt."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x(TemporalThing(x) → ContrarietyApplies(x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: TemporalThing(x) -> ContrarietyApplies(x)",
+        "notes": "Contraries apply to temporal particulars, not to eternal love."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -22971,7 +23529,16 @@
       "Essence",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "KnowledgeSecondOrThirdKind(m) ↑ → (FewerEvilEmotions(m) ∧ LessFearOfDeath(m))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: IncreasesSecondThirdKnowledge(m) -> (DecreasesEvilPassions(m) & LessFearOfDeath(m))",
+        "notes": "Advancing in higher knowledge reduces evil passions and fear of death."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23004,7 +23571,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "ClearMind(m) → DeathLessHurtful(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: ClearUnderstandingOfLife(m) -> DeathSeenAsMinor(m)",
+        "notes": "The clearer the mind, the less harmful death appears."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23038,7 +23614,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "BodyWithManyActivities(b) → MindWithGreaterEternalPart(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall b forall m: (Body(b) & MindOf(m, b) & CapableOfManyActivities(b)) -> LargerEternalMindPortion(m)",
+        "notes": "A body fit for many activities corresponds to a mind largely eternal."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23071,7 +23656,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "HumanBodiesCanReachGreatCapacity",
+        "encoding_format": "custom-fol",
+        "encoding": "exists b: HumanBody(b) & CapableOfGreatestActivities(b)",
+        "notes": "Human bodies can attain very high powers of activity."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23100,7 +23694,16 @@
       "translation": "In proportion as each thing possesses more of perfection, so is it more active, and less passive; and, vice versâ, in proportion as it is more active, so is it more perfect.\n\nProof. — In proportion as each thing is more perfect, it possesses more of reality (II. Def. vi.), and, consequently (III. iii. and note), it is to that extent more active and less passive. This demonstration may be reversed, and thus prove that, in proportion as a thing is more active, so is it more perfect. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MorePerfection(x) ↔ (MoreActive(x) ∧ LessPassive(x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: Perfection(x) <-> (ActivityLevel(x) - PassivityLevel(x))",
+        "notes": "Perfection rises with activity and declines with passivity."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23131,7 +23734,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "EternalPartOfMind(m,p) → MorePerfectThanTemporal(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m forall p: EternalPartOfMind(m, p) -> MorePerfectThanTemporalMind(m)",
+        "notes": "Whatever of the mind endures eternally is the most perfect part."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23166,7 +23778,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "PracticesContemplation(m) → IncreasesEternalMind(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: CultivatesUnderstanding(m) -> GrowsEternalMindPortion(m)",
+        "notes": "Cultivating understanding enlarges the enduring part of mind."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23197,7 +23818,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀m(Pious(m) → PracticesFromReason(m) ∧ ValuesPietyWithoutImmortality(m))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Pious(m) -> (PracticesFromReason(m) & ValuesPietyWithoutImmortality(m))",
+        "notes": "Piety and virtue remain primary even without knowing the mind is eternal."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23229,7 +23859,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "MultitudeThinksLustIsFreedom",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Multitude(p) -> ThinksFreedomIsLust(p)",
+        "notes": "Common people mistake obedience to passions for freedom."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23262,7 +23901,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "Blessedness = Virtue ∧ JoyEnablesSelfControl",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Blessed(m) <-> Virtuous(m) & JoyEmpowersControl(m)",
+        "notes": "Blessedness is virtue itself; rejoicing empowers mastery of lusts."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -23296,7 +23944,16 @@
       "Power",
       "Freedom"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "WiseManGreatPower(m)",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Wise(m) -> GreatPower(m)",
+        "notes": "The wise person wields great power and surpasses the ignorant."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
