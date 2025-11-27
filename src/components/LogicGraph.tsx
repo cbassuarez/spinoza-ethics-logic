@@ -175,7 +175,7 @@ const LogicGraph = ({ items, onSelect }: Props) => {
       select(innerRef.current).attr('transform', event.transform.toString());
       const fit = fitScaleRef.current || 1;
       // Map k = fitScale to 75%
-      const percent = (event.transform.k / fit) * 50;
+      const percent = (event.transform.k / fit) * 20;
       setZoomPercent(Math.round(percent));
     };
 
@@ -200,8 +200,8 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     svg.on('.zoom', null);
     svg.call(zoomBehavior as any);
     svg.call(zoomBehavior.transform as any, initial);
-    // Initial view should read 75%
-    setZoomPercent(75);
+    // Initial view should read 100%
+    setZoomPercent(100);
   }, [dimensions.height, dimensions.width, nodes]);
 
   useEffect(() => {
