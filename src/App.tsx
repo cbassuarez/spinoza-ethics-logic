@@ -9,6 +9,7 @@ import SearchPage from './pages/SearchPage';
 import LogicDocsPage from './pages/LogicDocsPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
+import EthicsPartsPage from './pages/EthicsPartsPage';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/corpus" element={<CorpusPage />} />
+        <Route path="/ethics" element={<EthicsPartsPage />} />
         <Route path="/ethics/part/:partNumber" element={<PartPage />} />
         <Route path="/ethics/:id" element={<EthicsItemPage />} />
         <Route path="/graph" element={<GraphPage />} />

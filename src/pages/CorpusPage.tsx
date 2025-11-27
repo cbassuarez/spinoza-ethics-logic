@@ -34,7 +34,14 @@ const CorpusPage = () => {
           </h2>
           <p className="text-[var(--text-muted)]">Browse the structured items of Ethics with light filtering.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 md:flex-col md:items-end">
+          <Link
+            to="/ethics"
+            className="inline-flex items-center gap-1 self-start text-xs font-semibold text-[var(--text-muted)] underline decoration-dotted decoration-[var(--border)] underline-offset-4 transition hover:text-[var(--accent)] md:self-end"
+          >
+            <span>Open part picker</span>
+            <span>→</span>
+          </Link>
           <label className="flex items-center gap-2 text-sm text-[var(--text)]">
             Part
             <select
