@@ -5,7 +5,7 @@ import { TextureLoader, LinearFilter, NearestFilter } from 'three';
 import { SpinozaHeroDitherEffect, EthicsPart } from './effects/SpinozaDitherEffect';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import type { ThreeElements } from '@react-three/fiber';
-import { spinozaPortraitDataUrl } from '../data/spinozaPortrait';
+import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait';
 
 interface SpinozaHeroCanvasProps {
   part: EthicsPart;
