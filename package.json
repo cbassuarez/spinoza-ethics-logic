@@ -1,6 +1,6 @@
 {
   "name": "spinoza-ethics-logic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A data-driven SPA for exploring Spinoza's Ethics with formal logic annotations.",
   "type": "module",
   "scripts": {
