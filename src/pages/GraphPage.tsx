@@ -1,11 +1,17 @@
 import { lazy, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { corpus } from '../data';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const LogicGraph = lazy(() => import('../components/LogicGraph'));
 
 const GraphPage = () => {
   const navigate = useNavigate();
+
+  usePageMeta(
+    'Dependency graph for Spinoza’s Ethics – Spinoza Ethics Logic Workspace',
+    'Visual dependency graph for entries in Spinoza’s Ethics, using the Spinoza Ethics Logic Workspace corpus and formal-logic annotations.'
+  );
 
   return (
     <div className="space-y-6">
@@ -13,7 +19,7 @@ const GraphPage = () => {
         <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">NODE GRAPH</p>
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-            Dependency map of Ethics entries
+            Dependency map for Spinoza’s Ethics
           </h2>
           <Link
             to="/ethics"
@@ -24,8 +30,9 @@ const GraphPage = () => {
           </Link>
         </div>
         <p className="text-[var(--text-muted)]">
-          Hover to inspect logical neighbors. Click a node to open the corresponding entry in the Text → Logic view. The layout
-          drifts gently to suggest the live structure of the corpus.
+          Hover to inspect logical neighbors. Click a node to open the corresponding entry in the Text → Logic view. This graph is
+          drawn from the Spinoza Ethics Logic Workspace corpus, and the layout drifts gently to suggest the live structure of
+          Spinoza’s Ethics.
         </p>
       </div>
       <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-elevated)]/70 p-4">

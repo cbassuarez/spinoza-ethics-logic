@@ -5,37 +5,44 @@ import { corpus } from '../data';
 import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait.ts';
 import versionMeta from '../meta/version.json';
 import coverageMeta from '../meta/coverage.json';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const HomePage = () => {
   const appVersion = versionMeta.version;
   const folCorpusPct = Math.round((coverageMeta.fol_v1_corpus || 0) * 100);
   const folPropsPct = Math.round((coverageMeta.fol_v1_propositions || 0) * 100);
 
+  usePageMeta(
+    'Spinoza’s Ethics – Spinoza Ethics Logic Workspace',
+    'Spinoza Ethics Logic Workspace: a data-driven corpus of Spinoza’s Ethics with formal-logic annotations, dependencies, and proof sketches for Parts I–V.'
+  );
+
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-gradient-to-br from-[var(--bg-elevated)] via-[var(--panel)] to-[var(--bg)] px-6 py-10 md:px-10 md:py-14">
       <div className="hero-glow" aria-hidden />
       <div className="relative grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
         <div className="space-y-6">
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">Ethics / Logic</p>
-          <motion.h2
-            className="text-4xl leading-tight text-[var(--text)] md:text-5xl"
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">
+            Spinoza Ethics Logic Workspace
+          </p>
+          <motion.h1
+            className="text-4xl font-semibold text-[var(--text)] md:text-5xl"
             style={{ fontFamily: 'var(--font-serif)' }}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Spinoza’s Ethics as Formal Logic
-          </motion.h2>
-          <motion.p
+            Spinoza’s Ethics
+          </motion.h1>
+          <motion.h2
             className="text-lg text-[var(--text-muted)]"
+            style={{ fontFamily: 'var(--font-serif)' }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1 }}
           >
-            A logical reconstruction and interface for reading Spinoza’s <em>Ethics</em> in English, Latin, and symbolic notation.
-            This interface aligns the original text with a working formalization: propositions, axioms, definitions, derivations,
-            and their dependencies.
-          </motion.p>
+            A data-driven path through Spinoza’s Ethics, with formal-logic annotations, dependencies, and proof sketches.
+          </motion.h2>
           <motion.div
             className="flex flex-wrap gap-2 text-xs"
             initial={{ opacity: 0, y: 8 }}

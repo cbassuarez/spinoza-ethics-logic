@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { corpus } from '../data';
 import type { EthicsItem } from '../data/types';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const kinds = ['all', 'definition', 'axiom', 'postulate', 'proposition', 'scholium', 'corollary', 'lemma'] as const;
 
@@ -9,6 +10,11 @@ const CorpusPage = () => {
   const [partFilter, setPartFilter] = useState<string>('all');
   const [kindFilter, setKindFilter] = useState<(typeof kinds)[number]>('all');
   const [query, setQuery] = useState('');
+
+  usePageMeta(
+    'Spinoza Ethics corpus – Spinoza’s Ethics as data',
+    'Browse the structured Spinoza Ethics corpus: items from Spinoza’s Ethics with IDs, kinds, concepts, and formal-logic statuses.'
+  );
 
   const filtered = useMemo(() => {
     const normalizedQuery = query.toLowerCase();
@@ -30,9 +36,11 @@ const CorpusPage = () => {
             <div className="space-y-1">
                 <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">CORPUS</p>
                 <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-                    ETHICS - Corpus as a Database
+                    Spinoza Ethics corpus as a database
                 </h2>
-                <p className="text-[var(--text-muted)]">Browse the structured items of Ethics with light filtering.</p>
+                <p className="text-[var(--text-muted)]">
+                  Browse the structured items of Spinoza’s Ethics with light filtering over part, kind, and concepts.
+                </p>
             </div>
             <div className="flex flex-wrap items-center gap-3 justify-start md:justify-end">
             <Link

@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
 import SpinozaMark from '../components/SpinozaMark';
 import { computePartStats, getPartLabel, PART_METADATA } from '../utils/ethicsParts';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const EthicsPartsPage = () => {
   const partStats = computePartStats();
+
+  usePageMeta(
+    'Browse Spinoza’s Ethics by Part – Spinoza Ethics Logic Workspace',
+    'Browse Spinoza’s Ethics by Part in the Spinoza Ethics Logic Workspace, with logic annotations and proof coverage across Parts I–V.'
+  );
 
   return (
     <div className="space-y-8">
@@ -13,15 +19,15 @@ const EthicsPartsPage = () => {
             <span>Spinoza / Ethics</span>
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-semibold text-[var(--text)] md:text-4xl" style={{ fontFamily: 'var(--font-serif)' }}>
-              Browse the Ethics by Part
-            </h1>
+            <h2 className="text-3xl font-semibold text-[var(--text)] md:text-4xl" style={{ fontFamily: 'var(--font-serif)' }}>
+              Browse Spinoza’s Ethics by Part
+            </h2>
             <p className="max-w-2xl text-sm text-[var(--text-muted)] md:text-base">
               Jump directly into any part of Spinoza&apos;s <em>Ethics</em>. Each card shows how much has been encoded: item counts,
               logic formalizations, and the percentage of propositions with proof sketches or notes.
             </p>
             <p className="max-w-2xl text-sm text-[var(--text-muted)] md:text-base">
-              Use this as a launchpad into parts I–V, or return here from other tools like the corpus table and graph explorer.
+              Use this part picker as an entry into the Spinoza Ethics Logic Workspace, moving between Parts I–V of Spinoza’s Ethics.
             </p>
           </div>
         </div>
