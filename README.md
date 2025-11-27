@@ -2,6 +2,10 @@
 
 A Vite + React + TypeScript + Tailwind SPA for exploring a structured corpus of Spinoza's *Ethics* with formal-logic annotations. The site is intended for GitHub Pages hosting at `https://cbassuarez.github.io/spinoza-ethics-logic/`.
 
+![version](./assets/badges/version.svg) ![build](https://github.com/cbassuarez/spinoza-ethics-logic/actions/workflows/build.yml/badge.svg) ![fol-v1 coverage corpus](./assets/badges/coverage-corpus.svg) ![fol-v1 coverage propositions](./assets/badges/coverage-props.svg) ![license](./assets/badges/license.svg)
+
+`v0.1.0` – First public, but somewhat incomplete corpus: all parts are represented, but formal encodings and proof sketches are still in progress.
+
 ## Getting started
 
 ```bash
