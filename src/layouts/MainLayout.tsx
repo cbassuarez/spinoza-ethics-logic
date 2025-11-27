@@ -150,7 +150,7 @@ const MainLayout = () => {
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
             <span>Work in progress · Ethics / Logic v0.1</span>
             <span className="text-[var(--accent)]">∴</span>
-            <span>Interface by Sebastian Suárez</span>
+            <span>Interface by seb suarez</span>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
             <Link to="/logic" className="underline decoration-dotted decoration-[var(--border)] underline-offset-6 hover:text-[var(--accent)]">
