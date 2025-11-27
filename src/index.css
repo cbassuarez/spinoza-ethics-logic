@@ -91,6 +91,18 @@ summary:focus-visible {
   box-shadow: var(--shadow);
 }
 
+.formal-block {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 0.85rem 1rem;
+  background: var(--bg-elevated);
+}
+
+/* Dark mode: use a darker background, not light */
+.theme-dark .formal-block {
+  background: #050819;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

@@ -72,8 +72,8 @@ const LogicSection = ({ item, onHover }: LogicSectionProps) => {
         </div>
       </div>
       <div className="space-y-3">
-        <MathDisplay latex={logicEntry.display} />
-        <div>
+        <div className="formal-block space-y-3">
+          <MathDisplay latex={logicEntry.display} />
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--text-muted)]">Encoding ({logicEntry.encoding_format})</p>
           <pre className="code-block mt-2 whitespace-pre-wrap">{logicEntry.encoding}</pre>
           {logicEntry.notes && <p className="text-sm text-[var(--text-muted)]">{logicEntry.notes}</p>}

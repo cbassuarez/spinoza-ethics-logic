@@ -49,6 +49,7 @@ const LogicGraph = ({ items, onSelect }: Props) => {
   const zoomBehaviorRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const initialTransformRef = useRef<ZoomTransform | null>(null);
   const zoomInitializedRef = useRef(false);
+  const fitScaleRef = useRef(1);
   const lastDimensionsRef = useRef<{ width: number; height: number } | null>(null);
   const isOneFingerZoomRef = useRef(false);
   const lastTapTimeRef = useRef<number | null>(null);
@@ -151,13 +152,15 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     const yMax = Math.max(...yValues);
     const dx = Math.max(xMax - xMin, 1);
     const dy = Math.max(yMax - yMin, 1);
-    const paddingFactor = 0.2;
+    const paddingFactor = 0.4;
     const xPadding = dx * paddingFactor;
     const yPadding = dy * paddingFactor;
     const paddedWidth = dx + xPadding * 2;
     const paddedHeight = dy + yPadding * 2;
     const { width, height } = svgRef.current.getBoundingClientRect();
     const kFit = Math.max(Math.min(width / paddedWidth, height / paddedHeight), 0.01);
+    fitScaleRef.current = kFit;
+    const kMin = kFit * 0.5;
     const kMax = kFit * 8;
     const cx = xMin + dx / 2;
     const cy = yMin + dy / 2;
@@ -168,13 +171,16 @@ const LogicGraph = ({ items, onSelect }: Props) => {
       [xMax + xPadding, yMax + yPadding],
     ];
 
-      const handleZoom = (event: { transform: ZoomTransform }) => {
-          select(innerRef.current).attr('transform', event.transform.toString());
-          setZoomPercent(Math.round(event.transform.k * 100));
-      };
+    const handleZoom = (event: { transform: ZoomTransform }) => {
+      select(innerRef.current).attr('transform', event.transform.toString());
+      const fit = fitScaleRef.current || 1;
+      // Map k = fitScale to 75%
+      const percent = (event.transform.k / fit) * 75;
+      setZoomPercent(Math.round(percent));
+    };
 
-      const zoomBehavior = zoom<SVGSVGElement, unknown>()
-      .scaleExtent([kFit, kMax])
+    const zoomBehavior = zoom<SVGSVGElement, unknown>()
+      .scaleExtent([kMin, kMax])
       .translateExtent(translateExtent)
       .filter((event) => {
         const e = event as any;
@@ -194,7 +200,8 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     svg.on('.zoom', null);
     svg.call(zoomBehavior as any);
     svg.call(zoomBehavior.transform as any, initial);
-    setZoomPercent(Math.round(initial.k * 100));
+    // Initial view should read 75%
+    setZoomPercent(75);
   }, [dimensions.height, dimensions.width, nodes]);
 
   useEffect(() => {
