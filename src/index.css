@@ -123,9 +123,17 @@ summary:focus-visible {
 }
 
 .button-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.16);
+    transform: translateY(-1px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.16);
+    /* Override global a:hover text color */
+    color: #f3d98b; /* light theme: amber/buff/goldenrod */
 }
+
+.theme-dark .button-primary:hover {
+    /* In dark mode, text should be white-ish on the amber background */
+    color: var(--text);
+}
+
 
 .button-secondary {
   display: inline-flex;
@@ -143,16 +151,9 @@ summary:focus-visible {
 }
 
 .button-secondary:hover {
-    transform: translateY(-1px);
-    border-color: var(--accent);
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
-    /* Force golden hover text in light theme (and as a base) */
-    color: #f3d98b;
-}
-
-.theme-dark .button-secondary:hover {
-    /* In dark theme, override golden with the main text color (white-ish) */
-    color: var(--text);
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
 }
 
 .proposition-card {
