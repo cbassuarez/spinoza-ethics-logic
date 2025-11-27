@@ -3,7 +3,6 @@ import { select } from 'd3-selection';
 import { forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation } from 'd3-force';
 import { zoom, zoomIdentity, zoomTransform, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
 import type { EthicsItem } from '../data/types';
-const zoomBaselineRef = useRef(1);
 
 type GraphNode = {
   id: string;
@@ -150,61 +149,33 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     const xMax = Math.max(...xValues);
     const yMin = Math.min(...yValues);
     const yMax = Math.max(...yValues);
-      const dx = Math.max(xMax - xMin, 1);
-      const dy = Math.max(yMax - yMin, 1);
+    const dx = Math.max(xMax - xMin, 1);
+    const dy = Math.max(yMax - yMin, 1);
+    const paddingFactor = 0.2;
+    const xPadding = dx * paddingFactor;
+    const yPadding = dy * paddingFactor;
+    const paddedWidth = dx + xPadding * 2;
+    const paddedHeight = dy + yPadding * 2;
+    const { width, height } = svgRef.current.getBoundingClientRect();
+    const kFit = Math.max(Math.min(width / paddedWidth, height / paddedHeight), 0.01);
+    const kMax = kFit * 8;
+    const cx = xMin + dx / 2;
+    const cy = yMin + dy / 2;
+    const initial = zoomIdentity.translate(width / 2 - cx * kFit, height / 2 - cy * kFit).scale(kFit);
 
-      const paddingFactor = 0.2;
-      const xPadding = dx * paddingFactor;
-      const yPadding = dy * paddingFactor;
-      const paddedWidth = dx + xPadding * 2;
-      const paddedHeight = dy + yPadding * 2;
-
-      const { width, height } = svgRef.current.getBoundingClientRect();
-      const kFit = Math.max(Math.min(width / paddedWidth, height / paddedHeight), 0.01);
-
-      /**
-       * Allow zooming out beyond the fit view:
-       * - kMin lets you zoom out a bit more (smaller scale).
-       * - kMax stays as before (8x fit).
-       */
-      const kMin = Math.max(kFit * 0.5, 0.01);
-      const kMax = kFit * 8;
-
-      /**
-       * Center the graph at the fit scale.
-       */
-      const cx = xMin + dx / 2;
-      const cy = yMin + dy / 2;
-      const initial = zoomIdentity.translate(width / 2 - cx * kFit, height / 2 - cy * kFit).scale(kFit);
-
-      /**
-       * Enlarge the sandbox for panning a bit beyond the bounds.
-       */
-      const translatePaddingFactor = 0.5;
-      const xTranslatePadding = dx * translatePaddingFactor;
-      const yTranslatePadding = dy * translatePaddingFactor;
-
-      const translateExtent: [[number, number], [number, number]] = [
-          [xMin - xTranslatePadding, yMin - yTranslatePadding],
-          [xMax + xTranslatePadding, yMax + yTranslatePadding],
-      ];
-
-      /**
-       * Set a display baseline so that the initial fit view reads as ~75%.
-       * - baseline scale → 100%
-       * - initial kFit   → 75%
-       */
-      zoomBaselineRef.current = kFit / 0.75;
+    const translateExtent: [[number, number], [number, number]] = [
+      [xMin - xPadding, yMin - yPadding],
+      [xMax + xPadding, yMax + yPadding],
+    ];
 
       const handleZoom = (event: { transform: ZoomTransform }) => {
           select(innerRef.current).attr('transform', event.transform.toString());
-          const baseline = zoomBaselineRef.current || 1;
-          setZoomPercent(Math.round((event.transform.k / baseline) * 100));
+          setZoomPercent(Math.round(event.transform.k * 100));
       };
 
       const zoomBehavior = zoom<SVGSVGElement, unknown>()
-          .scaleExtent([kMin, kMax])
-          .translateExtent(translateExtent)
+      .scaleExtent([kFit, kMax])
+      .translateExtent(translateExtent)
       .filter((event) => {
         const e = event as any;
         if (e.type === 'wheel') return true;
@@ -221,11 +192,9 @@ const LogicGraph = ({ items, onSelect }: Props) => {
 
     const svg = select(svgRef.current);
     svg.on('.zoom', null);
-      svg.call(zoomBehavior as any);
-      svg.call(zoomBehavior.transform as any, initial);
-
-      const baseline = zoomBaselineRef.current || 1;
-      setZoomPercent(Math.round((initial.k / baseline) * 100));
+    svg.call(zoomBehavior as any);
+    svg.call(zoomBehavior.transform as any, initial);
+    setZoomPercent(Math.round(initial.k * 100));
   }, [dimensions.height, dimensions.width, nodes]);
 
   useEffect(() => {
