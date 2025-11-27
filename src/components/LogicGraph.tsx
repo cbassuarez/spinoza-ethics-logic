@@ -37,7 +37,7 @@ const kindStyles: Record<EthicsItem['kind'], { fill: string; stroke: string }> =
 
 const LogicGraph = ({ items, onSelect }: Props) => {
     // Zoom config: adjust these to control initial zoom + percentage mapping
-    const BASE_ZOOM_PERCENT = 250;
+    const BASE_ZOOM_PERCENT = 35;
     const INITIAL_ZOOM_PERCENT = 75;
 
     const containerRef = useRef<HTMLDivElement | null>(null);
