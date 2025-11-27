@@ -22,8 +22,11 @@ const MainLayout = () => {
       <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6">
           <Link to="/" className="flex items-center gap-3">
-            <div className="h-12 w-12">
-              <SpinozaMark />
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12">
+                <SpinozaMark />
+              </div>
+              <SpinozaHeroSprite currentPart={currentPart} hoveredPart={hoveredPart} hoveredItemId={hoveredItemId} />
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Spinoza corpus</p>
@@ -31,7 +34,6 @@ const MainLayout = () => {
             </div>
           </Link>
           <div className="flex items-center gap-4">
-            <SpinozaHeroSprite currentPart={currentPart} hoveredPart={hoveredPart} hoveredItemId={hoveredItemId} />
             <nav className="flex items-center gap-3 text-sm font-medium text-slate-700">
               {navItems.map((item) => (
                 <NavLink
