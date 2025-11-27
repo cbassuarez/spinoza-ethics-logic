@@ -1170,18 +1170,44 @@ function applyCorpusEnrichments(corpus: EthicsCorpus): void {
   }
 }
 
-function applyFOLv1Logic(corpus: EthicsCorpus): void {
-  for (const item of corpus) {
+function applyFOLv1Logic(corpus: EthicsCorpus): EthicsCorpus {
+  const corpusWithLogic = corpus.map((item) => {
     const encodings = LOGIC_FOL_V1[item.id];
-    if (!encodings || encodings.length === 0) continue;
+    if (!Array.isArray(encodings) || encodings.length === 0) {
+      return item;
+    }
 
-    item.logic = encodings.filter(
+    const filtered = encodings.filter(
       (enc) =>
         enc.encoding_format !== 'meta-fol' &&
         !enc.display.startsWith('Auto(') &&
         !enc.encoding.startsWith('Auto(')
     );
+
+    if (filtered.length === 0) {
+      return item;
+    }
+
+    return {
+      ...item,
+      logic: filtered,
+    };
+  });
+
+  const corpusIds = new Set<string>(corpusWithLogic.map((it) => it.id));
+  const danglingLogicIds = Object.keys(LOGIC_FOL_V1).filter((id) => !corpusIds.has(id));
+  if (danglingLogicIds.length > 0) {
+    console.warn('[Logic WARN] Logic map contains IDs not present in corpus:', danglingLogicIds);
   }
+
+  const missingLogicPartV = corpusWithLogic.filter(
+    (item) => item.part === 5 && (!Array.isArray(item.logic) || item.logic.length === 0)
+  );
+  if (missingLogicPartV.length > 0) {
+    console.warn('[Logic WARN] Part V items missing logic encodings:', missingLogicPartV.map((i) => i.id));
+  }
+
+  return corpusWithLogic;
 }
 
 function applyPredicateLogicClusterForPart1Definitions(
@@ -1248,7 +1274,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   const englishSegments = mergeEnglishSegments(parseEnglishEthics(englishHtml));
   const latinMap = buildLatinMap(latinRawByPart);
 
-  const corpus: EthicsCorpus = [];
+  let corpus: EthicsCorpus = [];
   let currentPart = 0;
   let order = 0;
 
@@ -1304,7 +1330,7 @@ function buildEthicsCorpus(): EthicsCorpus {
   applyCorpusEnrichments(corpus);
 
   // Logic: attach curated FOL encodings
-  applyFOLv1Logic(corpus);
+  corpus = applyFOLv1Logic(corpus);
   applyPredicateLogicClusterForPart1Definitions(corpus);
   applyProofsAndDependenciesForPart1P1toP10(corpus);
 
