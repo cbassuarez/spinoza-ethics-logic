@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
     plugins: [react()],
-    base: "/spinoza-ethics-logic/",
+    // App is served from the root of spinozaethics.org
+    base: "/",
     build: {
         outDir: "docs",
     },
