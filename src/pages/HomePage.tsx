@@ -84,9 +84,6 @@ const HomePage = () => {
             </p>
             <p>Ethics, Demonstrated in Geometrical Order (1677)</p>
           </div>
-          <div className="relative flex items-center gap-3 rounded-[16px] border border-[var(--border)] bg-[var(--panel)]/70 px-4 py-3 text-sm text-[var(--text-muted)]">
-            <SpinozaMark />
-          </div>
         </motion.div>
       </div>
     </div>
