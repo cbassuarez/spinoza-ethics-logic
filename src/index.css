@@ -100,6 +100,18 @@ summary:focus-visible {
     background: var(--formal-bg);
 }
 
+/* Dark mode: ensure the math itself doesn't bring a white box */
+.theme-dark .formal-block > :first-child {
+    /* MathDisplay container */
+    background-color: transparent !important;
+}
+
+/* If KaTeX is adding its own background, kill it in dark mode */
+.theme-dark .formal-block .katex,
+.theme-dark .formal-block .katex-display {
+    background-color: transparent !important;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
