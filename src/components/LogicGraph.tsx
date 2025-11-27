@@ -36,7 +36,11 @@ const kindStyles: Record<EthicsItem['kind'], { fill: string; stroke: string }> =
 };
 
 const LogicGraph = ({ items, onSelect }: Props) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+    // Zoom config: adjust these to control initial zoom + percentage mapping
+    const BASE_ZOOM_PERCENT = 100;
+    const INITIAL_ZOOM_PERCENT = 75;
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const innerRef = useRef<SVGGElement | null>(null);
   const [dimensions, setDimensions] = useState({ width: 960, height: 640 });
@@ -152,34 +156,51 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     const yMax = Math.max(...yValues);
     const dx = Math.max(xMax - xMin, 1);
     const dy = Math.max(yMax - yMin, 1);
-    const paddingFactor = 0.4;
-    const xPadding = dx * paddingFactor;
-    const yPadding = dy * paddingFactor;
-    const paddedWidth = dx + xPadding * 2;
-    const paddedHeight = dy + yPadding * 2;
-    const { width, height } = svgRef.current.getBoundingClientRect();
-    const kFit = Math.max(Math.min(width / paddedWidth, height / paddedHeight), 0.01);
-    fitScaleRef.current = kFit;
-    const kMin = kFit * 0.5;
-    const kMax = kFit * 8;
-    const cx = xMin + dx / 2;
-    const cy = yMin + dy / 2;
-    const initial = zoomIdentity.translate(width / 2 - cx * kFit, height / 2 - cy * kFit).scale(kFit);
+      const paddingFactor = 0.4;
+      const xPadding = dx * paddingFactor;
+      const yPadding = dy * paddingFactor;
+      const paddedWidth = dx + xPadding * 2;
+      const paddedHeight = dy + yPadding * 2;
+      const { width, height } = svgRef.current.getBoundingClientRect();
 
-    const translateExtent: [[number, number], [number, number]] = [
+// kFit: scale that fits the padded graph in the viewport
+      const kFit = Math.max(Math.min(width / paddedWidth, height / paddedHeight), 0.01);
+      fitScaleRef.current = kFit;
+
+// Base scale corresponds to 100% on the indicator
+      const baseScale = kFit;
+
+// Allow zooming out to 50% of the base scale, and in to 8x
+      const kMin = baseScale * 0.5;
+      const kMax = baseScale * 8;
+
+// Center of the graph in world coordinates
+      const cx = xMin + dx / 2;
+      const cy = yMin + dy / 2;
+
+// Initial scale so that the indicator reads INITIAL_ZOOM_PERCENT
+      const initialScale = (INITIAL_ZOOM_PERCENT / BASE_ZOOM_PERCENT) * baseScale;
+
+// Translate so the graph center is in the viewport center at initialScale
+      const initial = zoomIdentity
+          .translate(width / 2 - cx * initialScale, height / 2 - cy * initialScale)
+          .scale(initialScale);
+
+      const translateExtent: [[number, number], [number, number]] = [
       [xMin - xPadding, yMin - yPadding],
       [xMax + xPadding, yMax + yPadding],
     ];
 
-    const handleZoom = (event: { transform: ZoomTransform }) => {
-      select(innerRef.current).attr('transform', event.transform.toString());
-      const fit = fitScaleRef.current || 1;
-      // Map k = fitScale to 75%
-      const percent = (event.transform.k / fit) * 200;
-      setZoomPercent(Math.round(percent));
-    };
+      const handleZoom = (event: { transform: ZoomTransform }) => {
+          select(innerRef.current).attr('transform', event.transform.toString());
 
-    const zoomBehavior = zoom<SVGSVGElement, unknown>()
+          const fit = fitScaleRef.current || 1;
+          // 100% corresponds to the base (fit) scale
+          const percent = (event.transform.k / fit) * BASE_ZOOM_PERCENT;
+          setZoomPercent(Math.round(percent));
+      };
+
+      const zoomBehavior = zoom<SVGSVGElement, unknown>()
       .scaleExtent([kMin, kMax])
       .translateExtent(translateExtent)
       .filter((event) => {
@@ -197,11 +218,11 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     setZoomReadyKey((key) => key + 1);
 
     const svg = select(svgRef.current);
-    svg.on('.zoom', null);
-    svg.call(zoomBehavior as any);
-    svg.call(zoomBehavior.transform as any, initial);
-    // Initial view should read 100%
-    setZoomPercent(100);
+      svg.on('.zoom', null);
+      svg.call(zoomBehavior as any);
+      svg.call(zoomBehavior.transform as any, initial);
+// Initial view should read INITIAL_ZOOM_PERCENT
+      setZoomPercent(INITIAL_ZOOM_PERCENT);
   }, [dimensions.height, dimensions.width, nodes]);
 
   useEffect(() => {
