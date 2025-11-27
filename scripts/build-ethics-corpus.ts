@@ -3289,7 +3289,14 @@ function validateCorpus(corpus: EthicsCorpus): void {
 function writeCorpusToFile(corpus: EthicsCorpus): void {
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(corpus, null, 2), 'utf8');
-  console.log(`Wrote ${corpus.length} items to ${OUTPUT_PATH}`);
+  const raw = fs.readFileSync(OUTPUT_PATH, 'utf8');
+  const parsed = JSON.parse(raw);
+
+  if (!Array.isArray(parsed)) {
+    throw new Error(`ethics.json is not an array; got ${typeof parsed}`);
+  }
+
+  console.log(`Wrote ${parsed.length} items to ${OUTPUT_PATH}`);
 }
 
 async function main(): Promise<void> {
