@@ -127,6 +127,26 @@ summary:focus-visible {
   border: 1px solid var(--border);
 }
 
+.badge--metric {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-family: var(--font-serif);
+}
+
+.badge--metric-value {
+  margin-left: 0.45rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--border);
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+
 .button-primary {
   display: inline-flex;
   align-items: center;

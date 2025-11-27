@@ -3,8 +3,14 @@ import { motion } from 'framer-motion';
 import SpinozaMark from '../components/SpinozaMark';
 import { corpus } from '../data';
 import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait.ts';
+import versionMeta from '../meta/version.json';
+import coverageMeta from '../meta/coverage.json';
 
 const HomePage = () => {
+  const appVersion = versionMeta.version;
+  const folCorpusPct = Math.round((coverageMeta.fol_v1_corpus || 0) * 100);
+  const folPropsPct = Math.round((coverageMeta.fol_v1_propositions || 0) * 100);
+
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-gradient-to-br from-[var(--bg-elevated)] via-[var(--panel)] to-[var(--bg)] px-6 py-10 md:px-10 md:py-14">
       <div className="hero-glow" aria-hidden />
@@ -31,10 +37,33 @@ const HomePage = () => {
             and their dependencies.
           </motion.p>
           <motion.div
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap gap-2 text-xs"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.15 }}
+          >
+            <div className="badge--metric">
+              <span>version</span>
+              <span className="badge--metric-value">v{appVersion}</span>
+            </div>
+            <div className="badge--metric">
+              <span>fol-v1 coverage</span>
+              <span className="badge--metric-value">{folCorpusPct}% corpus</span>
+            </div>
+            <div className="badge--metric">
+              <span>fol-v1 coverage</span>
+              <span className="badge--metric-value">{folPropsPct}% propositions</span>
+            </div>
+            <div className="badge--metric">
+              <span>license</span>
+              <span className="badge--metric-value">MIT</span>
+            </div>
+          </motion.div>
+          <motion.div
+            className="flex flex-wrap gap-3"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.18 }}
           >
             <Link to="/corpus" className="button-primary">
               Browse the Corpus
