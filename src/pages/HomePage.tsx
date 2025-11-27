@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SpinozaMark from '../components/SpinozaMark';
 import { corpus } from '../data';
+import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait.ts';
 
 const HomePage = () => {
   return (
