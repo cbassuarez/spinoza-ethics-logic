@@ -2,19 +2,7 @@
 
 A Vite + React + TypeScript + Tailwind SPA for exploring a structured corpus of Spinoza's *Ethics* with formal-logic annotations. The site is intended for GitHub Pages hosting at `https://cbassuarez.github.io/spinoza-ethics-logic/`.
 
-<p align="left">
-  <img
-    src="docs/badges/version.svg"
-    alt="Spinoza Ethics Logic Workspace — v0.1.0 · FOL v1"
-    height="40"
-  />
-  <img
-    src="docs/badges/fol-v1-props.svg"
-    alt="FOL v1 coverage · Propositions (E1–E5)"
-    height="40"
-    style="margin-left: 8px;"
-  />
-</p>
+![Spinoza Ethics Logic Workspace badge](docs/badges/spinozaBadge-props.svg)
 
 `v0.1.0` – First public, but somewhat incomplete corpus: all parts are represented, but formal encodings and proof sketches are still in progress.
 
