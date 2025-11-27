@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
-import { updateBadges } from './update-badges.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -69,9 +68,11 @@ const main = async () => {
   const versionMetaPath = path.join(repoRoot, 'src', 'meta', 'version.json');
   writeJson(versionMetaPath, { version: nextVersion });
 
-  await updateBadges();
+  // Run the TypeScript badge updater via ts-node/esm
+  run('node --loader ts-node/esm scripts/update-badges.ts');
 
-  run('git add package.json src/meta/version.json src/meta/coverage.json assets/badges');
+  // Stage updated metadata + badge assets
+  run('git add package.json src/meta/version.json src/meta/coverage.json docs/badges');
   run(`git commit -m "chore(release): v${nextVersion}"`);
   run(`git tag -a v${nextVersion} -m "Release v${nextVersion}"`);
 
