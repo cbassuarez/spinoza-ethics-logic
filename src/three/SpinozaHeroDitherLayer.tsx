@@ -5,7 +5,7 @@ import { TextureLoader, LinearFilter, NearestFilter } from 'three';
 import { SpinozaHeroDitherEffect, EthicsPart } from './effects/SpinozaDitherEffect';
 import { useScrollProgress } from '../hooks/useScrollProgress';
 import type { ThreeElements } from '@react-three/fiber';
-import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait';
+import { spinozaPortraitDataUrl } from './spinozaPortrait';
 
 interface SpinozaHeroCanvasProps {
   part: EthicsPart;
@@ -32,7 +32,9 @@ const SpinozaPortraitPlane: React.FC<PortraitProps> = (props) => {
             <meshBasicMaterial
                 map={texture}
                 toneMapped={false}
-                transparent={false}
+                transparent
+                opacity={0}
+                depthWrite={false}
             />
         </mesh>
     );
@@ -58,7 +60,12 @@ const SpinozaHeroScene: React.FC<SpinozaHeroCanvasProps> = ({ part, hoveredPart,
 
 export const SpinozaHeroCanvas: React.FC<SpinozaHeroCanvasProps> = (props) => {
   return (
-    <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 35 }} style={{ width: '100%', height: '100%' }}>
+    <Canvas
+      dpr={[1, 2]}
+      camera={{ position: [0, 0, 5], fov: 35 }}
+      gl={{ alpha: true, antialias: true }}
+      style={{ width: '100%', height: '100%', background: 'transparent' }}
+    >
       <SpinozaHeroScene {...props} />
     </Canvas>
   );
@@ -90,7 +97,12 @@ const SpinozaHeroSpriteScene: React.FC<SpinozaHeroSpriteCanvasProps> = ({ part, 
 
 export const SpinozaHeroSpriteCanvas: React.FC<SpinozaHeroSpriteCanvasProps> = (props) => {
   return (
-    <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 35 }} style={{ width: '100%', height: '100%' }}>
+    <Canvas
+      dpr={[1, 2]}
+      camera={{ position: [0, 0, 5], fov: 35 }}
+      gl={{ alpha: true, antialias: true }}
+      style={{ width: '100%', height: '100%', background: 'transparent' }}
+    >
       <SpinozaHeroSpriteScene {...props} />
     </Canvas>
   );

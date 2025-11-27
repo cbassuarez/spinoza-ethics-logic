@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait';
+import { spinozaPortraitDataUrl } from '../three/spinozaPortrait';
 
 const SpinozaMark = () => {
   return (
