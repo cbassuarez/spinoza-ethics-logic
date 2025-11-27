@@ -168,12 +168,12 @@ const LogicGraph = ({ items, onSelect }: Props) => {
       [xMax + xPadding, yMax + yPadding],
     ];
 
-    const handleZoom = (event: { transform: d3.ZoomTransform }) => {
-      select(innerRef.current).attr('transform', event.transform.toString());
-      setZoomPercent(Math.round(event.transform.k * 100));
-    };
-
-    const zoomBehavior = zoom<SVGSVGElement, unknown>()
+      const handleZoom = (event: { transform: ZoomTransform }) => {
+          select(innerRef.current).attr('transform', event.transform.toString());
+          setZoomPercent(Math.round(event.transform.k * 100));
+      };
+      
+      const zoomBehavior = zoom<SVGSVGElement, unknown>()
       .scaleExtent([kFit, kMax])
       .translateExtent(translateExtent)
       .filter((event) => {
