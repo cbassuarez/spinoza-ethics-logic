@@ -34,8 +34,6 @@ const SpinozaHeroScene: React.FC<SpinozaHeroCanvasProps> = ({ part, hoveredPart,
           hoveredPart={hoveredPart}
           hoveredItemId={hoveredItemId}
           scrollProgress={scrollProgress}
-          logicalWidth={320}
-          logicalHeight={180}
         />
       </EffectComposer>
     </>
@@ -68,8 +66,6 @@ const SpinozaHeroSpriteScene: React.FC<SpinozaHeroSpriteCanvasProps> = ({ part, 
           hoveredPart={hoveredPart}
           hoveredItemId={hoveredItemId}
           scrollProgress={scrollProgress}
-          logicalWidth={128}
-          logicalHeight={128}
         />
       </EffectComposer>
     </>

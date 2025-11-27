@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { Effect } from 'postprocessing';
 import { Color, Uniform, Vector2 } from 'three';
 
@@ -45,25 +45,7 @@ export const SPINOZA_PART_CONFIG: Record<EthicsPart, SpinozaPartConfig> = {
   },
 };
 
-const bayer8x8 = /* glsl */ `
-float bayer8x8(int x, int y) {
-  int index = y * 8 + x;
-  int m[64];
-  m[0] = 0;   m[1] = 48;  m[2] = 12;  m[3] = 60;  m[4] = 3;   m[5] = 51;  m[6] = 15;  m[7] = 63;
-  m[8] = 32;  m[9] = 16;  m[10] = 44; m[11] = 28; m[12] = 35; m[13] = 19; m[14] = 47; m[15] = 31;
-  m[16] = 8;  m[17] = 56; m[18] = 4;  m[19] = 52; m[20] = 11; m[21] = 59; m[22] = 7;  m[23] = 55;
-  m[24] = 40; m[25] = 24; m[26] = 36; m[27] = 20; m[28] = 43; m[29] = 27; m[30] = 39; m[31] = 23;
-  m[32] = 2;  m[33] = 50; m[34] = 14; m[35] = 62; m[36] = 1;  m[37] = 49; m[38] = 13; m[39] = 61;
-  m[40] = 34; m[41] = 18; m[42] = 46; m[43] = 30; m[44] = 33; m[45] = 17; m[46] = 45; m[47] = 29;
-  m[48] = 10; m[49] = 58; m[50] = 6;  m[51] = 54; m[52] = 9;  m[53] = 57; m[54] = 5;  m[55] = 53;
-  m[56] = 42; m[57] = 26; m[58] = 38; m[59] = 22; m[60] = 41; m[61] = 25; m[62] = 37; m[63] = 21;
-  return float(m[index]) / 64.0;
-}
-`;
-
-export const spinozaDitherFragment = /* glsl */ `
-uniform sampler2D tDiffuse;
-
+export const spinozaDitherFragment = /* glsl */`
 uniform float uTime;
 uniform float uScroll;
 uniform float uContrast;
@@ -71,41 +53,67 @@ uniform float uShimmerStrength;
 uniform float uDitherScale;
 uniform vec3  uAccent;
 uniform float uHighlight;
-uniform vec2 uLogicalResolution;
+uniform vec2  uLogicalResolution;
 
-varying vec2 vUv;
-
-${bayer8x8}
+// 8×8 Bayer ordered dither matrix as a constant float array
+float bayer8x8(int x, int y) {
+  int index = y * 8 + x;
+  const float m[64] = float[64](
+     0.0, 48.0, 12.0, 60.0,  3.0, 51.0, 15.0, 63.0,
+    32.0, 16.0, 44.0, 28.0, 35.0, 19.0, 47.0, 31.0,
+     8.0, 56.0,  4.0, 52.0, 11.0, 59.0,  7.0, 55.0,
+    40.0, 24.0, 36.0, 20.0, 43.0, 27.0, 39.0, 23.0,
+     2.0, 50.0, 14.0, 62.0,  1.0, 49.0, 13.0, 61.0,
+    34.0, 18.0, 46.0, 30.0, 33.0, 17.0, 45.0, 29.0,
+    10.0, 58.0,  6.0, 54.0,  9.0, 57.0,  5.0, 53.0,
+    42.0, 26.0, 38.0, 22.0, 41.0, 25.0, 37.0, 21.0
+  );
+  return m[index] / 64.0;
+}
 
 vec3 applyContrast(vec3 color, float contrast) {
   return (color - 0.5) * contrast + 0.5;
 }
 
+float ditherChannel(float c, float effectiveThreshold) {
+  float bit = step(effectiveThreshold, c);
+  return bit;
+}
+
+// postprocessing injects a main() that calls:
+//
+//   mainImage(inputColor, vUv, gl_FragColor);
+//
+// so we only implement this:
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outColor) {
-  vec4 base = texture2D(tDiffuse, uv);
+  vec4 base = inputColor;
   vec3 color = base.rgb;
 
+  // gamma-ish adjustment
   color = pow(color, vec3(1.0 / 2.0));
 
+  // Logical coords for ordered dither
   vec2 grid = uv * uLogicalResolution * uDitherScale;
   int bx = int(mod(floor(grid.x), 8.0));
   int by = int(mod(floor(grid.y), 8.0));
-  float threshold = bayer8x8(bx, by);
+  float threshold = bayer8x8(bx, by); // 0..1
 
   float shimmer = sin(uTime * 0.5 + threshold * 10.0) * uShimmerStrength;
-  float scrollMod = (uScroll - 0.5) * 0.05;
+  float scrollMod = (uScroll - 0.5) * 0.05; // tiny
   float t = clamp(threshold + shimmer + scrollMod, 0.0, 1.0);
 
-  vec3 dithered;
-  for (int i = 0; i < 3; i++) {
-    float c = color[i];
-    float effective = 0.5 + (t - 0.5);
-    float bit = step(effective, c);
-    dithered[i] = bit;
-  }
+  // Bias around mid-gray 0.5
+  float effective = 0.5 + (t - 0.5);
+
+  // 2 levels per channel: ordered 1-bit dither
+  float r = ditherChannel(color.r, effective);
+  float g = ditherChannel(color.g, effective);
+  float b = ditherChannel(color.b, effective);
+  vec3 dithered = vec3(r, g, b);
 
   dithered = applyContrast(dithered, uContrast);
 
+  // Accent and highlight
   float brightness = (dithered.r + dithered.g + dithered.b) / 3.0;
   float accentFactor = brightness * 0.6 + 0.1;
   vec3 tinted = mix(dithered, uAccent, accentFactor);
@@ -116,10 +124,6 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outColor) {
   }
 
   outColor = vec4(tinted, base.a);
-}
-
-void main() {
-  mainImage(texture2D(tDiffuse, vUv), vUv, gl_FragColor);
 }
 `;
 
@@ -137,7 +141,7 @@ export interface SpinozaDitherUniforms {
 export class SpinozaDitherEffectImpl extends Effect {
   public uniformsMap: SpinozaDitherUniforms;
 
-  constructor(config: { part: EthicsPart; logicalResolution: Vector2 }) {
+  constructor(config: { part: EthicsPart; logicalResolution?: Vector2 }) {
     const partConfig = SPINOZA_PART_CONFIG[config.part];
 
     const uniforms = new Map<string, Uniform<any>>();
@@ -148,7 +152,7 @@ export class SpinozaDitherEffectImpl extends Effect {
     const uDitherScale = new Uniform(partConfig.ditherScale);
     const uAccent = new Uniform(partConfig.accent.clone());
     const uHighlight = new Uniform(0);
-    const uLogicalResolution = new Uniform(config.logicalResolution.clone());
+    const uLogicalResolution = new Uniform((config.logicalResolution ?? new Vector2(1, 1)).clone());
 
     uniforms.set('uTime', uTime);
     uniforms.set('uScroll', uScroll);
@@ -189,8 +193,6 @@ export interface SpinozaHeroDitherEffectProps {
   hoveredPart?: EthicsPart | null;
   hoveredItemId?: string | null;
   scrollProgress: number;
-  logicalWidth?: number;
-  logicalHeight?: number;
 }
 
 export const SpinozaHeroDitherEffect: React.FC<SpinozaHeroDitherEffectProps> = ({
@@ -198,18 +200,17 @@ export const SpinozaHeroDitherEffect: React.FC<SpinozaHeroDitherEffectProps> = (
   hoveredPart,
   hoveredItemId,
   scrollProgress,
-  logicalWidth = 320,
-  logicalHeight = 180,
 }) => {
   const effectRef = useRef<SpinozaDitherEffectImpl | null>(null);
+  const { size } = useThree();
 
   const effect = useMemo(() => {
-    const res = new Vector2(logicalWidth, logicalHeight);
+    const res = new Vector2(size.width / 4, size.height / 4);
     return new SpinozaDitherEffectImpl({
       part,
       logicalResolution: res,
     });
-  }, [logicalHeight, logicalWidth, part]);
+  }, [part, size.height, size.width]);
 
   effectRef.current = effect;
 
@@ -219,6 +220,8 @@ export const SpinozaHeroDitherEffect: React.FC<SpinozaHeroDitherEffectProps> = (
 
     e.uniformsMap.uTime.value += delta;
     e.uniformsMap.uScroll.value = scrollProgress;
+    const { width, height } = state.size;
+    e.uniformsMap.uLogicalResolution.value.set(width / 4, height / 4);
 
     let highlight = 0;
     if (hoveredItemId) {

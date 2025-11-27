@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import SpinozaMark from '../components/SpinozaMark';
 import { corpus } from '../data';
 import { SpinozaHeroSection } from '../components/SpinozaHeroSection';
+import { SpinozaHeroCanvas } from '../three/SpinozaHeroDitherLayer';
 import type { EthicsPart } from '../three/effects/SpinozaDitherEffect';
 
 const HomePage = () => {
@@ -44,8 +44,8 @@ const HomePage = () => {
           </div>
         </div>
         <div className="card flex flex-col items-center justify-center gap-6">
-          <div className="w-40">
-            <SpinozaMark />
+          <div style={{ position: 'relative', width: '100%', maxWidth: '420px', aspectRatio: '16/9' }}>
+            <SpinozaHeroCanvas part={currentPart} hoveredPart={hoveredPart} hoveredItemId={hoveredItemId} />
           </div>
           <p className="text-center text-slate-700">Thoughtful exploration through data, logic, and visual tools.</p>
         </div>
