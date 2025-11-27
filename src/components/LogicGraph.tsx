@@ -201,7 +201,7 @@ const LogicGraph = ({ items, onSelect }: Props) => {
     svg.call(zoomBehavior as any);
     svg.call(zoomBehavior.transform as any, initial);
     // Initial view should read 75%
-    setZoomPercent(75);
+    setZoomPercent(200);
   }, [dimensions.height, dimensions.width, nodes]);
 
   useEffect(() => {
