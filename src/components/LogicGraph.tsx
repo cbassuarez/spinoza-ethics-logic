@@ -175,7 +175,7 @@ const LogicGraph = ({ items, onSelect }: Props) => {
       select(innerRef.current).attr('transform', event.transform.toString());
       const fit = fitScaleRef.current || 1;
       // Map k = fitScale to 75%
-      const percent = (event.transform.k / fit) * 100;
+      const percent = (event.transform.k / fit) * 50;
       setZoomPercent(Math.round(percent));
     };
 
