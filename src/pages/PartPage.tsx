@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { getItemsByPart } from '../data';
+import { getPartLabel } from '../utils/ethicsParts';
 
 const groupOrder = ['definition', 'axiom', 'postulate', 'proposition', 'scholium', 'corollary', 'lemma'];
 
@@ -15,6 +16,18 @@ const PartPage = () => {
 
   return (
     <div className="space-y-6">
+      <nav className="text-xs text-[var(--text-muted)]">
+        <Link to="/ethics" className="underline decoration-dotted decoration-[var(--border)] underline-offset-4 hover:text-[var(--accent)]">
+          Ethics
+        </Link>
+        <span className="mx-1">/</span>
+        <Link to="/ethics" className="underline decoration-dotted decoration-[var(--border)] underline-offset-4 hover:text-[var(--accent)]">
+          Parts
+        </Link>
+        <span className="mx-1">/</span>
+        <span>{getPartLabel(part)}</span>
+      </nav>
+
       <div className="space-y-2">
         <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">PARTS</p>
         <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>

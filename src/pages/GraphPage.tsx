@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { corpus } from '../data';
 
 const LogicGraph = lazy(() => import('../components/LogicGraph'));
@@ -11,9 +11,18 @@ const GraphPage = () => {
     <div className="space-y-6">
       <div className="space-y-2">
         <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">NODE GRAPH</p>
-        <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-          Dependency map of Ethics entries
-        </h2>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
+            Dependency map of Ethics entries
+          </h2>
+          <Link
+            to="/ethics"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--text-muted)] underline decoration-dotted decoration-[var(--border)] underline-offset-4 transition hover:text-[var(--accent)]"
+          >
+            <span>Open part picker</span>
+            <span>→</span>
+          </Link>
+        </div>
         <p className="text-[var(--text-muted)]">
           Hover to inspect logical neighbors. Click a node to open the corresponding entry in the Text → Logic view. The layout
           drifts gently to suggest the live structure of the corpus.

@@ -5,7 +5,7 @@ import SpinozaMark from '../components/SpinozaMark';
 
 const navItems = [
     { to: '/', label: 'Home' },
-    { to: '/ethics/part/1', label: 'Parts' },
+    { to: '/ethics', label: 'Parts' },
     { to: '/corpus', label: 'Corpus' },
     { to: '/graph', label: 'Explorer' },
     { to: '/logic', label: 'Method' },
