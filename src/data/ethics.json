@@ -15480,7 +15480,16 @@
       "translation": "By good I mean that which we certainly know to be useful to us."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(GoodFor(p,x) ↔ (UsefulTo(p,x) ∧ KnownUseful(p,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: GoodFor(p, x) <-> (UsefulTo(p, x) & KnownUseful(p, x))",
+        "notes": "Good is what we certainly know to be useful to us."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15510,7 +15519,16 @@
       "translation": "By evil I mean that which we certainly know to be a hindrance to us in the attainment of any good.\n\n(Concerning these terms see the foregoing preface towards the end.)"
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(EvilFor(p,x) ↔ (HindersGood(p,x) ∧ KnownHindrance(p,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: EvilFor(p, x) <-> (HindersGood(p, x) & KnownHindrance(p, x))",
+        "notes": "Evil is what we certainly know prevents our attainment of some good."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15543,7 +15561,16 @@
       "Essence",
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x(Contingent(x) ↔ (¬EssenceImpliesExistence(x) ∧ ¬EssenceExcludesExistence(x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: Contingent(x) <-> (~EssenceImpliesExistence(x) & ~EssenceExcludesExistence(x))",
+        "notes": "A thing is contingent when its essence neither affirms nor denies its existence."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15573,7 +15600,16 @@
       "translation": "Particular things I call possible in so far as, while regarding the causes whereby they must be produced, we know not, whether such causes be determined for producing them.\n\n(In I. xxxiii. note. i., I drew no distinction between possible and contingent, because there was in that place no need to distinguish them accurately.)"
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀x(Possible(x) ↔ (HasPossibleCauses(x) ∧ UnknownWhetherCausesDetermined(x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall x: Possible(x) <-> (HasPossibleCauses(x) & UnknownWhetherCausesDetermined(x))",
+        "notes": "A thing is possible when its producing causes are not yet known to be determined."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15603,7 +15639,16 @@
       "translation": "By conflicting emotions I mean those which draw a man in different directions, though they are of the same kind, such as luxury and avarice, which are both species of love, and are contraries, not by nature, but by accident."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e1∀e2((Emotion(e1,p) ∧ Emotion(e2,p) ∧ SameKind(e1,e2) ∧ OpposeDirections(e1,e2)) → Conflicting(e1,e2,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e1 forall e2: (Emotion(e1, p) & Emotion(e2, p) & SameKind(e1, e2) & OpposeDirections(e1, e2)) -> Conflicting(e1, e2, p)",
+        "notes": "Conflicting emotions pull in contrary directions while belonging to the same genus."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15633,7 +15678,16 @@
       "translation": "What I mean by emotion felt towards a thing, future, present, and past, I explained in III. xviii., notes. i. and ii., which see.\n\n(But I should here also remark, that we can only distinctly conceive distance of space or time up to a certain definite limit; that is, all objects distant from us more than two hundred feet, or whose distance from the place where we are exceeds that which we can distinctly conceive, seem to be an equal distance from us, and all in the same plane; so also objects, whose time of existing is conceived as removed from the present by a longer interval than we can distinctly conceive, seem to be all equally distant from the present, and are set down, as it were, to the same moment of time.)"
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e∀t(EmotionTowardTime(e,p,t) → QualifiesEmotionByTime(e,t))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e forall t: EmotionTowardTime(e, p, t) -> QualifiesEmotionByTime(e, t)",
+        "notes": "Emotions are indexed to whether their object is past, present, or future."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15663,7 +15717,16 @@
       "translation": "By an end, for the sake of which we do something, I mean a desire."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(EndFor(p,x) ↔ Desires(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: EndFor(p, x) <-> Desires(p, x)",
+        "notes": "An end is nothing but a desire."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15696,7 +15759,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Virtue(p) ↔ PowerToActFromNature(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Virtue(p) <-> PowerToActFromNature(p)",
+        "notes": "Virtue and power are the same essence of a person insofar as it acts from its own nature."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15732,10 +15804,10 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀x(Minds(x) → InadequateIdeas(x) → Passive(x))",
+        "display": "∀m(Mind(m) → (InadequateIdeas(m) → Passive(m)))",
         "encoding_format": "custom-fol",
-        "encoding": "forall x: Minds(x) -> InadequateIdeas(x) -> Passive(x)",
-        "notes": "Human minds begin with inadequate ideas and so are passive in part."
+        "encoding": "forall m: Mind(m) -> (InadequateIdeas(m) -> Passive(m))",
+        "notes": "Because human minds begin with inadequate ideas, part of our nature is necessarily passive."
       }
     ],
     "dependencies": {
@@ -15771,7 +15843,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀m(Mind(m) → (AdequateIdeas(m) → Active(m)) ∧ (InadequateIdeas(m) → Passive(m)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) -> ((AdequateIdeas(m) -> Active(m)) & (InadequateIdeas(m) -> Passive(m)))",
+        "notes": "To the extent a mind has adequate ideas it is active; to the extent it has inadequate ones it is passive."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15800,7 +15881,16 @@
       "translation": "We are only passive, in so far as we are a part of Nature, which cannot be conceived by itself without other parts.\n\nProof. — We are said to be passive, when something arises in us, whereof we are only a partial cause (III. Def. ii.), that is (III. Def. i.), something which cannot be deduced solely from the laws of our nature. We are passive therefore, in so far as we are a part of Nature, which cannot be conceived by itself without other parts. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Human(p) → (PartOfNature(p) ∧ InfluencedByExternalCauses(p) → Passive(p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Human(p) -> (PartOfNature(p) & InfluencedByExternalCauses(p) -> Passive(p))",
+        "notes": "We are passive insofar as we are parts of nature subject to external determination."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -15841,7 +15931,16 @@
       "Infinity",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Human(p) → ∃q(MorePowerful(q,p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Human(p) -> exists q: MorePowerful(q, p)",
+        "notes": "The force by which any person persists is limited by stronger external powers."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15875,7 +15974,16 @@
       "Infinity",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Human(p) → PartOfNature(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Human(p) -> PartOfNature(p)",
+        "notes": "It is impossible for a human not to be a part of Nature."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15904,7 +16012,16 @@
       "translation": "— Hence it follows, that man is necessarily always a prey to his passions, that he follows and obeys the general order of nature, and that he accommodates himself thereto, as much as the nature of things demands."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Human(p) → UnavoidablyAffectedExternally(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Human(p) -> UnavoidablyAffectedExternally(p)",
+        "notes": "Since we are part of nature, external causes will always play a role in our affects."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15936,7 +16053,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(Passion(e,p) → Strength(e,p) ≤ RelativePower(ExternalCause(e),p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: Passion(e, p) -> Strength(e, p) <= RelativePower(ExternalCause(e), p)",
+        "notes": "The force of any passion is bounded by the comparative power of its external cause and our own power."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -15967,7 +16093,16 @@
     "concepts": [
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∃e(Passion(e,p) ∧ DominatesOtherActions(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p exists e: Passion(e, p) & DominatesOtherActions(e, p)",
+        "notes": "Any passion can, for a time, overcome other actions of a person while its cause prevails."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16001,7 +16136,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e1∀e2((Emotion(e2,p) ∧ Opposes(e2,e1) ∧ Strength(e2,p) > Strength(e1,p)) → Controls(e2,e1,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e1 forall e2: (Emotion(e2, p) & Opposes(e2, e1) & Strength(e2, p) > Strength(e1, p)) -> Controls(e2, e1, p)",
+        "notes": "An emotion can be checked or destroyed only by a contrary or stronger emotion."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16033,7 +16177,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(Emotion(e,p) → ∃e2(Emotion(e2,p) ∧ Opposes(e2,e) ∧ Strength(e2,p) ≥ Strength(e,p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: Emotion(e, p) -> exists e2: Emotion(e2, p) & Opposes(e2, e) & Strength(e2, p) >= Strength(e, p)",
+        "notes": "Every passion is countered only by an equal or stronger contrary emotion."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16066,7 +16219,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(KnowledgeOfGoodEvil(p,x) ↔ (ConsciousPleasureFrom(x,p) ∨ ConsciousPainFrom(x,p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: KnowledgeOfGoodEvil(p, x) <-> (ConsciousPleasureFrom(x, p) | ConsciousPainFrom(x, p))",
+        "notes": "Knowing good or evil just is being affectively aware of what increases or diminishes our power."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16099,7 +16261,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e((Emotion(e,p) ∧ CausePresent(e)) → Stronger(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (Emotion(e, p) & CausePresent(e)) -> Stronger(e, p)",
+        "notes": "Emotions toward things we imagine as present are more forceful than toward absent things."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16130,7 +16301,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(CauseAbsent(e) → Weakens(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: CauseAbsent(e) -> Weakens(e, p)",
+        "notes": "Distance or absence of the cause diminishes an emotion’s power."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16159,7 +16339,16 @@
       "translation": "— The image of something past or future, that is, of a thing which we regard as in relation to time past or time future, to the exclusion of time present, is, when other conditions are equal, weaker than the image of something present; consequently an emotion felt towards what is past or future is less intense, other conditions being equal, than an emotion felt towards something present."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(VacillationFromUncertainPresence(e,p) → MixedHopeFear(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: VacillationFromUncertainPresence(e, p) -> MixedHopeFear(e, p)",
+        "notes": "Uncertainty about whether a cause is present yields wavering between hope and fear."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16190,7 +16379,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(EmotionTowardFuture(e,p) → NearFuture(e) → Stronger(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (EmotionTowardFuture(e, p) -> (NearFuture(e) -> Stronger(e, p)))",
+        "notes": "Emotions toward imagined near futures are stronger than toward remote ones."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16219,7 +16417,16 @@
       "translation": "— From the remarks made in Def. vi. of this part it follows that, if objects are separated from the present by a longer period than we can define in conception, though their dates of occurrence be widely separated one from the other, they all affect us equally faintly."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(DistantFuture(e) → Weaker(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: DistantFuture(e) -> Weaker(e, p)",
+        "notes": "Remoteness in time attenuates emotional force for future things."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16255,7 +16462,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e((Emotion(e,p) ∧ ConceivesNecessary(e)) → Stronger(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (Emotion(e, p) & ConceivesNecessary(e)) -> Stronger(e, p)",
+        "notes": "Emotion toward what we conceive as necessary exceeds that toward what is merely possible."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16286,7 +16502,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e((Emotion(e,p) ∧ KnownNotToExist(e)) → Weaker(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (Emotion(e, p) & KnownNotToExist(e)) -> Weaker(e, p)",
+        "notes": "Emotion toward something known not to exist is feebler than toward what is present or certain."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16322,7 +16547,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e((Emotion(e,p) ∧ KnownNotToExist(e)) → DependsOnImagination(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (Emotion(e, p) & KnownNotToExist(e)) -> DependsOnImagination(e, p)",
+        "notes": "When we feel toward what we know is absent, the affect arises only from imagination."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16353,7 +16587,16 @@
     "concepts": [
       "Existence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e((Emotion(e,p) ∧ ContingentObject(e)) → Weaker(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: (Emotion(e, p) & ContingentObject(e)) -> Weaker(e, p)",
+        "notes": "Emotion toward a merely contingent thing is weaker than toward a necessary one."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16390,7 +16633,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀e(TrueKnowledgeGoodEvil(p,e) → ¬DestroysEmotion(e,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall e: TrueKnowledgeGoodEvil(p, e) -> ~DestroysEmotion(e, p)",
+        "notes": "True knowledge of good and evil alone cannot overcome a present passion."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16422,7 +16674,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀d(DesireFromKnowledge(p,d) → ∃e(Emotion(e,p) ∧ Overrides(e,d,p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall d: DesireFromKnowledge(p, d) -> exists e: Emotion(e, p) & Overrides(e, d, p)",
+        "notes": "Desire from knowing good or evil can be quenched by another, stronger emotion."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16456,7 +16717,16 @@
       "translation": "Desire arising from the knowledge of good and evil, in so far as such knowledge regards what is future, may be more easily controlled or quenched, than the desire for what is agreeable at the present moment.\n\nProof. — Emotion towards a thing, which we conceive as future, is fainter than emotion towards a thing that is present (IV. ix. Coroll.). But desire, which arises from the true knowledge of good and evil, though it be concerned with things which are good at the moment, can be quenched or controlled by any headstrong desire (by the last Prop., the proof whereof is of universal application). Wherefore desire arising from such knowledge, when concerned with the future, can be more easily controlled or quenched, &c. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀d((DesireFromKnowledge(p,d) ∧ ConsidersManyGoodsEvils(p)) → Strengthens(d,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall d: (DesireFromKnowledge(p, d) & ConsidersManyGoodsEvils(p)) -> Strengthens(d, p)",
+        "notes": "Considering several goods or evils can increase the desire that follows from knowledge of them."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16485,7 +16755,16 @@
       "translation": "Desire arising from the true knowledge of good and evil, in so far as such knowledge is concerned with what is contingent, can be controlled far more easily still, than desire for things that are present.\n\nProof. This Prop. is proved in the same way as the last Prop. from IV. xii. Coroll."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀d(DesireFromTrueKnowledge(p,d) → ResistantToPassions(d,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall d: DesireFromTrueKnowledge(p, d) -> ResistantToPassions(d, p)",
+        "notes": "Desire born of clear knowledge resists passions more than desire born of opinion."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16517,7 +16796,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(GuidedByReason(p) → OrdersDesiresByUtility(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: GuidedByReason(p) -> OrdersDesiresByUtility(p)",
+        "notes": "A person guided by reason proportionally orders desires according to their true usefulness."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16553,10 +16841,10 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀p(Rational(p) → Pursues(CommonGood(p)))",
+        "display": "∀p∀e((DesireFromPleasure(e,p) ∨ DesireFromPain(e,p)) → StrengthProportionalToAffect(e,p))",
         "encoding_format": "custom-fol",
-        "encoding": "forall p: Rational(p) -> Pursues(CommonGood(p))",
-        "notes": "A rational person seeks the common good as part of self-preservation."
+        "encoding": "forall p forall e: (DesireFromPleasure(e, p) | DesireFromPain(e, p)) -> StrengthProportionalToAffect(e, p)",
+        "notes": "Desire arising from pleasure or pain grows in strength with the underlying affect."
       }
     ],
     "dependencies": {
@@ -16591,7 +16879,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(HeightenedPleasure(p) → ReinforcesAttachmentToCause(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: HeightenedPleasure(p) -> ReinforcesAttachmentToCause(p)",
+        "notes": "Pleasure intensifies our clinging to what produces it, unless outweighed by other causes."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16627,7 +16924,16 @@
     "concepts": [
       "Essence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x((PerceivesAsGood(p,x) → Desires(p,x)) ∧ (PerceivesAsEvil(p,x) → Averses(p,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: (PerceivesAsGood(p, x) -> Desires(p, x)) & (PerceivesAsEvil(p, x) -> Averses(p, x))",
+        "notes": "By nature everyone necessarily seeks what is judged good and shrinks from what is judged evil."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16659,7 +16965,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((StrivesToPreserveBeing(p) ∧ AbleToSeekUseful(p)) → ActsMoreFromReason(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (StrivesToPreserveBeing(p) & AbleToSeekUseful(p)) -> ActsMoreFromReason(p)",
+        "notes": "The more one endeavours and is able to pursue what is useful, the more one is guided by reason."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16696,7 +17011,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(UnderstandingSelfPreservation(p) → IdentifiesUtilityWithReason(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: UnderstandingSelfPreservation(p) -> IdentifiesUtilityWithReason(p)",
+        "notes": "Recognizing that usefulness equals rational self-preservation clarifies our duties."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16727,7 +17051,16 @@
     "concepts": [
       "Essence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((DesiresBlessedness(p) ∨ DesiresRightAction(p) ∨ DesiresRightLiving(p)) → DesiresPerseverance(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: ((DesiresBlessedness(p) | DesiresRightAction(p) | DesiresRightLiving(p)) -> DesiresPerseverance(p))",
+        "notes": "No one can seek blessedness or right living without also desiring to persist in being."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16758,7 +17091,16 @@
     "concepts": [
       "Essence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Virtue(p) → StrivingToPreserveBeing(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Virtue(p) -> StrivingToPreserveBeing(p)",
+        "notes": "No virtue is conceivable prior to the endeavour to preserve one’s own being."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16787,7 +17129,16 @@
       "translation": "— The effort for self-preservation is the first and only foundation of virtue. For prior to this principle nothing can be conceived, and without it no virtue can be conceived."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(PrincipalEndeavour(p) = StrivingToPreserveBeing(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: PrincipalEndeavour(p) = StrivingToPreserveBeing(p)",
+        "notes": "The fundamental striving of each person is the effort to persist."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16818,7 +17169,16 @@
     "concepts": [
       "Essence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(ActionFromReason(p) → FollowsFromHumanNatureAlone(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: ActionFromReason(p) -> FollowsFromHumanNatureAlone(p)",
+        "notes": "Acts arising from reason follow from our nature considered in itself."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -16852,7 +17212,16 @@
       "translation": "To act absolutely in obedience to virtue is in us the same thing as to act, to live, or to preserve one’s being (these three terms are identical in meaning) in accordance with the dictates of reason on the basis of seeking what is useful to one’s self.\n\nProof. — To act absolutely in obedience to virtue is nothing else but to act according to the laws of one’s own nature. But we only act, in so far as we understand (III. iii.): therefore to act in obedience to virtue is in us nothing else but to act, to live, or to preserve one’s being in obedience to reason, and that on the basis of seeking what is useful for us (IV. xxii. Coroll.). Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(ActingFromVirtue(p) ↔ ActingFromReason(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: ActingFromVirtue(p) <-> ActingFromReason(p)",
+        "notes": "Acting absolutely from virtue is the same as acting from the guidance of reason."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16883,7 +17252,16 @@
     "concepts": [
       "Essence"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(StrivingToPreserveBeing(p) → ¬ForSakeOfAnotherEnd(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: StrivingToPreserveBeing(p) -> ~ForSakeOfAnotherEnd(p)",
+        "notes": "No one strives to preserve their being for the sake of anything else."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16916,7 +17294,16 @@
       "Existence",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(EndeavourByReason(p,x) → EndeavourToUnderstand(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: EndeavourByReason(p, x) -> EndeavourToUnderstand(p, x)",
+        "notes": "Whatever we endeavour through reason is nothing but an endeavour to understand."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16947,7 +17334,16 @@
     "concepts": [
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(CertainlyGoodFor(p,x) ↔ PromotesUnderstanding(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: CertainlyGoodFor(p, x) <-> PromotesUnderstanding(p, x)",
+        "notes": "We know as certainly good or evil only what truly conduces to understanding."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -16980,7 +17376,16 @@
       "Infinity",
       "Mind"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀m(Mind(m) → (HighestGood(m) = KnowledgeOfGod(m)) ∧ (HighestVirtue(m) = KnowingGod(m)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall m: Mind(m) -> (HighestGood(m) = KnowledgeOfGod(m)) & (HighestVirtue(m) = KnowingGod(m))",
+        "notes": "The mind’s highest good and virtue is the knowledge of God."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17021,7 +17426,16 @@
       "Attribute",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(CompletelyDifferentNature(x,p) → ¬HelpsNorHarmsSubstantially(x,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: CompletelyDifferentNature(x, p) -> ~HelpsNorHarmsSubstantially(x, p)",
+        "notes": "What is entirely different from our nature can neither greatly help nor hinder us."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17052,7 +17466,16 @@
     "concepts": [
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(Thing(x) → (BadForUs(p,x) → RelationDependent(p,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: Thing(x) -> (BadForUs(p, x) -> RelationDependent(p, x))",
+        "notes": "Nothing is bad for us through its essence alone, but only through relation to us."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17081,7 +17504,16 @@
       "translation": "In so far as a thing is in harmony with our nature, it is necessarily good.\n\nProof. — In so far as a thing is in harmony with our nature, it cannot be bad for it. It will therefore necessarily be either good or indifferent. If it be assumed that it be neither good nor bad, nothing will follow from its nature (IV. Def. i.), which tends to the preservation of our nature, that is (by the hypothesis), which tends to the preservation of the thing itself; but this (III. vi.) is absurd; therefore, in so far as a thing is in harmony with our nature, it is necessarily good. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(HarmonizesWithNature(x,p) → NecessarilyGoodFor(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: HarmonizesWithNature(x, p) -> NecessarilyGoodFor(p, x)",
+        "notes": "Whatever agrees with our nature is necessarily good for us."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17115,7 +17547,16 @@
       "translation": "— Hence it follows, that, in proportion as a thing is in harmony with our nature, so is it more useful or better for us, and vice versâ, in proportion as a thing is more useful for us, so is it more in harmony with our nature. For, in so far as it is not in harmony with our nature, it will necessarily be different therefrom or contrary thereto. If different, it can neither be good nor bad (IV. xxix.); if contrary, it will be contrary to that which is in harmony with our nature, that is, contrary to what is good –in short, bad. Nothing, therefore, can be good, except in so far as it is in harmony with our nature; and hence a thing is useful, in proportion as it is in harmony with our nature, and vice versâ. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(HarmonizesWithNature(x,p) → MoreUseful(x,p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: HarmonizesWithNature(x, p) -> MoreUseful(x, p)",
+        "notes": "Agreement with our nature directly measures usefulness."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17146,7 +17587,16 @@
     "concepts": [
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q(MenAsPassions(p,q) → PossiblyContrary(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: MenAsPassions(p, q) -> PossiblyContrary(p, q)",
+        "notes": "Insofar as men are subject to passions, they can be opposed to one another."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17177,7 +17627,16 @@
     "concepts": [
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q((DominatedByPassion(p) ∧ DominatedByPassion(q)) → UnstableRelations(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: (DominatedByPassion(p) & DominatedByPassion(q)) -> UnstableRelations(p, q)",
+        "notes": "Human relations under passion are volatile and easily turn into conflict."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17209,7 +17668,16 @@
       "Essence",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q(DifferentLeadingEmotions(p,q) → DifferInNatureAsExperienced(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: DifferentLeadingEmotions(p, q) -> DifferInNatureAsExperienced(p, q)",
+        "notes": "Men differ in nature insofar as they are driven by differing passions."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17238,7 +17706,16 @@
       "translation": "In so far as men are assailed by emotions which are passions, they can be contrary one to another.\n\nProof. — A man, for instance Peter, can be the cause of Paul’s feeling pain, because he (Peter) possesses something similar to that which Paul hates (III. xvi.), or because Peter has sole possession of a thing which Paul also loves (III. xxxii. and note), or for other causes (of which the chief are enumerated in III. lv. note); it may therefore happen that Paul should hate Peter (Def. of Emotions, vii.), consequently it may easily happen also, that Peter should hate Paul in return, and that each should endeavour to do the other an injury, (III. xxxix.), that is (IV. xxx.), that they should be contrary one to another. But the emotion of pain is always a passion or passive state (III. lix.); hence men, in so far as they are assailed by emotions which are passions, can be contrary one to another. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q((PassionDominates(p) ∧ PassionDominates(q)) → CanBeContraryByNature(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: (PassionDominates(p) & PassionDominates(q)) -> CanBeContraryByNature(p, q)",
+        "notes": "Under passions men can be naturally contrary to one another."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17267,7 +17744,16 @@
       "translation": "— I said that Paul may hate Peter, because he conceives that Peter possesses something which he (Paul) also loves; from this it seems, at first sight, to follow, that these two men, through both loving the same thing, and, consequently, through agreement of their respective natures, stand in one another’s way; if this were so, Props. xxx. and xxxi. of this part would be untrue. But if we give the matter our unbiased attention, we shall see that the discrepancy vanishes. For the two men are not in one another’s way in virtue of the agreement of their natures, that is, through both loving the same thing, but in virtue of one differing from the other. For, in so far as each loves the same thing, the love of each is fostered thereby (III. xxxi.), that is (Def. of the Emotions, vi.) the pleasure of each is fostered thereby. Wherefore it is far from being the case, that they are at variance through both loving the same thing, and through the agreement in their natures. The cause for their opposition lies, as I have said, solely in the fact that they are assumed to differ. For we assume that Peter has the idea of the loved object as already in his possession, while Paul has the idea of the loved object as lost. Hence the one man will be affected with pleasure, the other will be affected with pain, and thus they will be at variance one with another. We can easily show in like manner, that all other causes of hatred depend solely on differences, and not on the agreement between men’s natures."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q(HatredOrEnvy(p,q) → HindersMutualAid(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: HatredOrEnvy(p, q) -> HindersMutualAid(p, q)",
+        "notes": "Passional opposition like hatred or envy blocks cooperation."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17296,7 +17782,16 @@
       "translation": "In so far only as men live in obedience to reason, do they always necessarily agree in nature.\n\nProof. — In so far as men are assailed by emotions that are passions, they can be different in nature (IV. xxxiii.), and at variance one with another. But men are only said to be active, in so far as they act in obedience to reason (III. iii.); therefore, what so ever follows from human nature in so far as it is defined by reason must (III. Def. ii.) be understood solely through human nature as its proximate cause. But, since every man by the laws of his nature desires that which he deems good, and endeavours to remove that which he deems bad (IV. xix.); and further, since that which we, in accordance with reason, deem good or bad, necessarily is good or bad (II. xli.); it follows that men, in so far as they live in obedience to reason, necessarily do only such things as are necessarily good for human nature, and consequently for each individual man (IV. xxxi. Coroll.); in other words, such things as are in harmony with each man’s nature. Therefore, men in so far as they live in obedience to reason, necessarily live always in harmony one with another. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q((GuidedByReason(p) ∧ GuidedByReason(q)) → AgreeInNature(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: (GuidedByReason(p) & GuidedByReason(q)) -> AgreeInNature(p, q)",
+        "notes": "Men agree with one another to the extent they live by reason."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17330,7 +17825,16 @@
       "translation": "–There is no individual thing in nature, which is more useful to man, than a man who lives in obedience to reason. For that thing is to man most useful, which is most in harmony with his nature (IV. xxxi. Coroll.); that is, obviously, man. But man acts absolutely according to the laws of his nature, when he lives in obedience to reason (III. Def. ii.), and to this extent only is always necessarily in harmony with the nature of another man (by the last Prop.); wherefore among individual things nothing is more useful to man, than a man who lives in obedience to reason. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q((GuidedByReason(p) ∧ GuidedByReason(q)) → SeekHumanGoodTogether(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: (GuidedByReason(p) & GuidedByReason(q)) -> SeekHumanGoodTogether(p, q)",
+        "notes": "Those who are rational jointly pursue what truly benefits human nature."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17366,7 +17870,16 @@
     "concepts": [
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀q((GuidedByReason(p) ∧ GuidedByReason(q)) → MoreSimilar(p,q))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall q: (GuidedByReason(p) & GuidedByReason(q)) -> MoreSimilar(p, q)",
+        "notes": "Reason makes humans more alike in their fundamental aims."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17402,7 +17915,16 @@
     "concepts": [
       "God"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(SocietyBuiltOnReason(p) → MostUsefulForLife(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: SocietyBuiltOnReason(p) -> MostUsefulForLife(p)",
+        "notes": "A commonwealth grounded in rational agreement best secures life and utility."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17437,7 +17959,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀p∀q(Rational(p) ∧ Rational(q) → MutualAid(p,q))",
+        "display": "∀p∀q((Rational(p) ∧ Rational(q)) → MutualAid(p,q))",
         "encoding_format": "custom-fol",
         "encoding": "forall p forall q: (Rational(p) & Rational(q)) -> MutualAid(p, q)",
         "notes": "Rational agents mutually assist one another."
@@ -17477,7 +17999,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Rational(p) → DesiresFriendship(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Rational(p) -> DesiresFriendship(p)",
+        "notes": "Reason leads us to desire friends who share our way of life."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17551,7 +18082,16 @@
       "God",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(StrivingAccordingToReason(p) → LivesFreely(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: StrivingAccordingToReason(p) -> LivesFreely(p)",
+        "notes": "Acting from one’s own rational nature constitutes freedom."
+      }
+    ],
     "dependencies": {
       "uses": [
         {
@@ -17588,7 +18128,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Virtue(p) → JoyFromVirtue(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Virtue(p) -> JoyFromVirtue(p)",
+        "notes": "Virtuous activity brings an accompanying joy."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17620,7 +18169,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀b((Body(b) ∧ CapableOfManyActions(b)) → Useful(b))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall b: (Body(b) & CapableOfManyActions(b)) -> Useful(b)",
+        "notes": "Whatever disposes the body for many actions and adaptations is useful."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17651,7 +18209,16 @@
     "concepts": [
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀b(PreservesMotionRestRatio(b) → GoodForMindAndBody(b))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall b: PreservesMotionRestRatio(b) -> GoodForMindAndBody(b)",
+        "notes": "Maintaining the body’s proportion of motion and rest is advantageous."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17683,7 +18250,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀b(ModerateNourishmentAndExercise(b) → PreservesMotionRestRatio(b))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall b: ModerateNourishmentAndExercise(b) -> PreservesMotionRestRatio(b)",
+        "notes": "Balanced nourishment and exercise preserve the body’s proportion and thus the mind’s readiness."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17712,7 +18288,16 @@
       "translation": "Whatsoever conduces to man’s social life, or causes men to live together in harmony, is useful, whereas whatsoever brings discord into a State is bad.\n\nProof. — For whatsoever causes men to live together in harmony also causes them to live according to reason (IV. xxxv.), and is therefore (IV. xxvi. xxvii.) good, and (for the same reason) whatsoever brings about discord is bad. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x((SupportsSocialLife(x) → GoodFor(p,x)) ∧ (UnderminesSocialLife(x) → EvilFor(p,x)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: (SupportsSocialLife(x) -> GoodFor(p, x)) & (UnderminesSocialLife(x) -> EvilFor(p, x))",
+        "notes": "Whatever fosters social life is good for us; whatever dissolves it is evil."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17744,7 +18329,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Pleasure(p) → Good(p)) ∧ ∀p(Pain(p) → Evil(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (Pleasure(p) -> Good(p)) & (Pain(p) -> Evil(p))",
+        "notes": "Pleasure is intrinsically good; pain is intrinsically bad."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17776,7 +18370,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Mirth(p) → Good(p)) ∧ ∀p(Melancholy(p) → Evil(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (Mirth(p) -> Good(p)) & (Melancholy(p) -> Evil(p))",
+        "notes": "Mirth is always good, while melancholy is always bad."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17809,7 +18412,16 @@
       "Body",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((Stimulation(p) ∧ Excessive(p)) → Bad(p)) ∧ ∀p((Grief(p) ∧ ChecksExcess(p)) → PossiblyGood(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: ((Stimulation(p) & Excessive(p)) -> Bad(p)) & ((Grief(p) & ChecksExcess(p)) -> PossiblyGood(p))",
+        "notes": "Stimulation can be excessive and bad; grief may be relatively good when it limits harmful excess."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17838,7 +18450,16 @@
       "translation": "Love and desire may be excessive.\n\nProof. — Love is pleasure, accompanied by the idea of an external cause (Def. of Emotions, vi.); therefore stimulation, accompanied by the idea of an external cause is love (III. xi. note); hence love maybe excessive. Again, the strength of desire varies in proportion to the emotion from which it arises (III. xxxvii.). Now emotion may overcome all the rest of men’s actions (IV. vi.); so, therefore, can desire, which arises from the same emotion, overcome all other desires, and become excessive, as we showed in the last proposition concerning stimulation."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((∃x(Love(p,x) ∨ Desire(p,x)) ∧ Excessive(p)) → Bad(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (exists x: (Love(p, x) | Desire(p, x)) & Excessive(p)) -> Bad(p)",
+        "notes": "Love and desire admit of excess that can be harmful."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17870,7 +18491,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Temperance(p) → AvoidsExcessiveLoveDesire(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Temperance(p) -> AvoidsExcessiveLoveDesire(p)",
+        "notes": "Moderation checks the excesses of love and desire."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17899,7 +18529,16 @@
       "translation": "Hatred can never be good.\n\nProof. — When we hate a man, we endeavour to destroy him (III. xxxix.), that is (IV. xxxvii.), we endeavour to do something that is bad. Therefore, &c. Q.E.D.\n\nN.B. Here, and in what follows, I mean by hatred only hatred towards men."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(Hates(p,x) → ¬Good(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: Hates(p, x) -> ~Good(p, x)",
+        "notes": "Hatred can never be good."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17928,7 +18567,16 @@
       "translation": "–Envy, derision, contempt, anger, revenge, and other emotions attributable to hatred, or arising therefrom, are bad; this is evident from III. xxxix. and IV. xxxvii."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(LoveCountersHate(p,x) → WeakensHatred(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: LoveCountersHate(p, x) -> WeakensHatred(p, x)",
+        "notes": "Love or kindness toward the hated object diminishes hatred."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17957,7 +18605,16 @@
       "translation": "–Whatsoever we desire from motives of hatred is base, and in a State unjust. This also is evident from III. xxxix., and from the definitions of baseness and injustice in IV. xxxvii. note."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(ReturnsHateForHate(p,x) → IntensifiesHatred(p,x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: ReturnsHateForHate(p, x) -> IntensifiesHatred(p, x)",
+        "notes": "Responding to hatred with hatred increases it."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -17989,7 +18646,16 @@
       "Mind",
       "Body"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(GuidedByReason(p) → PrefersReconciliationOverRevenge(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: GuidedByReason(p) -> PrefersReconciliationOverRevenge(p)",
+        "notes": "Reason counsels curing hatred rather than returning it."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18018,7 +18684,16 @@
       "translation": "He, who lives under the guidance of reason, endeavours, as far as possible, to render back love, or kindness, for other men’s hatred, anger, contempt, &c., towards him.\n\nProof. — All emotions of hatred are bad (IV. xlv. Coroll. i.); therefore he who lives under the guidance of reason will endeavour, as far as possible, to avoid being assailed by such emotions (IV. xix.); consequently, he will also endeavour to prevent others being so assailed (IV. xxxvii.). But hatred is increased by being reciprocated, and can be quenched by love (III. xliii.), so that hatred may pass into love (III. xliv.); therefore he who lives under the guidance of reason will endeavour to repay hatred with love, that is, with kindness. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(GuidedByReason(p) → ReturnsLoveForHatred(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: GuidedByReason(p) -> ReturnsLoveForHatred(p)",
+        "notes": "One who lives by reason strives to repay hatred with love or kindness."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18047,7 +18722,16 @@
       "translation": "— He who chooses to avenge wrongs with hatred is assuredly wretched. But he, who strives to conquer hatred with love, fights his battle in joy and confidence; he withstands many as easily as one, and has very little need of fortune’s aid. Those whom he vanquishes yield joyfully, not through failure, but through increase in their powers; all these consequences follow so plainly from the mere definitions of love and understanding, that I have no need to prove them in detail."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(ReturnsLoveForHatred(p) → SeeksCommonHumanity(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: ReturnsLoveForHatred(p) -> SeeksCommonHumanity(p)",
+        "notes": "Responding with love appeals to what is common among humans to end conflict."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18076,7 +18760,16 @@
       "translation": "Emotions of hope and fear cannot be in themselves good.\n\nProof. — Emotions of hope and fear cannot exist without pain. For fear is pain (Def. of the Emotions, xiii.), and hope (Def. of the Emotions, Explanation xii. and xiii.) cannot exist without fear; therefore (IV. xli.) these emotions cannot be good in themselves, but only in so far as they can restrain excessive pleasure (IV. xliii.). Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((Hope(p) ∨ Fear(p)) → ¬IntrinsicGood(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (Hope(p) | Fear(p)) -> ~IntrinsicGood(p)",
+        "notes": "Hope and fear, as mixed with pain, are not themselves good."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18108,7 +18801,16 @@
       "Mind",
       "Power"
     ],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(SuperstitionFeedsOnHopeFear(p) → UnderminesReason(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: SuperstitionFeedsOnHopeFear(p) -> UnderminesReason(p)",
+        "notes": "Superstitious practices exploit hope and fear and weaken rational life."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18137,7 +18839,16 @@
       "translation": "The emotions of over-esteem and disparagement are always bad.\n\nProof. — These emotions (see Def. of the Emotions, xxi. xxii.) are repugnant to reason; and are therefore (IV. xxvi. xxvii.) bad. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p((OverEsteem(p,_) ∨ Disparagement(p,_)) → Bad(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: (exists x: OverEsteem(p, x) | Disparagement(p, x)) -> Bad(p)",
+        "notes": "Over-esteem and disparagement are always bad states."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18166,7 +18877,16 @@
       "translation": "Over-esteem is apt to render its object proud.\n\nProof. — If we see that any one rates us too highly, for love’s sake, we are apt to become elated (III. xli.), or to be pleasurably affected (Def. of the Emotions, xxx.); the good which we hear of ourselves we readily believe (III. xxv.); and therefore, for love’s sake, rate ourselves too highly; in other words, we are apt to become proud. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p∀x(OverEsteem(p,x) → CausesPride(x))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p forall x: OverEsteem(p, x) -> CausesPride(x)",
+        "notes": "Over-esteem is apt to make its object proud."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18195,7 +18915,16 @@
       "translation": "Pity, in a man who lives under the guidance of reason, is in itself bad and useless.\n\nProof. — Pity (Def. of the Emotions, xviii.) is a pain, and therefore (IV. xli.) is in itself bad. The good effect which follows, namely, our endeavour to free the object of our pity from misery, is an action which we desire to do solely at the dictation of reason (IV. xxxvii.); only at the dictation of reason are we able to perform any action, which we know for certain to be good (IV. xxvii.); thus, in a man who lives under the guidance of reason, pity in itself is useless and bad. Q.E.D."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(Pity(p) → (GuidedByReason(p) → Bad(p)))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: Pity(p) -> (GuidedByReason(p) -> Bad(p))",
+        "notes": "For one guided by reason, pity is a painful and unhelpful affect."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -18224,7 +18953,16 @@
       "translation": "— He who rightly realizes, that all things follow from the necessity of the divine nature, and come to pass in accordance with the eternal laws and rules of nature, will not find anything worthy of hatred, derision, or contempt, nor will he bestow pity on anything, but to the utmost extent of human virtue he will endeavour to do well, as the saying is, and to rejoice. We may add, that he, who is easily touched with compassion, and is moved by another’s sorrow or tears, often does something which he afterwards regrets; partly because we can never be sure that an action caused by emotion is good, partly because we are easily deceived by false tears. I am in this place expressly speaking of a man living under the guidance of reason. He who is moved to help others neither by reason nor by compassion, is rightly styled inhuman, for (III. xxvii.) he seems unlike a man."
     },
     "concepts": [],
-    "logic": [],
+    "logic": [
+      {
+        "system": "FOL",
+        "version": "v1",
+        "display": "∀p(GuidedByReason(p) → AidsOthersFromUnderstanding(p))",
+        "encoding_format": "custom-fol",
+        "encoding": "forall p: GuidedByReason(p) -> AidsOthersFromUnderstanding(p)",
+        "notes": "Aid should flow from rational understanding rather than from pity."
+      }
+    ],
     "dependencies": {
       "uses": []
     },
@@ -19856,7 +20594,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀p∀x∃y(JudgesGood(p,x) ∧ Causes(x,y) → Loves(p,y))",
+        "display": "∀p∀x∃y((JudgesGood(p,x) ∧ Causes(x,y)) → Loves(p,y))",
         "encoding_format": "custom-fol",
         "encoding": "forall p forall x exists y: (JudgesGood(p, x) & Causes(x, y)) -> Loves(p, y)",
         "notes": "We love the cause of what we judge good."
@@ -19897,7 +20635,7 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀p∀x∃y(JudgesEvil(p,x) ∧ Causes(x,y) → Hates(p,y))",
+        "display": "∀p∀x∃y((JudgesEvil(p,x) ∧ Causes(x,y)) → Hates(p,y))",
         "encoding_format": "custom-fol",
         "encoding": "forall p forall x exists y: (JudgesEvil(p, x) & Causes(x, y)) -> Hates(p, y)",
         "notes": "We hate the cause of what we judge evil."
@@ -20453,9 +21191,9 @@
       {
         "system": "FOL",
         "version": "v1",
-        "display": "∀p∀x(LovesSelf(p) → DesiresRespect(p))",
+        "display": "∀p(LovesSelf(p) → DesiresRespect(p))",
         "encoding_format": "custom-fol",
-        "encoding": "forall p forall x: LovesSelf(p) -> DesiresRespect(p)",
+        "encoding": "forall p: LovesSelf(p) -> DesiresRespect(p)",
         "notes": "Self-love seeks esteem from others."
       }
     ],
