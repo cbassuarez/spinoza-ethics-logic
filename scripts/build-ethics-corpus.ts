@@ -1207,6 +1207,34 @@ function applyFOLv1Logic(corpus: EthicsCorpus): EthicsCorpus {
     console.warn('[Logic WARN] Part V items missing logic encodings:', missingLogicPartV.map((i) => i.id));
   }
 
+  const isPart4FirstHalf = (item: EthicsItem): boolean => {
+    if (item.part !== 4) return false;
+    if (item.id.startsWith('E4D')) return true;
+    if (item.id.startsWith('E4Ax')) return true;
+    if (item.id.startsWith('E4p')) {
+      const match = item.id.match(/^E4p(\d+)/);
+      if (match) {
+        const n = parseInt(match[1], 10);
+        if (!Number.isNaN(n) && n <= 50) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const missingLogicPart4FirstHalf = corpusWithLogic.filter(
+    (item) =>
+      isPart4FirstHalf(item) && (!Array.isArray(item.logic) || item.logic.length === 0)
+  );
+
+  if (missingLogicPart4FirstHalf.length > 0) {
+    console.warn(
+      '[Logic WARN] Part IV (E4D1–E4p50) items missing logic encodings:',
+      missingLogicPart4FirstHalf.map((i) => i.id)
+    );
+  }
+
   return corpusWithLogic;
 }
 
