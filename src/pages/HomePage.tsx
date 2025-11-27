@@ -36,11 +36,11 @@ const HomePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.15 }}
           >
-            <Link to="/ethics/part/1" className="button-primary">
-              Browse the Ethics
+            <Link to="/corpus" className="button-primary">
+              Browse the Corpus
             </Link>
-            <Link to="/logic" className="button-secondary">
-              Read the Method Notes
+            <Link to="/graph" className="button-secondary">
+              View the logic graph
             </Link>
           </motion.div>
           <div className="grid gap-4 sm:grid-cols-3">
