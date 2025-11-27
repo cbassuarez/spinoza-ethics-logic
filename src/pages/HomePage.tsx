@@ -6,50 +6,92 @@ import { spinozaPortraitDataUrl } from '../assets/spinozaPortrait.ts';
 
 const HomePage = () => {
   return (
-    <div className="grid gap-10 lg:grid-cols-2">
-      <div className="space-y-6">
-        <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Spinoza / Ethics</p>
-        <h2 className="text-4xl font-semibold text-slate-900">
-          A data-driven path through the Ethics, with formal-logic annotations.
-        </h2>
-        <p className="text-lg text-slate-700">
-          Explore Spinoza&apos;s definitions, axioms, and propositions alongside formal encodings, dependencies, and proof sketches.
-          This is a foundation for graph views and deeper logical analysis.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link to="/corpus" className="button-primary">
-            Browse corpus
-          </Link>
-          <Link to="/ethics/part/1" className="button-secondary">
-            Start with Part I
-          </Link>
-          <Link to="/graph" className="button-secondary">
-            Dependency graph
-          </Link>
-        </div>
-        <div className="flex gap-4 text-sm text-slate-600">
-          <div className="rounded-lg bg-white px-4 py-3 shadow-sm">
-            <p className="text-xs uppercase text-slate-500">Items</p>
-            <p className="text-2xl font-semibold">{corpus.length}</p>
-          </div>
-          <div className="rounded-lg bg-white px-4 py-3 shadow-sm">
-            <p className="text-xs uppercase text-slate-500">Parts represented</p>
-            <p className="text-2xl font-semibold">{new Set(corpus.map((item) => item.part)).size}</p>
-          </div>
-        </div>
-      </div>
-        <motion.div
-            className="card p-0 overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
+    <div className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-gradient-to-br from-[var(--bg-elevated)] via-[var(--panel)] to-[var(--bg)] px-6 py-10 md:px-10 md:py-14">
+      <div className="hero-glow" aria-hidden />
+      <div className="relative grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center">
+        <div className="space-y-6">
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">Ethics / Logic</p>
+          <motion.h2
+            className="text-4xl leading-tight text-[var(--text)] md:text-5xl"
+            style={{ fontFamily: 'var(--font-serif)' }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
+          >
+            Spinoza’s Ethics as Formal Logic
+          </motion.h2>
+          <motion.p
+            className="text-lg text-[var(--text-muted)]"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.1 }}
+          >
+            A logical reconstruction and interface for reading Spinoza’s <em>Ethics</em> in English, Latin, and symbolic notation.
+            This interface aligns the original text with a working formalization: propositions, axioms, definitions, derivations,
+            and their dependencies.
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap gap-3"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.15 }}
+          >
+            <Link to="/ethics/part/1" className="button-primary">
+              Browse the Ethics
+            </Link>
+            <Link to="/logic" className="button-secondary">
+              Read the Method Notes
+            </Link>
+          </motion.div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="card flex flex-col gap-1 bg-[var(--bg-elevated)]/80">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Corpus size</p>
+              <p className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-serif)' }}>
+                {corpus.length}
+              </p>
+              <p className="text-sm text-[var(--text-muted)]">Structured items</p>
+            </div>
+            <div className="card flex flex-col gap-1 bg-[var(--bg-elevated)]/80">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Parts covered</p>
+              <p className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-serif)' }}>
+                {new Set(corpus.map((item) => item.part)).size}
+              </p>
+              <p className="text-sm text-[var(--text-muted)]">From I to V</p>
+            </div>
+            <div className="card flex flex-col gap-1 bg-[var(--bg-elevated)]/80">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Modes</p>
+              <p className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-serif)' }}>
+                Text → Logic
+              </p>
+              <p className="text-sm text-[var(--text-muted)]">English · Latin · Formal</p>
+            </div>
+          </div>
+        </div>
+
+        <motion.div
+          className="relative flex flex-col items-center justify-center gap-4 rounded-[26px] border border-[var(--border)] bg-[var(--bg-elevated)]/80 p-6 shadow-lg backdrop-blur"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-            <img
-                src={spinozaPortraitDataUrl}
-                alt="Portrait of Spinoza"
-                className="w-full h-full object-cover"
-            />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--card-tint)] via-transparent to-[var(--card-tint)]" aria-hidden />
+          <div className="relative inline-flex h-64 w-64 items-center justify-center overflow-hidden rounded-[22px] border border-[var(--border)] bg-[var(--bg)] shadow-inner">
+            <img src={spinozaPortraitDataUrl} alt="Portrait of Spinoza" className="h-full w-full object-cover" />
+          </div>
+          <div className="relative text-center text-sm text-[var(--text-muted)]">
+            <p style={{ fontFamily: 'var(--font-serif)' }} className="text-[var(--text)]">
+              Baruch Spinoza (1632–1677)
+            </p>
+            <p>Ethics, Demonstrated in Geometrical Order (1677)</p>
+          </div>
+          <div className="relative flex items-center gap-3 rounded-[16px] border border-[var(--border)] bg-[var(--panel)]/70 px-4 py-3 text-sm text-[var(--text-muted)]">
+            <SpinozaMark />
+            <p className="leading-snug">
+              Formal encodings, dependency graphs, and bilingual text aligned in a single scholarly interface.
+            </p>
+          </div>
         </motion.div>
+      </div>
     </div>
   );
 };
