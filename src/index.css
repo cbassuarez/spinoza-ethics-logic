@@ -38,6 +38,7 @@ body {
   --accent-soft: #3b3b3b;
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
   --card-tint: rgba(17, 17, 17, 0.02);
+    --formal-bg: var(--bg-elevated); /* NEW */
 }
 
 .theme-dark {
@@ -52,6 +53,7 @@ body {
   --accent-soft: #6e7ab8;
   --shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
   --card-tint: rgba(243, 217, 139, 0.05);
+    --formal-bg: #050819; /* NEW: truly dark frame in dark mode */
 }
 
 a {
@@ -92,15 +94,10 @@ summary:focus-visible {
 }
 
 .formal-block {
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  padding: 0.85rem 1rem;
-  background: var(--bg-elevated);
-}
-
-/* Dark mode: use a darker background, not light */
-.theme-dark .formal-block {
-  background: #050819;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    padding: 0.85rem 1rem;
+    background: var(--formal-bg);
 }
 
 .badge {
