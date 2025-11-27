@@ -11,6 +11,7 @@
     "lint": "echo 'Linting not configured'",
     "fetch:raw": "node --loader ts-node/esm scripts/fetch-raw-ethics.ts",
     "build:corpus": "node --loader ts-node/esm scripts/build-ethics-corpus.ts",
+    "build:badges": "node scripts/build-badges.mjs",
     "badges": "node scripts/update-badges.mjs",
     "release": "node scripts/release.mjs",
     "prepare": "husky install"
