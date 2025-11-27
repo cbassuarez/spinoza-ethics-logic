@@ -28,9 +28,9 @@ const CorpusPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="space-y-1">
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">Text → Logic</p>
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">CORPUS</p>
           <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-            Corpus explorer
+            ETHICS - Corpus as a Database
           </h2>
           <p className="text-[var(--text-muted)]">Browse the structured items of Ethics with light filtering.</p>
         </div>

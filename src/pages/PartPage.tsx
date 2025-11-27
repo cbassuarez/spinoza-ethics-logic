@@ -16,9 +16,9 @@ const PartPage = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">Text → Logic</p>
+        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">PARTS</p>
         <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-          Ethics Part {part}
+          Ethics Part {part} – Modules
         </h2>
         <p className="text-[var(--text-muted)]">Items grouped by type for quick navigation.</p>
       </div>

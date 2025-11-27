@@ -10,7 +10,7 @@ const GraphPage = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">Logic Lab</p>
+        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">NODE GRAPH</p>
         <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
           Dependency map of Ethics entries
         </h2>
