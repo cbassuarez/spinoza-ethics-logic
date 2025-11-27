@@ -37,17 +37,18 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <motion.div
-        className="card flex flex-col items-center justify-center gap-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="w-40">
-          <SpinozaMark />
-        </div>
-        <p className="text-center text-slate-700">A portrait of Spinoza anchors the workspace while you explore the text.</p>
-      </motion.div>
+        <motion.div
+            className="card p-0 overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+        >
+            <img
+                src={spinozaPortraitDataUrl}
+                alt="Portrait of Spinoza"
+                className="w-full h-full object-cover"
+            />
+        </motion.div>
     </div>
   );
 };
