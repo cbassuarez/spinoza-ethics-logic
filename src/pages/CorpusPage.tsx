@@ -26,19 +26,19 @@ const CorpusPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div className="space-y-1">
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">CORPUS</p>
-          <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
-            ETHICS - Corpus as a Database
-          </h2>
-          <p className="text-[var(--text-muted)]">Browse the structured items of Ethics with light filtering.</p>
-        </div>
-        <div className="flex flex-wrap gap-3 md:flex-col md:items-end">
-          <Link
-            to="/ethics"
-            className="inline-flex items-center gap-1 self-start text-xs font-semibold text-[var(--text-muted)] underline decoration-dotted decoration-[var(--border)] underline-offset-4 transition hover:text-[var(--accent)] md:self-end"
-          >
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="space-y-1">
+                <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">CORPUS</p>
+                <h2 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>
+                    ETHICS - Corpus as a Database
+                </h2>
+                <p className="text-[var(--text-muted)]">Browse the structured items of Ethics with light filtering.</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 justify-start md:justify-end">
+            <Link
+                    to="/ethics"
+                    className="inline-flex items-center gap-1 self-start text-xs font-semibold text-[var(--text-muted)] underline decoration-dotted decoration-[var(--border)] underline-offset-4 transition hover:text-[var(--accent)] md:self-end"
+                >
             <span>Open part picker</span>
             <span>→</span>
           </Link>

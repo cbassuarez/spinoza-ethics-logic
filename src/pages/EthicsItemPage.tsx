@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import MathDisplay from '../components/MathDisplay';
 import { findDependents, getItemById } from '../data';
 import type { EthicsItem } from '../data/types';
@@ -117,13 +117,22 @@ const LanguageTabs = ({
 );
 
 const EthicsItemPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const item = getItemById(id || '');
-  const [language, setLanguage] = useState<'latin' | 'english'>('english');
-  const [linkedHover, setLinkedHover] = useState(false);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const dependents = useMemo(() => (id ? findDependents(id) : []), [id]);
+    const item = getItemById(id || '');
+    const [language, setLanguage] = useState<'latin' | 'english'>('english');
+    const [linkedHover, setLinkedHover] = useState(false);
+
+    type GraphNavState = {
+        fromGraph?: boolean;
+    };
+
+    const navState = (location.state || {}) as GraphNavState;
+    const fromGraph = Boolean(navState.fromGraph);
+
+    const dependents = useMemo(() => (id ? findDependents(id) : []), [id]);
 
   useEffect(() => {
     setLanguage('english');
@@ -140,25 +149,38 @@ const EthicsItemPage = () => {
     );
   }
 
-  const paraphrase = item.proof.sketch || 'Paraphrase forthcoming.';
-  const proofSketch = item.proof.sketch || 'No derivation notes available yet.';
+    const paraphrase = item.proof.sketch || 'Paraphrase forthcoming.';
+    const proofSketch = item.proof.sketch || 'No derivation notes available yet.';
 
-  return (
-    <div className="space-y-8">
-      <div className="space-y-3">
-        <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">{item.ref}</p>
-        <div className="flex flex-wrap items-center gap-3">
-          <h2 className="text-3xl leading-tight text-[var(--text)]" style={{ fontFamily: 'var(--font-serif)' }}>
-            {item.label}
-          </h2>
-          <span className="badge capitalize">{KIND_LABELS[item.kind]}</span>
-          <span className="badge">Part {item.part}</span>
-          <span className="badge font-semibold">{item.id}</span>
-        </div>
-        <p className="text-[var(--text-muted)]">A bilingual rendering linked to a working formalization.</p>
-      </div>
+    return (
+        <div className="space-y-8">
+            {fromGraph && (
+                <button
+                    type="button"
+                    onClick={() => navigate(-1)}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent)]"
+                >
+                    <span>← Back to graph view</span>
+                </button>
+            )}
 
-      <div className={`proposition-card ${linkedHover ? 'is-hovered' : ''}`}>
+            <div className="space-y-3">
+                <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">{item.ref}</p>
+                <div className="flex flex-wrap items-center gap-3">
+                    <h2
+                        className="text-3xl leading-tight text-[var(--text)]"
+                        style={{ fontFamily: 'var(--font-serif)' }}
+                    >
+                        {item.label}
+                    </h2>
+                    <span className="badge capitalize">{KIND_LABELS[item.kind]}</span>
+                    <span className="badge">Part {item.part}</span>
+                    <span className="badge font-semibold">{item.id}</span>
+                </div>
+                <p className="text-[var(--text-muted)]">A bilingual rendering linked to a working formalization.</p>
+            </div>
+
+            <div className={`proposition-card ${linkedHover ? 'is-hovered' : ''}`}>
         <div className="flex flex-col gap-4 border-b border-[var(--border)] bg-[var(--card-tint)]/30 px-5 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-2">
             <p className="font-mono text-xs uppercase tracking-[0.28em] text-[var(--text-muted)]">

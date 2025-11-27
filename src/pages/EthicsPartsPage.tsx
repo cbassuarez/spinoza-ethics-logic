@@ -25,17 +25,17 @@ const EthicsPartsPage = () => {
             </p>
           </div>
         </div>
-        <div className="mt-2 flex justify-start md:justify-end">
-          <div className="card flex items-center gap-3">
-            <div className="w-10">
-              <SpinozaMark />
-            </div>
-            <div className="text-xs text-[var(--text-muted)]">
-              <div className="font-semibold text-[var(--text)]">Ethics workspace</div>
-              <div>Parts I–V as an entry point.</div>
-            </div>
+          <div className="mt-2 flex justify-start md:justify-end">
+              <div className="card flex items-center gap-4 px-4 py-3">
+                  <div className="w-10 shrink-0">
+                      <SpinozaMark />
+                  </div>
+                  <div className="pl-3 text-xs text-[var(--text-muted)]">
+                      <div className="font-semibold text-[var(--text)]">Ethics workspace</div>
+                      <div>Parts I–V as a navigable entry point.</div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

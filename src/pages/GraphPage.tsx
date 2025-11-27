@@ -30,7 +30,14 @@ const GraphPage = () => {
       </div>
       <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-elevated)]/70 p-4">
         <Suspense fallback={<p className="text-[var(--text-muted)]">Loading graph…</p>}>
-          <LogicGraph items={corpus} onSelect={(id) => navigate(`/ethics/${id}`)} />
+            <LogicGraph
+                items={corpus}
+                onSelect={(id) =>
+                    navigate(`/ethics/${id}`, {
+                        state: { fromGraph: true },
+                    })
+                }
+            />
         </Suspense>
       </div>
       <div className="card space-y-2">
