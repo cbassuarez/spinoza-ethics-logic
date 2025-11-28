@@ -148,7 +148,7 @@ const MainLayout = () => {
       <footer className="border-t border-[var(--border)] bg-[var(--bg-elevated)]/90 text-[var(--text-muted)]">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-sm md:flex-row md:items-center md:justify-between md:px-6">
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
-            <span>Work in progress · Ethics / Logic v0.1</span>
+            <span>Work in progress · Ethics / Logic v{appVersion}</span>
             <span className="text-[var(--accent)]">∴</span>
             <span>Interface by seb suarez</span>
           </div>
